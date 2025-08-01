@@ -175,6 +175,17 @@
       "coverageLevel": "basic",
       "drivingHistory": "clean",
       "monthlyRate": 100
+    },
+    {
+      "id": "2eaf",
+      "age": 16,
+      "zip": "16701",
+      "vehicleType": "TRUCK",
+      "vehicleModel": "Ford F-150",
+      "vehicleYear": 2012,
+      "coverageLevel": "standard",
+      "drivingHistory": "minor",
+      "monthlyRate": 195
     }
   ]
 }
