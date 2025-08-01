@@ -1,0 +1,78 @@
+<!-- OUTER WRAPPER: Glassy Card Layout -->
+<div class="bg-white/5 backdrop-blur-md border border-white/10 text-white rounded-2xl shadow-2xl w-full max-w-3xl p-10 mx-auto"> <!-- Outer centered container with glassy style -->
+
+  <!-- BIG TITLE -->
+  <h1 class="text-3xl font-bold text-center mb-10">Your Insurance Quote</h1> <!-- Page title -->
+
+  <!-- MAIN QUOTE CARD -->
+  <div class="bg-gray-900/60 p-8 rounded-2xl shadow-inner border border-white/10 text-center"> <!-- Card with background for the premium -->
+    <h2 class="text-xl font-semibold text-gray-300 mb-2">Estimated Monthly Premium</h2> <!-- Subheading -->
+    <p class="text-5xl font-extrabold text-green-400">${{ finalQuote.toFixed(2) }}</p> <!-- Display the premium value -->
+    <p class="text-xs text-gray-500 mt-2">Based on your provided information</p> <!-- Description line -->
+  </div>
+
+ <!-- TOGGLE BUTTON -->
+<div class="text-center mt-6"> <!-- Center toggle button -->
+  <button 
+    (click)="showDetails = !showDetails"                            
+    class="text-indigo-400 hover:underline text-xs focus:outline-none transition duration-200"
+  >
+    {{ showDetails ? 'Hide Details' : 'Show Details' }} <!-- Toggle button label -->
+  </button>
+</div>
+
+<!-- QUOTE DETAILS SECTION -->
+<div *ngIf="showDetails" class="mt-10 mb-12 bg-gray-900/50 rounded-xl p-8 shadow-inner border border-white/10"> <!-- Collapsible detail section -->
+
+  <h2 class="text-2xl font-semibold mb-6 text-center text-gray-300">
+    Quote Details <!-- Subheader for detail section -->
+  </h2>
+
+  <div class="space-y-4 text-base text-gray-300"> <!-- Spacing and text color -->
+
+    <!-- ROW 1: Age and ZIP Code -->
+    <div class="flex justify-between gap-8"> <!-- Row layout -->
+      <div>
+        <span class="font-semibold text-gray-300">Age:</span> {{ quote.age }} <!-- Display age -->
+      </div>
+      <div>
+        <span class="font-semibold text-gray-300">ZIP Code:</span> {{ quote.zip }} <!-- Display ZIP -->
+      </div>
+    </div>
+
+    <!-- ROW 2: Vehicle Type and Vehicle Model -->
+    <div class="flex justify-between gap-8"> <!-- Row layout -->
+      <div>
+        <span class="font-semibold text-gray-300">Vehicle Type:</span>
+        {{ quote.vehicleType.charAt(0).toUpperCase() + quote.vehicleType.slice(1).toLowerCase() }} <!-- Format vehicle type -->
+      </div>
+      <div>
+        <span class="font-semibold text-gray-300">Vehicle Model:</span>
+        {{ quote.vehicleModel.charAt(0).toUpperCase() + quote.vehicleModel.slice(1) }} <!-- Format vehicle model -->
+      </div>
+    </div>
+
+    <!-- ROW 3: Vehicle Year and Coverage Level -->
+    <div class="flex justify-between gap-8"> <!-- Row layout -->
+      <div>
+        <span class="font-semibold text-gray-300">Vehicle Year:</span> {{ quote.vehicleYear }} <!-- Show year -->
+      </div>
+      <div>
+        <span class="font-semibold text-gray-300">Coverage Level:</span>
+        {{ quote.coverageLevel.charAt(0).toUpperCase() + quote.coverageLevel.slice(1).toLowerCase() }} <!-- Format level -->
+      </div>
+    </div>
+
+<div class="flex justify-between gap-8"> <!-- Row for final info -->
+  <!-- LEFT SIDE INFO -->
+  <div>
+    <span class="font-semibold text-gray-300">Driving History: </span> <!-- Label --> 
+    <span class="capitalize">{{ quote.drivingHistory }}</span> <!-- Capitalize value -->
+  </div>
+
+  <!-- RIGHT SIDE INFO -->
+  <div>
+    <span class="font-semibold text-gray-300">Quote Estimate:</span> <!-- Label -->
+    ${{ quote.premium }} <!-- Show formatted premium -->
+  </div>
+</div>

@@ -1,0 +1,286 @@
+{
+  "quotes": [
+    {
+      "id": "1",
+      "age": 30,
+      "zip": "16701",
+      "vehicleType": "truck",
+      "monthlyRate": 425
+    },
+    {
+      "id": "2",
+      "age": 22,
+      "zip": "90210",
+      "vehicleType": "car",
+      "monthlyRate": 600
+    },
+    {
+      "id": "477e",
+      "age": 28,
+      "zip": "16701",
+      "vehicleType": "truck",
+      "monthlyRate": 650
+    },
+    {
+      "id": "e8ce",
+      "age": 28,
+      "zip": "16701",
+      "vehicleType": "truck",
+      "vehicleMake": "chevy",
+      "monthlyRate": 650
+    },
+    {
+      "id": "c2bc",
+      "age": 28,
+      "zip": "16701",
+      "vehicleType": "truck",
+      "vehicleMake": "chevy",
+      "vehicleYear": 2024,
+      "drivingHistory": "clean",
+      "coverageLevel": "premium",
+      "monthlyRate": 650
+    },
+    {
+      "id": "593b",
+      "age": 28,
+      "zip": "",
+      "vehicleType": "truck",
+      "vehicleMake": "",
+      "vehicleYear": "",
+      "drivingHistory": "",
+      "coverageLevel": "",
+      "monthlyRate": 650
+    },
+    {
+      "id": "15e6",
+      "age": 28,
+      "zip": "",
+      "vehicleType": "truck",
+      "vehicleMake": "Chevy",
+      "vehicleYear": 2024,
+      "drivingHistory": "minor",
+      "coverageLevel": "standard",
+      "monthlyRate": 650
+    },
+    {
+      "id": "742d",
+      "age": 28,
+      "zip": "16701",
+      "vehicleType": "car",
+      "vehicleMake": "Toyota",
+      "vehicleYear": 2024,
+      "drivingHistory": "major",
+      "coverageLevel": "full",
+      "monthlyRate": 500
+    },
+    {
+      "id": "4f70",
+      "age": 21,
+      "zip": "16701",
+      "vehicleType": "suv",
+      "vehicleMake": "Ford",
+      "vehicleYear": 2018,
+      "drivingHistory": "clean",
+      "coverageLevel": "standard",
+      "monthlyRate": 900
+    },
+    {
+      "id": "78a2",
+      "age": 25,
+      "zip": "16701",
+      "vehicleType": "car",
+      "vehicleMake": "Subaru",
+      "vehicleYear": 2019,
+      "drivingHistory": "minor",
+      "coverageLevel": "full",
+      "monthlyRate": 500
+    },
+    {
+      "id": "140a",
+      "age": 28,
+      "zip": "16701",
+      "vehicleType": "car",
+      "vehicleMake": "Hyundai",
+      "vehicleYear": 2016,
+      "drivingHistory": "clean",
+      "coverageLevel": "full",
+      "monthlyRate": 500
+    },
+    {
+      "id": "68e8",
+      "age": 28,
+      "zip": "16701",
+      "vehicleType": "car",
+      "vehicleMake": "hyundai",
+      "vehicleYear": 2016,
+      "drivingHistory": "clean",
+      "coverageLevel": "standard",
+      "monthlyRate": 100
+    },
+    {
+      "id": "8622",
+      "age": 28,
+      "zip": "16701",
+      "vehicleType": "car",
+      "vehicleMake": "Toyota",
+      "vehicleYear": 2024,
+      "drivingHistory": "clean",
+      "coverageLevel": "standard",
+      "monthlyRate": 100
+    },
+    {
+      "id": "36a8",
+      "age": 22,
+      "zip": "12121",
+      "vehicleType": "car",
+      "vehicleMake": "ford",
+      "vehicleYear": 2015,
+      "drivingHistory": "clean",
+      "coverageLevel": "basic",
+      "monthlyRate": 150
+    },
+    {
+      "id": "ce55",
+      "age": 32,
+      "zip": "16701",
+      "vehicleType": "car",
+      "vehicleMake": "Chevy",
+      "vehicleYear": 2014,
+      "drivingHistory": "clean",
+      "coverageLevel": "basic",
+      "monthlyRate": 100
+    },
+    {
+      "id": "94dd",
+      "age": 29,
+      "zip": "16743",
+      "vehicleType": "car",
+      "vehicleMake": "Chevy",
+      "vehicleYear": 2021,
+      "drivingHistory": "major",
+      "coverageLevel": "full",
+      "monthlyRate": 100
+    },
+    {
+      "id": "41c0",
+      "age": "",
+      "zip": "",
+      "vehicleType": "",
+      "vehicleMake": "",
+      "vehicleYear": "",
+      "drivingHistory": "",
+      "coverageLevel": "",
+      "monthlyRate": 165
+    },
+    {
+      "id": "59d0",
+      "age": 28,
+      "zip": "",
+      "vehicleType": "",
+      "vehicleMake": "",
+      "vehicleYear": "",
+      "drivingHistory": "",
+      "coverageLevel": "",
+      "monthlyRate": 110.00000000000001
+    },
+    {
+      "id": "ad55",
+      "age": 28,
+      "zip": "16701",
+      "vehicleModel": "Chevy",
+      "vehicleType": "car",
+      "vehicleYear": 2019,
+      "drivingHistory": "minor",
+      "coverageLevel": "standard",
+      "monthlyRate": 100
+    },
+    {
+      "id": "2300",
+      "age": 25,
+      "zip": "16701",
+      "vehicleModel": "Subaru Crosstrek",
+      "vehicleType": "suv",
+      "vehicleYear": 2019,
+      "drivingHistory": "clean",
+      "coverageLevel": "full",
+      "monthlyRate": 120
+    },
+    {
+      "id": "91e5",
+      "age": 70,
+      "zip": "16701",
+      "vehicleModel": "Toyota Rav 4",
+      "vehicleType": "suv",
+      "vehicleYear": 2018,
+      "drivingHistory": "clean",
+      "coverageLevel": "basic",
+      "monthlyRate": 120
+    },
+    {
+      "id": "f137",
+      "age": 28,
+      "zip": "16701",
+      "vehicleModel": "Chevy Silverado",
+      "vehicleType": "truck",
+      "vehicleYear": 2024,
+      "drivingHistory": "clean",
+      "coverageLevel": "full",
+      "monthlyRate": 130
+    },
+    {
+      "id": "a430",
+      "age": 45,
+      "zip": "16743",
+      "vehicleModel": "Ford F-150",
+      "vehicleType": "truck",
+      "vehicleYear": 2022,
+      "drivingHistory": "clean",
+      "coverageLevel": "standard",
+      "monthlyRate": 130
+    },
+    {
+      "id": "75ec",
+      "age": 28,
+      "zip": "16701",
+      "vehicleModel": "Ram 1500",
+      "vehicleType": "TRUCK",
+      "vehicleYear": 2023,
+      "drivingHistory": "clean",
+      "coverageLevel": "standard",
+      "monthlyRate": 130
+    },
+    {
+      "id": "d5e5",
+      "age": 28,
+      "zip": "58801",
+      "vehicleModel": "Kia Optima",
+      "vehicleType": "CAR",
+      "vehicleYear": 2015,
+      "drivingHistory": "clean",
+      "coverageLevel": "full",
+      "monthlyRate": 100
+    },
+    {
+      "id": "0c4a",
+      "age": 54,
+      "zip": "16701",
+      "vehicleModel": "Chevy Silverado",
+      "vehicleType": "TRUCK",
+      "vehicleYear": 2024,
+      "drivingHistory": "major",
+      "coverageLevel": "basic",
+      "monthlyRate": 130
+    },
+    {
+      "id": "42fb",
+      "age": 28,
+      "zip": "16701",
+      "vehicleType": "TRUCK",
+      "vehicleModel": "Toyota Tacoma",
+      "vehicleYear": 2024,
+      "coverageLevel": "full",
+      "drivingHistory": "clean",
+      "monthlyRate": 130
+    }
+  ]
+}
