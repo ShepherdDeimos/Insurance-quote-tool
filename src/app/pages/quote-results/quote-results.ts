@@ -4,7 +4,7 @@ import { Component } from '@angular/core'; // Component decorator for UI logic
 import { ActivatedRoute } from '@angular/router'; // Allows us to read URL query parameters like ?id=123
 import { HttpClient } from '@angular/common/http'; // Lets us make HTTP requests to APIs
 import { CommonModule } from '@angular/common'; // Gives access to *ngIf, *ngFor, etc. for a standalone component
-
+// hello world
 @Component({
   selector: 'app-quote-results', // The custom HTML tag used to insert this component (e.g., <app-quote-results>)
   standalone: true, // This component doesn't belong to an NgModule, it's self-contained
