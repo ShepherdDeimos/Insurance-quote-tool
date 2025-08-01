@@ -1,4 +1,5 @@
 // This file is responsible for collecting the user's input, calculating the quote, and sending the data to the backend
+// Every Angular screen or widget is a component and we declaie it with @Component decorator
 
 import { Component } from '@angular/core';                            // Declares this as an Angular component (UI logic and structure)
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms'; // Tools to build and manage reactive forms
