@@ -1,93 +1,98 @@
-// Angular core decorator used to define the component
-import { Component } from '@angular/core'; // Component decorator for UI logic
-
-import { ActivatedRoute } from '@angular/router'; // Allows us to read URL query parameters like ?id=123
-import { HttpClient } from '@angular/common/http'; // Lets us make HTTP requests to APIs
-import { CommonModule } from '@angular/common'; // Gives access to *ngIf, *ngFor, etc. for a standalone component
-// hello world
+import { Component } from '@angular/core';                         // Tells Angular this is a component (combines logic + UI)
+import { ActivatedRoute } from '@angular/router';                  // Lets us read data from the URL, like ?id=123
+import { HttpClient } from '@angular/common/http';                 // Lets us make HTTP requests to our backend (GET/POST)
+import { CommonModule } from '@angular/common';                    // Allows use of *ngIf, *ngFor, and other common directives
+import { RouterModule } from '@angular/router';
 @Component({
-  selector: 'app-quote-results', // The custom HTML tag used to insert this component (e.g., <app-quote-results>)
-  standalone: true, // This component doesn't belong to an NgModule, it's self-contained
-  imports: [CommonModule], // Imports common Angular directives like *ngIf into this standalone component
-  templateUrl: './quote-results.html', // Links to the HTML file for this component's UI
-  styleUrls: ['./quote-results.scss'] // Links to the SCSS file for styling this component
+  selector: 'app-quote-results',                                   // Optional custom HTML tag name for this component
+  standalone: true,                                                // This component stands alone (not part of a shared NgModule)
+  imports: [CommonModule],                                         // Enables Angular features like *ngIf and *ngFor in the template
+  templateUrl: './quote-results.html',                             // Connects to the HTML file where the layout lives
+  styleUrls: ['./quote-results.scss']                              // Connects to the optional SCSS file for this component’s styling
 })
-export class QuoteResults { // Defines the QuoteResults component class
-  quote: any = null; // Holds the data for a single quote (populated from the API)
-  errorMessage: string | null = null; // Stores a message to show if there's a problem loading the quote
-  finalQuote: number = 0; // Will hold the calculated final premium value after quote logic runs
+export class QuoteResults {                                        // Main logic class for the quote results page
+  quote: any = null;                                               // Will hold the quote data retrieved from the backend
+  errorMessage: string | null = null;                              // Stores an error message to show the user if needed
+  finalQuote: number = 0;                                          // Holds the final calculated quote amount (number)
 
-  showDetails = false; // Controls the visibility of detailed quote breakdown in the UI
+  showDetails = false;                                             // Used to toggle the visibility of detailed breakdown in the UI
 
-  constructor(private route: ActivatedRoute, private http: HttpClient) {} // Injects ActivatedRoute to access query params and HttpClient to make API calls
+  constructor(
+    private route: ActivatedRoute,                                 // Allows us to access query parameters in the URL (like ID)
+    private http: HttpClient                                       // Allows us to send requests to the JSON Server (mock API)
+  ) {}
 
-  ngOnInit(): void { // Lifecycle hook that runs once after the component loads
-    this.route.queryParams.subscribe(params => { // Watches for query parameters in the URL (e.g., ?id=1)
-      const id = params['id']; // Extracts the value of the 'id' parameter from the URL
+  ngOnInit(): void {                                               // Lifecycle hook — runs once after the component is created
+    this.route.queryParams.subscribe(params => {                   // Subscribes to the URL query params (e.g., ?id=5)
+      const id = params['id'];                                     // Extracts the value of the 'id' parameter from the URL
 
-      if (id === 'notfound') { // If the ID is 'notfound', handle it as a special error case
-        console.log('Quote not found - triggering user error message'); // Debug message in the console
-        this.errorMessage = 'Sorry, no matching quote found.'; // Set the error message shown to the user
-        return; // Exit early since we don't want to make an API call
+      if (id === 'notfound') {                                     // Handle special case where the quote is intentionally not found
+        console.log('Quote not found - triggering user error');    // Log this in the developer console
+        this.errorMessage = 'Sorry, no matching quote found.';     // Set a user-friendly message to display
+        return;                                                    // Stop here — don’t call the backend
       }
 
-      this.http.get<any>(`http://localhost:3000/quotes/${id}`).subscribe({ // Make GET request to fetch quote data by ID
-        next: (data) => { // This block runs if the request succeeds
-          this.quote = data; // Store the received quote data into the quote variable
-          this.errorMessage = null; // Clear any error messages
-          this.calculateQuote(); // Call function to calculate the final quote premium
-        },
-        error: (err) => { // This block runs if the request fails
-          console.error('Failed to load quote:', err); // Log the error in the browser console
-          this.errorMessage = 'Loading quote data or something went wrong...'; // Display a user-friendly error message
-        }
-      });
+      this.http.get<any>(`http://localhost:3000/quotes/${id}`)     // Send GET request to JSON Server to fetch quote by ID
+        .subscribe({                                               // Listen for the response from the server
+          next: (data) => {                                        // If request succeeds:
+            this.quote = data;                                     // Store the received data in the `quote` variable
+            this.errorMessage = null;                              // Clear any previous error message
+            this.calculateQuote();                                 // Run the quote calculation based on the data
+          },
+          error: (err) => {                                        // If request fails:
+            console.error('Failed to load quote:', err);           // Log the error in the browser console
+            this.errorMessage = 'Loading quote failed...';         // Show a user-friendly error message in the UI
+          }
+        });
     });
   }
 
-  calculateQuote(): void { // Function to calculate the final insurance premium
-    const base = 100; // Set a base premium value to start from
+  calculateQuote(): void {                                         // Function that calculates the final premium
+    const base = 100;                                              // Start with a base price of $100
 
-    const age = this.quote.age; // Get the driver's age from the quote data
-    const vehicleType = this.quote.vehicleType; // Get the vehicle type (e.g., car, truck)
-    const vehicleYear = this.quote.vehicleYear; // Get the vehicle's year
-    const drivingHistory = this.quote.drivingHistory; // Get the driver's history (e.g., clean, minor, major)
-    const coverageLevel = this.quote.coverageLevel; // Get the selected coverage level (e.g., basic, premium)
+    const age = this.quote.age;                                    // Get the driver's age
+    const vehicleType = this.quote.vehicleType;                    // Get the vehicle type (e.g., car, SUV, truck)
+    const vehicleYear = this.quote.vehicleYear;                    // Get the year of the vehicle
+    const drivingHistory = this.quote.drivingHistory;              // Get the driving history (clean, minor, major)
+    const coverageLevel = this.quote.coverageLevel;                // Get the selected coverage level
 
-    const ageFactor = age < 25 ? 1.5 : 1.0; // Younger drivers under 25 pay more (1.5x)
+    const ageFactor = age < 25 ? 1.5 : 1.0;                         // Apply higher cost for drivers under 25
 
-    let vehicleFactor = 1.0; // Default multiplier for vehicle type
-    switch (vehicleType.toLowerCase()) { // Normalize vehicle type to lowercase and decide factor
-      case 'car': vehicleFactor = 1.0; break; // Cars have no increase
-      case 'suv': vehicleFactor = 1.2; break; // SUVs cost 20% more
-      case 'truck': vehicleFactor = 1.3; break; // Trucks cost 30% more
-      default: vehicleFactor = 1.1; // All other types get a slight bump
+    let vehicleFactor = 1.0;                                       // Default cost multiplier for vehicle type
+    switch (vehicleType.toLowerCase()) {                           // Adjust multiplier based on type
+      case 'car': vehicleFactor = 1.0; break;                      // No change for cars
+      case 'suv': vehicleFactor = 1.2; break;                      // SUVs cost 20% more
+      case 'truck': vehicleFactor = 1.3; break;                    // Trucks cost 30% more
+      default: vehicleFactor = 1.1;                                // All others get a slight increase
     }
 
-    let yearFactor = 1.0; // Default multiplier based on vehicle year
+    let yearFactor = 1.0;                                          // Multiplier for vehicle age
     if (vehicleYear >= 2020) {
-      yearFactor = 1.2; // Newer cars are more expensive to insure
+      yearFactor = 1.2;                                            // New cars are more expensive
     } else if (vehicleYear >= 2010) {
-      yearFactor = 1.0; // Mid-age vehicles are standard cost
+      yearFactor = 1.0;                                            // No change for mid-aged cars
     } else {
-      yearFactor = 0.9; // Older cars are cheaper to insure
+      yearFactor = 0.9;                                            // Older cars are cheaper to insure
     }
 
-    let historyFactor = 1.0; // Default driving history factor
-    switch (drivingHistory) { // Adjust based on driving record
-      case 'clean': historyFactor = 1.0; break; // No change for clean record
-      case 'minor': historyFactor = 1.2; break; // Minor incidents increase cost
-      case 'major': historyFactor = 1.5; break; // Major incidents greatly increase cost
+    let historyFactor = 1.0;                                       // Default driving history factor
+    switch (drivingHistory) {
+      case 'clean': historyFactor = 1.0; break;                    // Clean record = no increase
+      case 'minor': historyFactor = 1.2; break;                    // Minor violations increase cost
+      case 'major': historyFactor = 1.5; break;                    // Major violations greatly increase cost
     }
 
-    let coverageFactor = 1.0; // Default multiplier for coverage level
-    switch (coverageLevel) { // Adjust based on the selected coverage
-      case 'basic': coverageFactor = 1.0; break; // No change for basic
-      case 'standard': coverageFactor = 1.3; break; // Standard coverage is more expensive
-      case 'premium': coverageFactor = 1.6; break; // Premium coverage is the most expensive
+    let coverageFactor = 1.0;                                      // Default coverage factor
+    switch (coverageLevel) {
+      case 'basic': coverageFactor = 1.0; break;                   // No extra cost for basic
+      case 'standard': coverageFactor = 1.3; break;                // Standard coverage costs 30% more
+      case 'premium': coverageFactor = 1.6; break;                 // Premium coverage costs 60% more
     }
 
-    this.finalQuote = base * ageFactor * vehicleFactor * yearFactor * historyFactor * coverageFactor; // Multiply all factors to get the final premium
-    this.quote.premium = this.finalQuote.toFixed(2); // Round to 2 decimal places and attach to the quote object
+    this.finalQuote =                                              // Calculate the final premium by multiplying all factors
+      base * ageFactor * vehicleFactor * yearFactor *
+      historyFactor * coverageFactor;
+
+    this.quote.premium = this.finalQuote.toFixed(2);               // Round to 2 decimals and attach to the quote object for display
   }
 }

@@ -1,8 +1,29 @@
 import { Routes } from '@angular/router';
-import { QuoteForm } from './pages/quote-form/quote-form';
-import { QuoteResults } from './pages/quote-results/quote-results';
 
 export const routes: Routes = [
-  { path: '', component: QuoteForm },
-  { path: 'quote-results', component: QuoteResults }
+  {
+    path: '',
+    redirectTo: 'quote-form',
+    pathMatch: 'full',
+  },
+  {
+    path: 'quote-form',
+    loadComponent: () => import('./pages/quote-form/quote-form').then(m => m.QuoteForm)
+  },
+  {
+    path: 'quote-results',
+    loadComponent: () =>
+      import('./pages/quote-results/quote-results').then(m => m.QuoteResults)
+  },
+  {
+  path: 'saved-quotes',
+  loadComponent: () =>
+    import('./pages/saved-quotes/saved-quotes').then(m => m.SavedQuotesComponent)
+  },
+
+
+  {
+    path: '**',
+    redirectTo: 'quote-form'
+  }
 ];

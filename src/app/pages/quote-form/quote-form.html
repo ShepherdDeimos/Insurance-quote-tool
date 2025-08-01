@@ -1,78 +1,169 @@
-<!-- Outer glass-style container -->
-<div class="bg-white/5 backdrop-blur-md border border-white/10 text-white rounded-2xl shadow-2xl w-full max-w-3xl p-10 mx-auto">
+<!-- Welcome Section with enhanced styling -->
+<div class="text-center mb-12 animate-fade-in">
+  <!-- Animated background element -->
+  <div class="absolute top-0 left-0 w-full h-64 bg-gradient-to-r from-blue-600/20 to-purple-600/20 blur-3xl -z-10 animate-pulse"></div>
+  
+  <!-- Title with gradient and animation -->
+  <h1 class="text-5xl font-extrabold mb-6 animate-fade-in-up"
+      style="font-family: 'Inter', sans-serif;">
+    <span class="bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-indigo-500">
+      Get Your Insurance Quote
+    </span>
+  </h1>
 
-  <!-- Angular Reactive Form Starts -->
-  <form [formGroup]="quoteForm" (ngSubmit)="onSubmit()" class="space-y-10">
-
-  <!-- DRIVER INFO CARD -->
-  <div class="bg-gray-800/60 p-6 rounded-xl shadow-inner">
-
-  <!-- Title for this card -->
-  <h2 class="text-2xl font-bold mb-4 border-b border-white/10 pb-2">Driver Info</h2>
-
-  <!-- Flexbox Row: stacks on small screens, side-by-side on medium+ -->
-  <div class="flex flex-col md:flex-row gap-6">
-
-    <!-- AGE INPUT FIELD -->
-    <div class="flex-1">
-      <label class="block text-sm font-semibold mb-2">Age</label>
-      <input
-        type="number"
-        formControlName="age"
-        class="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg
-               focus:outline-none focus:ring-2 focus:ring-indigo-500 transition" />
-    </div>
-
-    <!-- ZIP CODE INPUT FIELD -->
-    <div class="flex-1">
-      <label class="block text-sm font-semibold mb-2">ZIP Code</label>
-      <input
-        type="text"
-        formControlName="zip"
-        class="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg
-               focus:outline-none focus:ring-2 focus:ring-indigo-500 transition" />
-    </div>
-
+  <!-- Subtitle with fade-in animation -->
+  <div class="relative">
+    <p class="text-xl text-gray-300 max-w-2xl mx-auto leading-relaxed animate-fade-in-up-delay">
+      Quick and easy! Fill out the form below to receive your 
+      <span class="text-blue-400 font-semibold">personalized insurance quote</span>.
+      <br>It only takes a few minutes.
+    </p>
+    
+    <!-- Decorative elements -->
+    <div class="absolute -top-4 left-1/2 transform -translate-x-1/2 w-24 h-1 bg-gradient-to-r from-blue-500 to-indigo-500 rounded-full opacity-50"></div>
   </div>
 </div>
 
+<style>
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
   
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  .animate-fade-in {
+    animation: fadeIn 1s ease-out;
+  }
+  
+  .animate-fade-in-up {
+    animation: fadeInUp 0.8s ease-out;
+  }
+  
+  .animate-fade-in-up-delay {
+    animation: fadeInUp 0.8s ease-out 0.2s both;
+  }
+</style>
+
+<!-- Progress Indicator -->
+<div class="max-w-3xl mx-auto mb-8 px-4">
+  <div class="flex justify-between text-sm text-gray-400 mb-2">
+    <span>Driver Info</span>
+    <span>Vehicle Info</span>
+    <span>Coverage</span>
+  </div>
+  <div class="h-2 bg-gray-700 rounded-full">
+    <div class="h-2 bg-gradient-to-r from-blue-500 to-indigo-500 rounded-full w-0 transition-all duration-500"
+         [style.width]="(formProgress$ | async) + '%'"></div>
+  </div>
+</div>
+
+<!-- Outer glass-style container for the entire form layout -->
+<div class="bg-white/5 backdrop-blur-md border border-white/10 text-white rounded-2xl shadow-2xl w-full max-w-3xl p-10 mx-auto">
+
+  <!-- Angular Reactive Form -->
+  <form [formGroup]="quoteForm" (ngSubmit)="onSubmit()" class="space-y-10">
+
+    <!-- DRIVER INFO CARD -->
+    <div class="bg-gray-800/60 p-6 rounded-xl shadow-inner">
+      <h2 class="text-2xl font-bold mb-4 border-b border-white/10 pb-2">Driver Info</h2>
+      <div class="flex flex-col md:flex-row gap-6">
+        <!-- AGE -->
+        <div class="flex-1">
+          <label class="block text-sm font-semibold mb-2">Your Age</label>
+          <div class="relative">
+            <input type="number" formControlName="age" 
+                   class="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 transition"
+                   placeholder="Enter your age" />
+            <div class="absolute right-3 top-3 text-gray-400">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                <path d="M9 6a3 3 0 11-6 0 3 3 0 016 0zM17 6a3 3 0 11-6 0 3 3 0 016 0zM12.93 17c.046-.327.07-.66.07-1a6.97 6.97 0 00-1.5-4.33A5 5 0 0119 16v1h-6.07zM6 11a5 5 0 015 5v1H1v-1a5 5 0 015-5z"/>
+              </svg>
+            </div>
+          </div>
+          <p class="text-xs text-gray-400 mt-1">Must be 16 years or older to get a quote</p>
+        </div>
+        <!-- ZIP CODE -->
+        <div class="flex-1">
+          <label class="block text-sm font-semibold mb-2">Your ZIP Code</label>
+          <div class="relative">
+            <input type="text" formControlName="zip" 
+                   class="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 transition"
+                   placeholder="Enter ZIP code" />
+            <div class="absolute right-3 top-3 text-gray-400">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"/>
+              </svg>
+            </div>
+          </div>
+          <p class="text-xs text-gray-400 mt-1">We'll find local rates for your area</p>
+        </div>
+      </div>
+    </div>
 
     <!-- VEHICLE INFO CARD -->
     <div class="bg-gray-800/60 p-6 rounded-xl shadow-inner">
       <h2 class="text-2xl font-bold mb-4 border-b border-white/10 pb-2">Vehicle Info</h2>
-
-      <!-- Vehicle Type and Make -->
       <div class="flex flex-col md:flex-row gap-6">
-        <!-- Type Dropdown -->
+        <!-- VEHICLE TYPE -->
         <div class="flex-1">
-          <label class="block text-sm font-semibold mb-2">Vehicle Type</label> <!-- Dropdown to select car, truck, or SUV -->
-          <select formControlName="vehicleType"
-                  class="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg
-                         focus:outline-none focus:ring-2 focus:ring-indigo-500 transition">
-            <option value="">Select a type</option>
-            <option value="car">Car</option>
-            <option value="truck">Truck</option>
-            <option value="suv">SUV</option>
-          </select>
+          <label class="block text-sm font-semibold mb-2">Vehicle Type</label>
+          <div class="relative">
+            <select formControlName="vehicleType" class="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 transition">
+              <option value="">Select a type</option>
+              <option value="car">Car</option>
+              <option value="truck">Truck</option>
+              <option value="suv">SUV</option>
+            </select>
+            <div class="absolute right-3 top-3 text-gray-400">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                <path d="M17.414 2.586a2 2 0 00-2.828 0L7 10.172V13h2.828l7.586-7.586a2 2 0 000-2.828z"/>
+              </svg>
+            </div>
+          </div>
+          <p class="text-xs text-gray-400 mt-1">Different vehicle types may affect your premium</p>
         </div>
-
-        <!-- Make Input -->
+        <!-- VEHICLE MODEL -->
         <div class="flex-1">
-          <label class="block text-sm font-semibold mb-2">Vehicle Model</label> <!-- Text input for the car make/model -->
-          <input type="text" formControlName="vehicleModel"
-                 class="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg
-                        focus:outline-none focus:ring-2 focus:ring-indigo-500 transition" />
+          <label class="block text-sm font-semibold mb-2">Vehicle Model</label>
+          <div class="relative">
+            <input type="text" formControlName="vehicleModel" 
+                   class="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 transition"
+                   placeholder="e.g., Toyota Camry" />
+            <div class="absolute right-3 top-3 text-gray-400">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                <path d="M8 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM15 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0z"/>
+                <path d="M3 4a1 1 0 00-1 1v10a1 1 0 001 1h1.05a2.5 2.5 0 014.9 0H10a1 1 0 001-1v-1h3.5a2.5 2.5 0 014.9 0H20a1 1 0 001-1V5a1 1 0 00-1-1H3z"/>
+              </svg>
+            </div>
+          </div>
         </div>
       </div>
 
-      <!-- Vehicle Year -->
-      <div class="flex flex-col md:flex-row gap-6 mt-6"> 
+      <!-- VEHICLE YEAR -->
+      <div class="flex flex-col md:flex-row gap-6 mt-6">
         <div class="flex-1">
-          <label class="block text-sm font-semibold mb-2">Vehicle Year</label> <!-- Year input for car -->
-          <input type="number" formControlName="vehicleYear"
-                 class="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg
-                        focus:outline-none focus:ring-2 focus:ring-indigo-500 transition" />
+          <label class="block text-sm font-semibold mb-2">Vehicle Year</label>
+          <div class="relative">
+            <input type="number" formControlName="vehicleYear" 
+                   class="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 transition"
+                   [placeholder]="'1990-' + currentYear" />
+            <div class="absolute right-3 top-3 text-gray-400">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"/>
+              </svg>
+            </div>
+          </div>
+          <p class="text-xs text-gray-400 mt-1">Vehicles from 1990 to present are eligible</p>
         </div>
       </div>
     </div>
@@ -80,46 +171,57 @@
     <!-- COVERAGE INFO CARD -->
     <div class="bg-gray-800/60 p-6 rounded-xl shadow-inner">
       <h2 class="text-2xl font-bold mb-4 border-b border-white/10 pb-2">Coverage Info</h2>
-
-      <!-- Coverage Level and Driving History -->
       <div class="flex flex-col md:flex-row gap-6">
-        <!-- Coverage Dropdown -->
+        <!-- COVERAGE LEVEL -->
         <div class="flex-1">
-          <label class="block text-sm font-semibold mb-2">Coverage Level</label> <!-- Select for coverage type -->
-          <select formControlName="coverageLevel"
-                  class="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg
-                         focus:outline-none focus:ring-2 focus:ring-indigo-500 transition">
-            <option value="">Select coverage</option>
-            <option value="basic">Basic</option>
-            <option value="standard">Standard</option>
-            <option value="full">Full</option>
-          </select>
+          <label class="block text-sm font-semibold mb-2">Coverage Level</label>
+          <div class="relative">
+            <select formControlName="coverageLevel" class="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 transition">
+              <option value="">Select coverage</option>
+              <option value="basic">Basic</option>
+              <option value="standard">Standard</option>
+              <option value="full">Full</option>
+            </select>
+            <div class="absolute right-3 top-3 text-gray-400">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M11.3 1.046A1 1 0 0112 2v5h4a1 1 0 01.82 1.573l-7 10A1 1 0 018 18v-5H4a1 1 0 01-.82-1.573l7-10a1 1 0 011.12-.38z" clip-rule="evenodd"/>
+              </svg>
+            </div>
+          </div>
+          <p class="text-xs text-gray-400 mt-1">Choose the protection level that fits your needs</p>
         </div>
-
-        <!-- Driving History -->
+        <!-- DRIVING HISTORY -->
         <div class="flex-1">
-          <label class="block text-sm font-semibold mb-2">Driving History</label> <!-- Select for clean, minor, or major history -->
-          <select formControlName="drivingHistory"
-                  class="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg
-                         focus:outline-none focus:ring-2 focus:ring-indigo-500 transition">
-            <option value="">Select history</option>
-            <option value="clean">Clean</option>
-            <option value="minor">Minor Violations</option>
-            <option value="major">Major Violations</option>
-          </select>
+          <label class="block text-sm font-semibold mb-2">Driving History</label>
+          <div class="relative">
+            <select formControlName="drivingHistory" class="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 transition">
+              <option value="">Select history</option>
+              <option value="clean">Clean</option>
+              <option value="minor">Minor Violations</option>
+              <option value="major">Major Violations</option>
+            </select>
+            <div class="absolute right-3 top-3 text-gray-400">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                <path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z"/>
+                <path fill-rule="evenodd" d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v11a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm9.707 5.707a1 1 0 00-1.414-1.414L9 12.586l-1.293-1.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+              </svg>
+            </div>
+          </div>
+          <p class="text-xs text-gray-400 mt-1">Your driving record helps determine your rate</p>
         </div>
       </div>
     </div>
 
-    <!-- SUBMIT BUTTON SECTION -->
+    <!-- SUBMIT BUTTON -->
     <div class="text-center pt--20">
-      <button type="submit"
-        class="bg-[#007cf0] hover:bg-[#005fbb] text-white text-lg font-semibold
-               py-3 px-10 rounded-lg transition-all duration-200 ease-in-out
-               shadow-md hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-blue-400">
-        Get Quote <!-- Button that triggers form submission -->
+      <button type="submit" class="bg-[#007cf0] hover:bg-[#005fbb] text-white text-lg font-semibold py-3 px-10 rounded-lg transition-all duration-200 ease-in-out shadow-md hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-blue-400">
+        Get Quote
       </button>
     </div>
-
   </form>
-</div>
+
+  <!-- LINK TO SAVED QUOTES -->
+  <a [routerLink]="['/saved-quotes']" class="text-indigo-400 hover:underline text-sm">
+  View Saved Quotes
+</a>
+

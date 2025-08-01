@@ -1,9 +1,12 @@
 import { bootstrapApplication } from '@angular/platform-browser';
-import { App } from './app/app';
-import { provideHttpClient } from '@angular/common/http';
+import { AppComponent } from './app/app'; // ✅ This is your actual file and class
 import { provideRouter } from '@angular/router';
 import { routes } from './app/app.routes';
+import { provideHttpClient } from '@angular/common/http';
 
-bootstrapApplication(App, {
-  providers: [provideRouter(routes), provideHttpClient()]
+bootstrapApplication(AppComponent, {
+  providers: [
+    provideRouter(routes),
+    provideHttpClient()
+  ]
 });

@@ -1,79 +1,6 @@
 {
   "quotes": [
     {
-      "id": "1",
-      "age": 30,
-      "zip": "16701",
-      "vehicleType": "truck",
-      "monthlyRate": 425
-    },
-    {
-      "id": "2",
-      "age": 22,
-      "zip": "90210",
-      "vehicleType": "car",
-      "monthlyRate": 600
-    },
-    {
-      "id": "477e",
-      "age": 28,
-      "zip": "16701",
-      "vehicleType": "truck",
-      "monthlyRate": 650
-    },
-    {
-      "id": "e8ce",
-      "age": 28,
-      "zip": "16701",
-      "vehicleType": "truck",
-      "vehicleMake": "chevy",
-      "monthlyRate": 650
-    },
-    {
-      "id": "c2bc",
-      "age": 28,
-      "zip": "16701",
-      "vehicleType": "truck",
-      "vehicleMake": "chevy",
-      "vehicleYear": 2024,
-      "drivingHistory": "clean",
-      "coverageLevel": "premium",
-      "monthlyRate": 650
-    },
-    {
-      "id": "593b",
-      "age": 28,
-      "zip": "",
-      "vehicleType": "truck",
-      "vehicleMake": "",
-      "vehicleYear": "",
-      "drivingHistory": "",
-      "coverageLevel": "",
-      "monthlyRate": 650
-    },
-    {
-      "id": "15e6",
-      "age": 28,
-      "zip": "",
-      "vehicleType": "truck",
-      "vehicleMake": "Chevy",
-      "vehicleYear": 2024,
-      "drivingHistory": "minor",
-      "coverageLevel": "standard",
-      "monthlyRate": 650
-    },
-    {
-      "id": "742d",
-      "age": 28,
-      "zip": "16701",
-      "vehicleType": "car",
-      "vehicleMake": "Toyota",
-      "vehicleYear": 2024,
-      "drivingHistory": "major",
-      "coverageLevel": "full",
-      "monthlyRate": 500
-    },
-    {
       "id": "4f70",
       "age": 21,
       "zip": "16701",
@@ -162,125 +89,92 @@
       "monthlyRate": 100
     },
     {
-      "id": "41c0",
-      "age": "",
-      "zip": "",
-      "vehicleType": "",
-      "vehicleMake": "",
-      "vehicleYear": "",
-      "drivingHistory": "",
-      "coverageLevel": "",
-      "monthlyRate": 165
-    },
-    {
-      "id": "59d0",
-      "age": 28,
-      "zip": "",
-      "vehicleType": "",
-      "vehicleMake": "",
-      "vehicleYear": "",
-      "drivingHistory": "",
-      "coverageLevel": "",
-      "monthlyRate": 110.00000000000001
-    },
-    {
-      "id": "ad55",
-      "age": 28,
-      "zip": "16701",
-      "vehicleModel": "Chevy",
-      "vehicleType": "car",
-      "vehicleYear": 2019,
-      "drivingHistory": "minor",
-      "coverageLevel": "standard",
-      "monthlyRate": 100
-    },
-    {
-      "id": "2300",
-      "age": 25,
-      "zip": "16701",
-      "vehicleModel": "Subaru Crosstrek",
-      "vehicleType": "suv",
-      "vehicleYear": 2019,
-      "drivingHistory": "clean",
-      "coverageLevel": "full",
-      "monthlyRate": 120
-    },
-    {
-      "id": "91e5",
-      "age": 70,
-      "zip": "16701",
-      "vehicleModel": "Toyota Rav 4",
-      "vehicleType": "suv",
-      "vehicleYear": 2018,
-      "drivingHistory": "clean",
-      "coverageLevel": "basic",
-      "monthlyRate": 120
-    },
-    {
-      "id": "f137",
-      "age": 28,
-      "zip": "16701",
-      "vehicleModel": "Chevy Silverado",
-      "vehicleType": "truck",
-      "vehicleYear": 2024,
-      "drivingHistory": "clean",
-      "coverageLevel": "full",
-      "monthlyRate": 130
-    },
-    {
-      "id": "a430",
-      "age": 45,
-      "zip": "16743",
-      "vehicleModel": "Ford F-150",
-      "vehicleType": "truck",
-      "vehicleYear": 2022,
-      "drivingHistory": "clean",
-      "coverageLevel": "standard",
-      "monthlyRate": 130
-    },
-    {
-      "id": "75ec",
-      "age": 28,
-      "zip": "16701",
-      "vehicleModel": "Ram 1500",
-      "vehicleType": "TRUCK",
-      "vehicleYear": 2023,
-      "drivingHistory": "clean",
-      "coverageLevel": "standard",
-      "monthlyRate": 130
-    },
-    {
-      "id": "d5e5",
-      "age": 28,
-      "zip": "58801",
-      "vehicleModel": "Kia Optima",
+      "id": "4b7a",
+      "age": 26,
+      "zip": "42134",
       "vehicleType": "CAR",
+      "vehicleModel": "Chevy Corvette ",
       "vehicleYear": 2015,
-      "drivingHistory": "clean",
       "coverageLevel": "full",
+      "drivingHistory": "clean",
       "monthlyRate": 100
     },
     {
-      "id": "0c4a",
-      "age": 54,
-      "zip": "16701",
-      "vehicleModel": "Chevy Silverado",
-      "vehicleType": "TRUCK",
-      "vehicleYear": 2024,
-      "drivingHistory": "major",
-      "coverageLevel": "basic",
-      "monthlyRate": 130
+      "id": "87d7",
+      "age": 26,
+      "zip": "42134",
+      "vehicleType": "CAR",
+      "vehicleModel": "Chevy Corvette ",
+      "vehicleYear": 2015,
+      "coverageLevel": "full",
+      "drivingHistory": "clean",
+      "monthlyRate": 100
     },
     {
-      "id": "42fb",
+      "id": "3dcd",
+      "age": 26,
+      "zip": "42134",
+      "vehicleType": "CAR",
+      "vehicleModel": "Chevy Corvette ",
+      "vehicleYear": 2015,
+      "coverageLevel": "full",
+      "drivingHistory": "clean",
+      "monthlyRate": 100
+    },
+    {
+      "id": "225d",
+      "age": 26,
+      "zip": "42134",
+      "vehicleType": "CAR",
+      "vehicleModel": "Chevy Corvette ",
+      "vehicleYear": 2015,
+      "coverageLevel": "full",
+      "drivingHistory": "clean",
+      "monthlyRate": 100
+    },
+    {
+      "id": "e99b",
       "age": 28,
       "zip": "16701",
-      "vehicleType": "TRUCK",
-      "vehicleModel": "Toyota Tacoma",
+      "vehicleType": "CAR",
+      "vehicleModel": "Chevy Silverado",
       "vehicleYear": 2024,
       "coverageLevel": "full",
       "drivingHistory": "clean",
+      "monthlyRate": 100
+    },
+    {
+      "id": "0bd9",
+      "age": 28,
+      "zip": "16701",
+      "vehicleType": "CAR",
+      "vehicleModel": "Chevy Silverado",
+      "vehicleYear": 2024,
+      "coverageLevel": "full",
+      "drivingHistory": "clean",
+      "monthlyRate": 100
+    },
+    {
+      "id": "36a6",
+      "age": 28,
+      "zip": "16701",
+      "vehicleType": "TRUCK",
+      "vehicleModel": "Toyota Camry",
+      "vehicleYear": 2012,
+      "coverageLevel": "standard",
+      "drivingHistory": "minor",
       "monthlyRate": 130
+    },
+    {
+      "id": "f56c",
+      "age": 28,
+      "zip": "16701",
+      "vehicleType": "CAR",
+      "vehicleModel": "Toyota Camry ",
+      "vehicleYear": 1999,
+      "coverageLevel": "basic",
+      "drivingHistory": "clean",
+      "monthlyRate": 100
     }
   ]
 }

@@ -1,66 +1,96 @@
-// This file is responsible for collecting the users input, calculates quote and sends data to the server
+// This file is responsible for collecting the user's input, calculating the quote, and sending the data to the backend
 
-import { Component } from '@angular/core'; // Making a new piece of the app forms page or UI section
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms'; // Builds Forms fast, group that holds users info, forms react when people type 
-import { Router } from '@angular/router'; // Takes you to different pages when form is done
-import { HttpClient } from '@angular/common/http'; // mailman for your frontend and backend (JSON server port 3000)
-import { CommonModule } from '@angular/common'; // Common Angular building blocks
-
+import { Component } from '@angular/core';                            // Declares this as an Angular component (UI logic and structure)
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms'; // Tools to build and manage reactive forms
+import { Router } from '@angular/router';                            // Lets us navigate to different pages (e.g., /quote-results)
+import { HttpClient } from '@angular/common/http';                   // Sends HTTP requests (e.g., POST to JSON Server)
+import { CommonModule } from '@angular/common';                      // Allows use of *ngIf, *ngFor, etc. in the HTML template
+import { RouterModule } from '@angular/router';
+import { BehaviorSubject, Observable } from 'rxjs';                  // For reactive progress tracking
+import { map, startWith } from 'rxjs/operators';                     // For transforming form values
 @Component({
-  selector: 'app-quote-form', // What tag name I’ll use in HTML
-  standalone: true, // Working alone
-  imports: [CommonModule, ReactiveFormsModule], // importing tools
-  templateUrl: './quote-form.html', // Look at this HTML file for my look 
-  styleUrls: ['./quote-form.scss'] // Look at this SCSS file for my clothes
+  selector: 'app-quote-form',                                        // Optional HTML tag for this component (not usually used directly)
+  standalone: true,                                                  // Declares this component works independently without a module
+  imports: [CommonModule, ReactiveFormsModule, RouterModule],                      // Brings in required features like form controls and directives
+  templateUrl: './quote-form.html',                                  // Points to the HTML file that defines the visual structure
+  styleUrls: ['./quote-form.scss']                                   // Links to the SCSS file for styling this page
 })
+export class QuoteForm {                                             // This is the main class that handles all logic for the quote form
+  quoteForm: FormGroup;                                              // Holds all form inputs in a reactive FormGroup (like a container)
+  formProgress$: Observable<number>;                                 // Tracks form completion progress (0-100%)
+  currentYear = new Date().getFullYear();                           // Current year for vehicle year validation
+  private readonly sections = {
+    driverInfo: ['age', 'zip'],
+    vehicleInfo: ['vehicleType', 'vehicleModel', 'vehicleYear'],
+    coverageInfo: ['coverageLevel', 'drivingHistory']
+  };
 
-export class QuoteForm { // Real action happens, teach the form how to act
-  quoteForm: FormGroup; // Forms backpack and holds: age, zip, vehicleType
-
-  constructor(private fb: FormBuilder, private router: Router, private http: HttpClient) { // SETUP zone
-    this.quoteForm = this.fb.group({ // Creates the actual form and inside {} structure of form
-      age: ['', [Validators.required, Validators.min(16), Validators.max(100)]], // Must be between 16–100
-      zip: ['', [Validators.required, Validators.pattern('^\\d{5}$')]], // Must be a 5-digit number
-      vehicleType: ['', Validators.required],
-      vehicleModel: ['', Validators.required],
-      vehicleYear: ['', [Validators.required, Validators.min(1990), Validators.max(new Date().getFullYear())]], // From 1990 to this year
-      coverageLevel: ['', Validators.required],
-      drivingHistory: ['', Validators.required]
+  constructor(
+    private fb: FormBuilder,                                         // Helps us build the form quickly using a "form builder"
+    private router: Router,                                          // Lets us navigate to other pages programmatically
+    private http: HttpClient                                         // Lets us send form data to the backend via POST
+  ) {
+    this.quoteForm = this.fb.group({                                 // Define the structure and rules of the form
+      age: ['', [Validators.required, Validators.min(16), Validators.max(100)]],           // Age is required and must be between 16–100
+      zip: ['', [Validators.required, Validators.pattern('^\\d{5}$')]],                    // ZIP must be 5 digits only
+      vehicleType: ['', Validators.required],                        // Required: car, truck, SUV, etc.
+      vehicleModel: ['', Validators.required],                       // Required: e.g., Chevy Malibu
+      vehicleYear: ['', [Validators.required, Validators.min(1990), Validators.max(new Date().getFullYear())]], // Year must be from 1990–current
+      coverageLevel: ['', Validators.required],                      // Required: basic, standard, premium
+      drivingHistory: ['', Validators.required]                      // Required: clean, minor, major
     });
+
+    // Initialize progress tracking
+    this.formProgress$ = this.quoteForm.valueChanges.pipe(
+      startWith(this.quoteForm.value),
+      map(formValue => {
+        let completedFields = 0;
+        let totalFields = 0;
+        
+        // Count completed fields in each section
+        Object.values(this.sections).forEach(sectionFields => {
+          sectionFields.forEach(field => {
+            totalFields++;
+            if (formValue[field] && this.quoteForm.get(field)?.valid) {
+              completedFields++;
+            }
+          });
+        });
+
+        // Calculate percentage
+        return Math.round((completedFields / totalFields) * 100);
+      })
+    );
   }
 
-  onSubmit(): void { // When user hits Get Quote Button
-    if (this.quoteForm.valid) {
-      const quoteData = this.quoteForm.value; // Grab user form data
-      quoteData.vehicleType = quoteData.vehicleType.toUpperCase(); // Normalize vehicle type
-      const base = 100; // Base cost
-      const ageFactor = quoteData.age < 25 ? 1.5 : 1.0; // Young drivers pay more
-      let vehicleFactor = 1.0;
+  onSubmit(): void {                                                 // This function runs when the user submits the form
+    if (this.quoteForm.valid) {                                      // Make sure the form passes all validation rules
+      const quoteData = this.quoteForm.value;                        // Grab all the form values as a single object
 
-      switch (quoteData.vehicleType) {
-        case 'CAR':
-          vehicleFactor = 1.0;
-          break;
-        case 'TRUCK':
-          vehicleFactor = 1.3;
-          break;
-        case 'SUV':
-          vehicleFactor = 1.2;
-          break;
-        default:
-          vehicleFactor = 1.1;
+      quoteData.vehicleType = quoteData.vehicleType.toUpperCase();  // Normalize the vehicle type to uppercase (for consistency)
+
+      const base = 100;                                              // Starting base premium ($100)
+      const ageFactor = quoteData.age < 25 ? 1.5 : 1.0;              // Drivers under 25 pay 50% more
+
+      let vehicleFactor = 1.0;                                       // Default multiplier for vehicle type
+      switch (quoteData.vehicleType) {                               // Adjust multiplier based on the vehicle type
+        case 'CAR': vehicleFactor = 1.0; break;                      // No increase for cars
+        case 'TRUCK': vehicleFactor = 1.3; break;                    // Trucks cost 30% more
+        case 'SUV': vehicleFactor = 1.2; break;                      // SUVs cost 20% more
+        default: vehicleFactor = 1.1;                                // Slight increase for unknown or uncommon types
       }
 
-      quoteData.monthlyRate = base * ageFactor * vehicleFactor; // Final calculation
+      quoteData.monthlyRate =                                        // Calculate the final quote and store it as a new field
+        base * ageFactor * vehicleFactor;
 
-      this.http.post<any>('http://localhost:3000/quotes', quoteData).subscribe({
-        next: (response) => {
-          const id = response.id;
-          this.router.navigate(['/quote-results'], { queryParams: { id } });
+      this.http.post<any>('http://localhost:3000/quotes', quoteData).subscribe({ // Send the quote data to JSON Server
+        next: (response) => {                                        // If the server responds successfully:
+          const id = response.id;                                    // Get the ID of the saved quote from the response
+          this.router.navigate(['/quote-results'], { queryParams: { id } }); // Navigate to the results page and pass the ID in the URL
         },
-        error: (err) => {
-          console.error('Failed to create quote:', err);
-          this.router.navigate(['/quote-results'], { queryParams: { id: 'notfound' } });
+        error: (err) => {                                            // If something goes wrong with the POST request:
+          console.error('Failed to create quote:', err);             // Log the error for developers
+          this.router.navigate(['/quote-results'], { queryParams: { id: 'notfound' } }); // Navigate to results page with error ID
         }
       });
     }
