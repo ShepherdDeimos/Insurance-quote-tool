@@ -4,24 +4,24 @@
   "installCommand": "npm ci",
   "outputDirectory": "dist/insurance-quote-tool",
   "framework": "angular",
+  "cleanUrls": true,
+  "trailingSlash": false,
+  "public": true,
   "env": {
     "NODE_VERSION": "20.x"
   },
-  "routes": [
+  "rewrites": [
     {
-      "handle": "filesystem"
+      "source": "/assets/(.*)",
+      "destination": "/assets/$1"
     },
     {
-      "src": "/assets/(.*)",
-      "dest": "/assets/$1"
+      "source": "/favicon.ico",
+      "destination": "/favicon.ico"
     },
     {
-      "src": "/favicon.ico",
-      "dest": "/favicon.ico"
-    },
-    {
-      "src": "/(.*)",
-      "dest": "/index.html"
+      "source": "/(.*)",
+      "destination": "/index.html"
     }
   ]
 }
