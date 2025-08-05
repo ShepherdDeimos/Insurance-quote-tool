@@ -34,30 +34,46 @@
     </p>
   </div>
 
-  <!-- Progress Bar -->
+    <!-- Progress Bar -->
   <div class="max-w-3xl mx-auto mb-12">
     <div class="flex justify-between text-sm mb-3">
-      <span class="text-blue-400 font-medium flex items-center">
-        <span class="w-2 h-2 rounded-full bg-blue-400 mr-2 animate-ping"></span>
+      <span class="text-blue-400 font-medium flex items-center"
+            [class.text-opacity-50]="(formProgress$ | async)! < 33">
+        <span class="w-2 h-2 rounded-full bg-blue-400 mr-2"
+              [class.animate-ping]="(formProgress$ | async)! < 33"></span>
         Driver Info
+        <svg *ngIf="(formProgress$ | async)! >= 33" class="w-4 h-4 ml-2 text-green-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+        </svg>
       </span>
-      <span class="text-purple-400 font-medium flex items-center">
-        <span class="w-2 h-2 rounded-full bg-purple-400 mr-2"></span>
+      <span class="text-purple-400 font-medium flex items-center"
+            [class.text-opacity-50]="(formProgress$ | async)! < 66">
+        <span class="w-2 h-2 rounded-full bg-purple-400 mr-2"
+              [class.animate-ping]="(formProgress$ | async)! >= 33 && (formProgress$ | async)! < 66"></span>
         Vehicle Info
+        <svg *ngIf="(formProgress$ | async)! >= 66" class="w-4 h-4 ml-2 text-green-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+        </svg>
       </span>
-      <span class="text-pink-400 font-medium flex items-center">
-        <span class="w-2 h-2 rounded-full bg-pink-400 mr-2"></span>
+      <span class="text-pink-400 font-medium flex items-center"
+            [class.text-opacity-50]="(formProgress$ | async)! < 100">
+        <span class="w-2 h-2 rounded-full bg-pink-400 mr-2"
+              [class.animate-ping]="(formProgress$ | async)! >= 66 && (formProgress$ | async)! < 100"></span>
         Coverage
+        <svg *ngIf="(formProgress$ | async)! >= 100" class="w-4 h-4 ml-2 text-green-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+        </svg>
       </span>
     </div>
-    <div class="h-2 bg-[#1a1f3c] rounded-full p-[1px] backdrop-blur-sm bg-opacity-50 shadow-lg">
-      <div class="h-full bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 rounded-full transition-all duration-500 ease-out animate-shimmer"
+    <div class="h-2 bg-[#1a1f3c] rounded-full p-[1px] backdrop-blur-sm bg-opacity-50 shadow-lg relative overflow-hidden">
+      <div class="absolute inset-0 bg-gradient-to-r from-blue-500/20 via-purple-500/20 to-pink-500/20 animate-pulse"></div>
+      <div class="h-full bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 rounded-full 
+                  transition-all duration-700 ease-out transform hover:scale-x-[1.02] hover:shadow-lg"
            [style.width]="(formProgress$ | async) + '%'">
+        <div class="absolute inset-0 bg-gradient-to-r from-white/0 via-white/20 to-white/0 animate-shimmer"></div>
       </div>
     </div>
-  </div>
-
-        <!-- Form Container -->
+  </div>        <!-- Form Container -->
   <form [formGroup]="quoteForm" (ngSubmit)="onSubmit()" class="max-w-4xl mx-auto space-y-8">
     <!-- Driver Info -->
     <div class="bg-gradient-to-br from-[#1a1f3c] via-[#2a2f5c] to-[#3a3f7c] rounded-lg p-8 shadow-lg transform hover:scale-[1.02] transition-all duration-300">

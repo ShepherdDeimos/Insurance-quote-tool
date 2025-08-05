@@ -183,14 +183,39 @@ export class QuoteForm implements OnInit {
   }
 
   private updateFormProgress(): void {
-    const controls = this.quoteForm.controls;
-    const totalFields = Object.keys(controls).length;
-    const completedFields = Object.values(controls).filter(control => 
-      control.valid && control.value !== '' && control.value !== null
-    ).length;
+    const sections = {
+      personal: ['firstName', 'lastName', 'email', 'phone', 'age', 'zip'],
+      vehicle: ['vehicleType', 'vehicleMake', 'vehicleModel', 'vehicleYear'],
+      coverage: ['coverageLevel', 'drivingHistory', 'accidents', 'violations']
+    };
+
+    const calculateSectionProgress = (fields: string[]): number => {
+      const validFields = fields.filter(field => {
+        const control = this.quoteForm.get(field);
+        return control && control.valid && control.value !== '' && control.value !== null;
+      });
+      return (validFields.length / fields.length) * 100;
+    };
+
+    const personalProgress = calculateSectionProgress(sections.personal);
+    const vehicleProgress = calculateSectionProgress(sections.vehicle);
+    const coverageProgress = calculateSectionProgress(sections.coverage);
+
+    // Weight the sections (40-30-30 split)
+    const totalProgress = Math.round(
+      (personalProgress * 0.4) +
+      (vehicleProgress * 0.3) +
+      (coverageProgress * 0.3)
+    );
+
+    // Smoothly update the progress
+    const currentProgress = this.formProgress$.value;
+    const smoothProgress = Math.min(
+      currentProgress + 5, // Limit the increment per update
+      Math.max(currentProgress, totalProgress) // Never decrease progress
+    );
     
-    const progress = Math.round((completedFields / totalFields) * 100);
-    this.formProgress$.next(progress);
+    this.formProgress$.next(smoothProgress);
   }
 
   getErrorMessage(controlName: string): string {
