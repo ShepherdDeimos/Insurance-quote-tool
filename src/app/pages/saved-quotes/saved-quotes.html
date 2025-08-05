@@ -1,20 +1,93 @@
-<div class="p-10 text-white">
-  <h2 class="text-2xl font-bold mb-6">Saved Quotes</h2>
-  
-  <div *ngIf="quotes.length === 0">No saved quotes found.</div>
+<div class="min-h-screen bg-gradient-to-b from-slate-900 to-gray-900 text-white py-12 px-4">
+  <!-- Header -->
+  <div class="max-w-3xl mx-auto text-center mb-8 animate-fade-in">
+    <h1 class="text-4xl font-bold">
+      <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-400">
+        Saved Quotes
+      </span>
+    </h1>
+    <p class="text-gray-400 mt-2">Review and manage your insurance quotes</p>
+  </div>
 
-  <div *ngFor="let quote of quotes" class="bg-gray-700/60 rounded-lg p-4 mb-4">
-    <div class="flex justify-between items-center">
-      <div>
-        <p><strong>Age:</strong> {{ quote.age }}</p>
-        <p><strong>ZIP:</strong> {{ quote.zipCode }}</p>
-        <p><strong>Vehicle:</strong> {{ quote.vehicleType }}</p>
-        <p><strong>Monthly Premium:</strong> ${{ quote.monthlyRate }}</p> 
-      </div>
-      <div>
-        <button (click)="deleteQuote(quote.id)" class="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
-          Delete Quote
-        </button>
+  <!-- Back to Quote Form -->
+  <div class="max-w-3xl mx-auto mb-8">
+    <a [routerLink]="['/quote-form']" 
+       class="inline-flex items-center text-indigo-400 hover:text-indigo-300 transition-colors cursor-pointer">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
+        <path fill-rule="evenodd" d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z" clip-rule="evenodd" />
+      </svg>
+      Back to Quote Form
+    </a>
+  </div>
+
+  <!-- Content Container -->
+  <div class="max-w-3xl mx-auto">
+    <!-- Loading State -->
+    <div *ngIf="loading" class="text-center py-12">
+      <div class="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-indigo-400 mx-auto"></div>
+      <p class="text-gray-400 mt-4">Loading your saved quotes...</p>
+    </div>
+
+    <!-- Error State -->
+    <div *ngIf="error" class="bg-red-900/30 border border-red-500/50 rounded-lg p-6 text-center">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-red-400 mx-auto mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+      </svg>
+      <p class="text-red-300 mb-2">Unable to load saved quotes</p>
+      <p class="text-gray-400 text-sm">Please try again later or contact support if the problem persists.</p>
+      <button (click)="retryLoading()" class="mt-4 px-4 py-2 bg-red-600 hover:bg-red-700 rounded-lg text-white cursor-pointer transition-colors">
+        Try Again
+      </button>
+    </div>
+
+    <!-- Empty State -->
+    <div *ngIf="!loading && !error && quotes.length === 0" class="bg-gray-800/40 rounded-lg p-8 text-center">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 text-gray-600 mx-auto mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+      </svg>
+      <h3 class="text-xl font-semibold mb-2">No Saved Quotes Yet</h3>
+      <p class="text-gray-400 mb-6">Get started by creating your first insurance quote</p>
+      <a [routerLink]="['/quote-form']" 
+         class="inline-flex items-center px-6 py-3 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-lg text-white font-semibold hover:from-blue-500 hover:to-indigo-500 transition-all cursor-pointer">
+        Create a Quote
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-2" viewBox="0 0 20 20" fill="currentColor">
+          <path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd" />
+        </svg>
+      </a>
+    </div>
+
+    <!-- Quotes List -->
+    <div *ngIf="!loading && !error && quotes.length > 0" class="space-y-4">
+      <div *ngFor="let quote of quotes" 
+           class="bg-gradient-to-br from-blue-900/30 to-purple-900/30 rounded-lg p-6 border border-white/5 backdrop-blur-sm animate-fade-in">
+        <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+          <div class="space-y-2">
+            <div class="flex items-center gap-2">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-indigo-400" viewBox="0 0 20 20" fill="currentColor">
+                <path d="M8 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM15 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0z" />
+                <path d="M3 4a1 1 0 00-1 1v10a1 1 0 001 1h1.05a2.5 2.5 0 014.9 0H10a1 1 0 001-1v-1h3.5a2.5 2.5 0 014.9 0H20a1 1 0 001-1V5a1 1 0 00-1-1H3z" />
+              </svg>
+              <p class="font-semibold">{{ quote.vehicleType }} {{ quote.vehicleModel }}</p>
+            </div>
+            <div class="text-gray-400 text-sm space-y-1">
+              <p>Driver Age: {{ quote.age }}</p>
+              <p>Location: {{ quote.zipCode }}</p>
+              <p>Coverage: {{ quote.coverageLevel }}</p>
+            </div>
+          </div>
+          <div class="flex flex-col items-end gap-3">
+            <p class="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-400">
+              ${{ quote.monthlyRate }}/mo
+            </p>
+            <button (click)="deleteQuote(quote.id)" 
+                    class="inline-flex items-center px-4 py-2 bg-red-600/80 hover:bg-red-600 rounded-lg text-white text-sm transition-colors cursor-pointer">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd" />
+              </svg>
+              Delete Quote
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   </div>

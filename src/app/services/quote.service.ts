@@ -3,11 +3,11 @@ import { Observable, of } from 'rxjs';
 
 interface QuoteData {
   age: number;
-  vehicleType: string;
+  vehicleType: 'car' | 'suv' | 'truck' | string;
   vehicleYear: number;
   accidents: number;
   violations: number;
-  coverageLevel: 'basic' | 'standard' | 'premium';
+  coverageLevel: 'basic' | 'standard' | 'full';
 }
 
 interface QuoteResult {
@@ -36,13 +36,11 @@ export class QuoteService {
     if (vehicleAge > 10) basePrice *= 0.85; // Older cars get 15% discount
     else if (vehicleAge < 3) basePrice *= 1.1; // Newer cars cost more to insure
 
-    // Vehicle type factor - reduced multipliers
+    // Vehicle type factor
     switch (data.vehicleType?.toLowerCase()) {
-      case 'sports': basePrice *= 1.35; break;   // Sports cars highest risk
-      case 'luxury': basePrice *= 1.25; break;   // Luxury cars cost more to repair
+      case 'car': basePrice *= 1.0; break;       // Standard rate for cars
       case 'suv': basePrice *= 1.15; break;      // SUVs have higher accident risk
-      case 'truck': basePrice *= 1.1; break;     // Trucks slightly higher
-      case 'sedan': basePrice *= 1.0; break;     // Standard rate for sedans
+      case 'truck': basePrice *= 1.2; break;     // Trucks have highest risk
       default: basePrice *= 1.05;                // Unknown types small increase
     }
 
@@ -52,11 +50,12 @@ export class QuoteService {
     // Traffic violations factor (each violation adds 10%)
     if (data.violations > 0) basePrice *= (1 + (data.violations * 0.1));
 
-    // Coverage level factor - reduced multipliers
+    // Coverage level factor
     switch (data.coverageLevel) {
-      case 'premium': basePrice *= 1.35; break;  // Premium adds 35%
+      case 'full': basePrice *= 1.35; break;     // Full coverage adds 35%
       case 'standard': basePrice *= 1.2; break;  // Standard adds 20%
-      default: break;                            // Basic coverage uses base price
+      case 'basic': basePrice *= 1.0; break;     // Basic coverage uses base price
+      default: basePrice *= 1.0;                 // Default to basic if not specified
     }
 
     // Apply safe driver discount (if no accidents and violations)

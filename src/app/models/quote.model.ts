@@ -1,10 +1,10 @@
 export interface QuoteData {
   age: number;
-  vehicleType: string;
+  vehicleType: 'car' | 'suv' | 'truck' | string;
   vehicleYear: number;
   accidents: number;
   violations: number;
-  coverageLevel: 'basic' | 'standard' | 'premium';
+  coverageLevel: 'basic' | 'standard' | 'full';
 }
 
 export interface QuoteResult {
