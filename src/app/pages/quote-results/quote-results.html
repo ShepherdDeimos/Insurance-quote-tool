@@ -1,122 +1,193 @@
 <!-- Animated Background Section -->
-<div class="min-h-screen bg-gradient-to-br from-[#000B2E] via-[#041246] to-[#0C2473] text-white py-12 px-4 relative overflow-hidden">
-  <!-- Animated background elements -->
-  <div class="absolute top-0 left-0 w-full h-96 blur-3xl -z-10 animate-pulse"
-       style="background: linear-gradient(to right, rgba(82, 109, 255, 0.15), rgba(123, 97, 255, 0.15));">
-  </div>
-  <!-- Logo -->
-  <div class="absolute top-8 left-1/2 -translate-x-1/2 w-24 h-24">
-    <div class="relative w-full h-full">
-      <div class="absolute inset-0 bg-gradient-to-br from-[#526DFF] to-[#7B61FF] rounded-xl opacity-20 animate-pulse"></div>
-      <div class="relative flex items-center justify-center h-full">
-        <svg class="w-12 h-12 text-[#526DFF]" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M20.91 11.12C20.91 16.01 17.36 20.59 12.51 21.93C12.18 22.02 11.82 22.02 11.49 21.93C6.63996 20.59 3.08996 16.01 3.08996 11.12V6.72997C3.08996 5.90997 3.70996 4.97997 4.47996 4.66997L10.05 2.39001C11.3 1.88001 12.71 1.88001 13.96 2.39001L19.53 4.66997C20.29 4.97997 20.92 5.90997 20.92 6.72997L20.91 11.12Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-          <path d="M12 12.5C13.1046 12.5 14 11.6046 14 10.5C14 9.39543 13.1046 8.5 12 8.5C10.8954 8.5 10 9.39543 10 10.5C10 11.6046 10.8954 12.5 12 12.5Z" stroke="currentColor" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
-          <path d="M12 12.5V15.5" stroke="currentColor" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
-      </div>
+<div class="min-h-screen bg-gradient-to-br from-[#020817] via-[#1a1f3c] to-[#2d1b4d] text-white py-8 px-4 relative overflow-hidden">
+  <!-- Animated Grid Background -->
+  <div class="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZGVmcz48cGF0dGVybiBpZD0iZ3JpZCIgd2lkdGg9IjQwIiBoZWlnaHQ9IjQwIiBwYXR0ZXJuVW5pdHM9InVzZXJTcGFjZU9uVXNlIj48cGF0aCBkPSJNIDQwIDAgTCAwIDAgMCA0MCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjMzEzNTRhIiBzdHJva2Utd2lkdGg9IjEiLz48L3BhdHRlcm4+PC9kZWZzPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9InVybCgjZ3JpZCkiLz48L3N2Zz4=')] opacity-10"></div>
+
+  <!-- Logo and Title -->
+  <div class="mx-auto max-w-3xl text-center mb-8 relative">
+    <div class="mx-auto w-20 h-20 mb-6 relative">
+      <div class="absolute inset-0 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 opacity-50 blur-xl animate-pulse"></div>
+      <svg class="w-full h-full relative z-10 animate-float" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M12 2L4 6V12C4 16.4183 7.58172 20 12 20C16.4183 20 20 16.4183 20 12V6L12 2Z" 
+              stroke="url(#gradient)" stroke-width="2" fill="url(#gradientFill)" class="animate-pulse"/>
+        <path d="M9 12L11 14L15 10" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+        <defs>
+          <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" style="stop-color:#60A5FA"/>
+            <stop offset="50%" style="stop-color:#7C3AED"/>
+            <stop offset="100%" style="stop-color:#EC4899"/>
+          </linearGradient>
+          <linearGradient id="gradientFill" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" style="stop-color:#3B82F6;stop-opacity:0.1"/>
+            <stop offset="50%" style="stop-color:#7C3AED;stop-opacity:0.15"/>
+            <stop offset="100%" style="stop-color:#EC4899;stop-opacity:0.1"/>
+          </linearGradient>
+        </defs>
+      </svg>
     </div>
-  </div>
 
   <!-- Main Content Container -->
   <div class="max-w-3xl mx-auto">
     <!-- Error Message -->
     <div *ngIf="errorMessage" 
-         class="bg-red-500/20 border border-red-500/50 text-red-200 text-center rounded-lg p-4 mb-6 animate-fade-in">
+         class="bg-red-500/20 backdrop-blur-md border border-red-500/50 text-red-200 text-center rounded-xl p-4 mb-6 animate-fade-in">
       {{ errorMessage }}
     </div>
 
     <!-- Quote Content -->
     <div *ngIf="!errorMessage" class="space-y-8 animate-fade-in">
       <!-- Title -->
-      <h1 class="text-4xl font-bold text-center text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-400">
+      <h1 class="text-5xl font-bold text-center text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 mb-4">
         Your Insurance Quote
       </h1>
+      <p class="text-lg text-gray-400 text-center mb-8">Here's your personalized premium estimate</p>
 
       <!-- Premium Card -->
-      <div class="bg-[#0A1956]/40 backdrop-blur-xl p-8 rounded-xl shadow-2xl border border-[#526DFF]/20">
-        <div class="text-center space-y-4">
-          <h2 class="text-xl font-semibold text-[#7B61FF] mt-2">Estimated Monthly Premium</h2>
-          <p class="text-6xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-[#526DFF] to-[#7B61FF]">
-            ${{ quote?.quote?.toFixed(2) || '0.00' }}
-          </p>
-          <p class="text-sm text-gray-300">Based on your provided information</p>
+      <div class="bg-white/5 backdrop-blur-xl p-8 rounded-2xl shadow-2xl border border-white/10 
+                  hover:border-white/20 transition-all duration-300">
+        <div class="text-center space-y-6">
+          <h2 class="text-2xl font-semibold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400">
+            Estimated Monthly Premium
+          </h2>
+          <div class="relative">
+            <div class="absolute inset-0 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 opacity-25 blur-xl"></div>
+            <p class="relative text-7xl font-black text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400">
+              ${{ quote?.quote?.toFixed(2) || '0.00' }}
+            </p>
+          </div>
+          <p class="text-gray-400">Based on your provided information</p>
         </div>
 
         <!-- Details Toggle Button -->
         <div class="mt-8 text-center">
           <button 
             (click)="toggleDetails()"
-            class="px-6 py-3 bg-gradient-to-r from-[#526DFF] to-[#7B61FF] hover:from-[#4259CC] hover:to-[#624ECC] 
-                   text-white rounded-lg font-medium shadow-lg focus:outline-none focus:ring-2 focus:ring-[#7B61FF] 
-                   focus:ring-offset-2 focus:ring-offset-[#041246] transform hover:scale-105 transition-all duration-200"
+            class="group px-8 py-4 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 rounded-xl 
+                   font-semibold shadow-lg hover:shadow-xl focus:outline-none focus:ring-2 
+                   focus:ring-purple-500 focus:ring-offset-2 focus:ring-offset-[#020817] 
+                   transform hover:scale-105 transition-all duration-300"
           >
-            {{ showDetails ? 'Hide Quote Details ↑' : 'View Quote Details ↓' }}
+            <span class="relative inline-flex items-center gap-2">
+              {{ showDetails ? 'Hide Quote Details' : 'View Quote Details' }}
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 transform transition-transform duration-200"
+                   [ngClass]="{'rotate-180': showDetails}" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+              </svg>
+            </span>
           </button>
         </div>
       </div>
 
       <!-- Quote Details Section -->
-      <div *ngIf="showDetails && quote" class="mt-8 space-y-8 animate-fade-in">
+      <div *ngIf="showDetails && quote" 
+           class="mt-8 space-y-8 animate-fade-in">
         <!-- Details Grid -->
-        <div class="bg-[#0A1956]/40 rounded-xl p-6 backdrop-blur-sm border border-[#526DFF]/20 space-y-6">
-          <h3 class="text-xl font-medium text-center text-transparent bg-clip-text bg-gradient-to-r from-[#526DFF] to-[#7B61FF]">
+        <div class="bg-white/5 backdrop-blur-xl rounded-2xl p-8 border border-white/10 
+                    hover:border-white/20 transition-all duration-300">
+          <h3 class="text-2xl font-semibold text-center text-transparent bg-clip-text 
+                     bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 mb-8">
             Quote Details
           </h3>
           
-          <div class="grid grid-cols-2 gap-8 text-sm">
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div class="space-y-4">
-              <div class="p-3 rounded-lg bg-gray-800/60 border border-white/5 flex justify-between items-center">
-                <span class="text-gray-400">Age</span>
-                <span class="text-white font-medium">{{quote.data.age}}</span>
+              <div class="p-4 rounded-xl bg-white/5 border border-white/10 hover:bg-white/10 
+                          transition-colors duration-300 flex justify-between items-center group">
+                <span class="text-gray-400 group-hover:text-gray-300 transition-colors">Age</span>
+                <span class="font-medium">{{quote.data.age}}</span>
               </div>
-              <div class="p-3 rounded-lg bg-gray-800/60 border border-white/5 flex justify-between items-center">
-                <span class="text-gray-400">Vehicle Type</span>
-                <span class="text-white font-medium capitalize">{{quote.data.vehicleType}}</span>
+              <div class="p-4 rounded-xl bg-white/5 border border-white/10 hover:bg-white/10 
+                          transition-colors duration-300 flex justify-between items-center group">
+                <span class="text-gray-400 group-hover:text-gray-300 transition-colors">Vehicle Type</span>
+                <span class="font-medium capitalize">{{quote.data.vehicleType}}</span>
               </div>
-              <div class="p-3 rounded-lg bg-gray-800/60 border border-white/5 flex justify-between items-center">
-                <span class="text-gray-400">Vehicle Year</span>
-                <span class="text-white font-medium">{{quote.data.vehicleYear}}</span>
+              <div class="p-4 rounded-xl bg-white/5 border border-white/10 hover:bg-white/10 
+                          transition-colors duration-300 flex justify-between items-center group">
+                <span class="text-gray-400 group-hover:text-gray-300 transition-colors">Vehicle Year</span>
+                <span class="font-medium">{{quote.data.vehicleYear}}</span>
               </div>
             </div>
             <div class="space-y-4">
-              <div class="p-3 rounded-lg bg-gray-800/60 border border-white/5 flex justify-between items-center">
-                <span class="text-gray-400">Accidents</span>
-                <span class="text-white font-medium">{{quote.data.accidents}}</span>
+              <div class="p-4 rounded-xl bg-white/5 border border-white/10 hover:bg-white/10 
+                          transition-colors duration-300 flex justify-between items-center group">
+                <span class="text-gray-400 group-hover:text-gray-300 transition-colors">Accidents</span>
+                <span class="font-medium">{{quote.data.accidents}}</span>
               </div>
-              <div class="p-3 rounded-lg bg-gray-800/60 border border-white/5 flex justify-between items-center">
-                <span class="text-gray-400">Violations</span>
-                <span class="text-white font-medium">{{quote.data.violations}}</span>
+              <div class="p-4 rounded-xl bg-white/5 border border-white/10 hover:bg-white/10 
+                          transition-colors duration-300 flex justify-between items-center group">
+                <span class="text-gray-400 group-hover:text-gray-300 transition-colors">Violations</span>
+                <span class="font-medium">{{quote.data.violations}}</span>
               </div>
-              <div class="p-3 rounded-lg bg-gray-800/60 border border-white/5 flex justify-between items-center">
-                <span class="text-gray-400">Coverage</span>
-                <span class="text-white font-medium capitalize">{{quote.data.coverageLevel}}</span>
+              <div class="p-4 rounded-xl bg-white/5 border border-white/10 hover:bg-white/10 
+                          transition-colors duration-300 flex justify-between items-center group">
+                <span class="text-gray-400 group-hover:text-gray-300 transition-colors">Coverage</span>
+                <span class="font-medium capitalize">{{quote.data.coverageLevel}}</span>
               </div>
             </div>
           </div>
         </div>
 
         <!-- Rate Factors -->
-        <div class="bg-gray-800/40 rounded-xl p-6 backdrop-blur-sm border border-white/10">
-          <h3 class="text-xl font-medium mb-4 text-center text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-400">
+        <div class="bg-white/5 backdrop-blur-xl rounded-2xl p-8 border border-white/10 hover:border-white/20 
+                    transition-all duration-300 mt-8">
+          <h3 class="text-2xl font-semibold text-center text-transparent bg-clip-text 
+                     bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 mb-6">
             Rate Factors
           </h3>
-          <div class="space-y-3">
-            <div *ngIf="quote.data.age < 25" class="p-3 rounded-lg bg-yellow-500/10 border border-yellow-500/20 text-yellow-300">
-              Higher rate applies - Driver under 25
+          <div class="space-y-4">
+            <div *ngIf="quote.data.age < 25" 
+                 class="p-4 rounded-xl bg-yellow-500/10 border border-yellow-500/20 text-yellow-300
+                        hover:bg-yellow-500/20 transition-colors duration-300">
+              <div class="flex items-center gap-3">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                  <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/>
+                </svg>
+                <span>Higher rate applies - Driver under 25</span>
+              </div>
             </div>
-            <div *ngIf="quote.data.age > 65" class="p-3 rounded-lg bg-yellow-500/10 border border-yellow-500/20 text-yellow-300">
-              Adjusted rate - Senior driver
+            
+            <div *ngIf="quote.data.age > 65" 
+                 class="p-4 rounded-xl bg-yellow-500/10 border border-yellow-500/20 text-yellow-300
+                        hover:bg-yellow-500/20 transition-colors duration-300">
+              <div class="flex items-center gap-3">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                  <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/>
+                </svg>
+                <span>Adjusted rate - Senior driver</span>
+              </div>
             </div>
-            <div *ngIf="quote.data.accidents > 0" class="p-3 rounded-lg bg-red-500/10 border border-red-500/20 text-red-300">
-              Rate increase - {{quote.data.accidents}} previous accident(s)
+            
+            <div *ngIf="quote.data.accidents > 0" 
+                 class="p-4 rounded-xl bg-red-500/10 border border-red-500/20 text-red-300
+                        hover:bg-red-500/20 transition-colors duration-300">
+              <div class="flex items-center gap-3">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                  <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/>
+                </svg>
+                <span>Rate increase - {{quote.data.accidents}} previous accident(s)</span>
+              </div>
             </div>
-            <div *ngIf="quote.data.violations > 0" class="p-3 rounded-lg bg-red-500/10 border border-red-500/20 text-red-300">
-              Rate increase - {{quote.data.violations}} traffic violation(s)
+            
+            <div *ngIf="quote.data.violations > 0" 
+                 class="p-4 rounded-xl bg-red-500/10 border border-red-500/20 text-red-300
+                        hover:bg-red-500/20 transition-colors duration-300">
+              <div class="flex items-center gap-3">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                  <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/>
+                </svg>
+                <span>Rate increase - {{quote.data.violations}} traffic violation(s)</span>
+              </div>
             </div>
+            
             <div *ngIf="quote.data.accidents === 0 && quote.data.violations === 0" 
-                 class="p-3 rounded-lg bg-green-500/10 border border-green-500/20 text-green-300">
-              Safe driver discount applied - 15% reduction
+                 class="p-4 rounded-xl bg-green-500/10 border border-green-500/20 text-green-300
+                        hover:bg-green-500/20 transition-colors duration-300">
+              <div class="flex items-center gap-3">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                  <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                </svg>
+                <span>Safe driver discount applied - 15% reduction</span>
+              </div>
             </div>
           </div>
         </div>
@@ -124,5 +195,27 @@
     </div>
   </div>
 </div>
+
+<!-- Add animations -->
+<style>
+  @keyframes float {
+    0% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+    100% { transform: translateY(0px); }
+  }
+  
+  .animate-float {
+    animation: float 3s ease-in-out infinite;
+  }
+
+  @keyframes fade-in {
+    0% { opacity: 0; transform: translateY(10px); }
+    100% { opacity: 1; transform: translateY(0); }
+  }
+
+  .animate-fade-in {
+    animation: fade-in 0.5s ease-out forwards;
+  }
+</style>
 
 
