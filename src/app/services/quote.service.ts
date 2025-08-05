@@ -24,44 +24,44 @@ export class QuoteService {
   private readonly STORAGE_KEY = 'insurance_quotes';
 
   private calculateQuote(data: QuoteData): number {
-    let basePrice = 50; // Base monthly insurance price starts at $50
+    let basePrice = 100; // Base monthly insurance price starts at $100
 
-    // Age factor (16-24: +40%, 25-65: normal, 65+: +20%)
-    if (data.age < 25) basePrice *= 1.4;
-    else if (data.age > 65) basePrice *= 1.2;
+    // Age factor (16-24: +25%, 25-65: normal, 65+: +15%)
+    if (data.age < 25) basePrice *= 1.25;
+    else if (data.age > 65) basePrice *= 1.15;
 
     // Vehicle age factor
     const currentYear = new Date().getFullYear();
     const vehicleAge = currentYear - data.vehicleYear;
-    if (vehicleAge > 10) basePrice *= 0.9; // Older cars get 10% discount
+    if (vehicleAge > 10) basePrice *= 0.85; // Older cars get 15% discount
     else if (vehicleAge < 3) basePrice *= 1.1; // Newer cars cost more to insure
 
-    // Vehicle type factor
+    // Vehicle type factor - reduced multipliers
     switch (data.vehicleType?.toLowerCase()) {
-      case 'sports': basePrice *= 1.5; break;    // Sports cars are highest risk
-      case 'luxury': basePrice *= 1.3; break;    // Luxury cars cost more to repair
-      case 'suv': basePrice *= 1.2; break;       // SUVs have higher accident risk
-      case 'truck': basePrice *= 1.15; break;    // Trucks slightly higher
+      case 'sports': basePrice *= 1.35; break;   // Sports cars highest risk
+      case 'luxury': basePrice *= 1.25; break;   // Luxury cars cost more to repair
+      case 'suv': basePrice *= 1.15; break;      // SUVs have higher accident risk
+      case 'truck': basePrice *= 1.1; break;     // Trucks slightly higher
       case 'sedan': basePrice *= 1.0; break;     // Standard rate for sedans
-      default: basePrice *= 1.1;                 // Unknown types get slight increase
+      default: basePrice *= 1.05;                // Unknown types small increase
     }
 
-    // Accident history factor (each accident adds 30%)
-    if (data.accidents > 0) basePrice *= (1 + (data.accidents * 0.3));
+    // Accident history factor (each accident adds 20%)
+    if (data.accidents > 0) basePrice *= (1 + (data.accidents * 0.2));
     
-    // Traffic violations factor (each violation adds 15%)
-    if (data.violations > 0) basePrice *= (1 + (data.violations * 0.15));
+    // Traffic violations factor (each violation adds 10%)
+    if (data.violations > 0) basePrice *= (1 + (data.violations * 0.1));
 
-    // Coverage level factor
+    // Coverage level factor - reduced multipliers
     switch (data.coverageLevel) {
-      case 'premium': basePrice *= 1.5; break;   // Premium adds 50%
-      case 'standard': basePrice *= 1.25; break; // Standard adds 25%
+      case 'premium': basePrice *= 1.35; break;  // Premium adds 35%
+      case 'standard': basePrice *= 1.2; break;  // Standard adds 20%
       default: break;                            // Basic coverage uses base price
     }
 
     // Apply safe driver discount (if no accidents and violations)
     if (data.accidents === 0 && data.violations === 0) {
-      basePrice *= 0.9; // 10% discount for safe drivers
+      basePrice *= 0.85; // 15% discount for safe drivers
     }
 
     // Round to 2 decimal places and ensure minimum premium of $30

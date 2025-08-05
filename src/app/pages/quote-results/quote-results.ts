@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { QuoteService } from '../../services/quote.service';
+import { QuoteResult } from '../../models/quote.model';
 
 @Component({
   selector: 'app-quote-results',
@@ -11,7 +12,7 @@ import { QuoteService } from '../../services/quote.service';
   styleUrls: ['./quote-results.scss']
 })
 export class QuoteResults implements OnInit {
-  quote: any = null;
+  quote: QuoteResult | null = null;
   errorMessage: string | null = null;
   finalQuote: number = 0;
   showDetails = false;
