@@ -77,11 +77,13 @@
     </div>
 
     <!-- Form Container -->
-    <div class="bg-gray-800/60 backdrop-blur-xl p-8 rounded-xl shadow-2xl border border-white/10 animate-fade-in">
-      <form [formGroup]="quoteForm" (ngSubmit)="onSubmit()" class="space-y-6">
+    <div class="relative bg-gradient-to-br from-blue-900/40 to-purple-900/40 backdrop-blur-xl p-8 rounded-xl shadow-2xl border border-white/10 animate-fade-in overflow-hidden">
+      <!-- Subtle gradient overlay -->
+      <div class="absolute inset-0 bg-gradient-to-r from-blue-500/5 to-purple-500/5 mix-blend-overlay pointer-events-none"></div>
+      <form [formGroup]="quoteForm" (ngSubmit)="onSubmit()" class="space-y-6 relative">
 
     <!-- DRIVER INFO CARD -->
-    <div class="bg-gray-800/60 p-6 rounded-xl shadow-inner">
+    <div class="bg-gradient-to-br from-blue-800/30 to-purple-800/30 p-6 rounded-xl shadow-inner backdrop-blur-sm border border-white/5">
       <h2 class="text-2xl font-bold mb-4 border-b border-white/10 pb-2">Driver Info</h2>
       <div class="flex flex-col md:flex-row gap-6">
         <!-- AGE -->
@@ -118,7 +120,7 @@
     </div>
 
     <!-- VEHICLE INFO CARD -->
-    <div class="bg-gray-800/60 p-6 rounded-xl shadow-inner">
+    <div class="bg-gradient-to-br from-blue-800/30 to-purple-800/30 p-6 rounded-xl shadow-inner backdrop-blur-sm border border-white/5">
       <h2 class="text-2xl font-bold mb-4 border-b border-white/10 pb-2">Vehicle Info</h2>
       <div class="flex flex-col md:flex-row gap-6">
         <!-- VEHICLE TYPE -->
@@ -176,7 +178,7 @@
     </div>
 
     <!-- COVERAGE INFO CARD -->
-    <div class="bg-gray-800/60 p-6 rounded-xl shadow-inner">
+    <div class="bg-gradient-to-br from-blue-800/30 to-purple-800/30 p-6 rounded-xl shadow-inner backdrop-blur-sm border border-white/5">
       <h2 class="text-2xl font-bold mb-4 border-b border-white/10 pb-2">Coverage Info</h2>
       <div class="flex flex-col md:flex-row gap-6">
         <!-- COVERAGE LEVEL -->
