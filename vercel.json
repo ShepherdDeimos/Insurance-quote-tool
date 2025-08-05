@@ -10,6 +10,17 @@
   "env": {
     "NODE_VERSION": "20.x"
   },
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        {
+          "key": "Strict-Transport-Security",
+          "value": "max-age=31536000; includeSubDomains"
+        }
+      ]
+    }
+  ],
   "rewrites": [
     {
       "source": "/assets/(.*)",
