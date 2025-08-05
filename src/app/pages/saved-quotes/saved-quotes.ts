@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
+import { QuoteService } from '../../services/quote.service';
+import { QuoteResult } from '../../models/quote.model';
 
 @Component({
   selector: 'app-saved-quotes',
@@ -11,11 +12,11 @@ import { RouterModule } from '@angular/router';
   styleUrls: ['./saved-quotes.scss']
 })
 export class SavedQuotesComponent implements OnInit {
-  quotes: any[] = [];
+  quotes: QuoteResult[] = [];
   loading = false;
   error = false;
 
-  constructor(private http: HttpClient) {}
+  constructor(private quoteService: QuoteService) {}
 
   ngOnInit(): void {
     this.loadQuotes();
@@ -25,8 +26,7 @@ export class SavedQuotesComponent implements OnInit {
     this.loading = true;
     this.error = false;
     
-    this.http.get<any[]>('http://localhost:3000/quotes')
-      .subscribe({
+    this.quoteService.getAllQuotes().subscribe({
         next: (data) => {
           this.quotes = data;
           this.loading = false;
@@ -43,15 +43,13 @@ export class SavedQuotesComponent implements OnInit {
     this.loadQuotes();
   }
 
-  // Delte a quote by ID and remove from local Array
-  deleteQuote(id: number): void {
-    this.http.delete(`http://localhost:3000/quotes/${id}`)
-      .subscribe({
-        next: () => {
-        // Filter out the deleted quote from the local array to update the UI  
-          this.quotes = this.quotes.filter(quote => quote.id !== id);
-        },
-        error: (err) => console.error('Error deleting quote:', err)
-      });
+  // Delete a quote by ID and remove from local storage
+  deleteQuote(id: string): void {
+    const STORAGE_KEY = 'insurance_quotes';
+    const quotes = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
+    const filteredQuotes = quotes.filter((quote: QuoteResult) => quote.id !== id);
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(filteredQuotes));
+    // Update the local array to refresh the UI
+    this.quotes = this.quotes.filter(quote => quote.id !== id);
   }
 }

@@ -67,17 +67,18 @@
                 <path d="M8 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM15 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0z" />
                 <path d="M3 4a1 1 0 00-1 1v10a1 1 0 001 1h1.05a2.5 2.5 0 014.9 0H10a1 1 0 001-1v-1h3.5a2.5 2.5 0 014.9 0H20a1 1 0 001-1V5a1 1 0 00-1-1H3z" />
               </svg>
-              <p class="font-semibold">{{ quote.vehicleType }} {{ quote.vehicleModel }}</p>
+              <p class="font-semibold capitalize">{{ quote.data.vehicleType }} - {{ quote.data.vehicleYear }}</p>
             </div>
-            <div class="text-gray-400 text-sm space-y-1">
-              <p>Driver Age: {{ quote.age }}</p>
-              <p>Location: {{ quote.zipCode }}</p>
-              <p>Coverage: {{ quote.coverageLevel }}</p>
+            <div class="text-gray-400 text-sm grid grid-cols-2 gap-4">
+              <p>Driver Age: {{ quote.data.age }}</p>
+              <p>Coverage: {{ quote.data.coverageLevel }}</p>
+              <p>Accidents: {{ quote.data.accidents }}</p>
+              <p>Violations: {{ quote.data.violations }}</p>
             </div>
           </div>
           <div class="flex flex-col items-end gap-3">
             <p class="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-400">
-              ${{ quote.monthlyRate }}/mo
+              ${{ quote.quote.toFixed(2) }}/mo
             </p>
             <button (click)="deleteQuote(quote.id)" 
                     class="inline-flex items-center px-4 py-2 bg-red-600/80 hover:bg-red-600 rounded-lg text-white text-sm transition-colors cursor-pointer">
