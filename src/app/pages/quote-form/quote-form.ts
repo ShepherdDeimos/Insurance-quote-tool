@@ -3,6 +3,8 @@ import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { QuoteService } from '../../services/quote.service';
 import { QuoteData } from '../../models/quote.model';
+import { BehaviorSubject } from 'rxjs';
+import { RouterLink } from '@angular/router';
 
 export interface VehicleOption {
   id: string;
@@ -20,10 +22,11 @@ export interface VehicleMake {
   templateUrl: './quote-form.html',
   styleUrls: ['./quote-form.scss'],
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule]
+  imports: [CommonModule, ReactiveFormsModule, RouterLink]
 })
 export class QuoteForm implements OnInit {
   public quoteForm!: FormGroup;
+  public formProgress$ = new BehaviorSubject<number>(0);
   public vehicleTypes: VehicleOption[] = [
     { id: 'sedan', name: 'Sedan' },
     { id: 'suv', name: 'SUV' },
@@ -104,6 +107,11 @@ export class QuoteForm implements OnInit {
       // Reset model when make changes
       this.quoteForm.patchValue({ vehicleModel: '' }, { emitEvent: false });
     });
+
+    // Track form progress
+    this.quoteForm.valueChanges.subscribe(() => {
+      this.updateFormProgress();
+    });
   }
 
   ngOnInit(): void {
@@ -159,6 +167,18 @@ export class QuoteForm implements OnInit {
         this.markFormGroupTouched(control);
       }
     });
+    this.updateFormProgress();
+  }
+
+  private updateFormProgress(): void {
+    const controls = this.quoteForm.controls;
+    const totalFields = Object.keys(controls).length;
+    const completedFields = Object.values(controls).filter(control => 
+      control.valid && control.value !== '' && control.value !== null
+    ).length;
+    
+    const progress = Math.round((completedFields / totalFields) * 100);
+    this.formProgress$.next(progress);
   }
 
   getErrorMessage(controlName: string): string {
