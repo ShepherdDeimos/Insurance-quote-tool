@@ -1,9 +1,12 @@
 {
   "version": 2,
-  "buildCommand": "npm install --legacy-peer-deps && npm run build",
-  "installCommand": "npm install --legacy-peer-deps",
+  "buildCommand": "npm ci && npm run build",
+  "installCommand": "npm ci",
   "outputDirectory": "dist/insurance-quote-tool",
   "framework": "angular",
+  "env": {
+    "NODE_VERSION": "20.x"
+  },
   "routes": [
     {
       "handle": "filesystem"
