@@ -1,214 +1,84 @@
-<!-- Welcome Section with enhanced styling -->
-<div class="text-center mb-16 animate-fade-in relative overflow-hidden">
-  <!-- Animated background elements with CSS custom properties -->
+<!-- Main Container with Dark Mode Background -->
+<div class="min-h-screen bg-gradient-to-b from-slate-900 to-gray-900 text-white py-12 px-4 relative overflow-hidden">
+  <!-- Animated background elements -->
   <div class="absolute top-0 left-0 w-full h-96 blur-3xl -z-10 animate-pulse"
-       style="background: linear-gradient(to right, var(--welcome-gradient-start, rgba(37, 99, 235, 0.1)), var(--welcome-gradient-end, rgba(147, 51, 234, 0.1)));">
+       style="background: linear-gradient(to right, rgba(59, 130, 246, 0.15), rgba(147, 51, 234, 0.15));">
   </div>
   <div class="absolute top-20 left-1/2 -translate-x-1/2 w-24 h-24 rounded-full blur-2xl animate-blob"
-       style="background-color: var(--blob-color-1, rgba(59, 130, 246, 0.2));"></div>
+       style="background-color: rgba(59, 130, 246, 0.2);"></div>
   <div class="absolute top-10 right-1/4 w-20 h-20 rounded-full blur-2xl animate-blob animation-delay-2000"
-       style="background-color: var(--blob-color-2, rgba(168, 85, 247, 0.2));"></div>
+       style="background-color: rgba(168, 85, 247, 0.2);"></div>
   
   <!-- Insurance Shield Logo -->
-  <div class="mx-auto w-20 h-20 mb-6 animate-fade-in-up">
+  <div class="mx-auto w-20 h-20 mb-6 animate-fade-in">
     <svg class="w-full h-full" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
       <path d="M12 2L4 6V12C4 16.4183 7.58172 20 12 20C16.4183 20 20 16.4183 20 12V6L12 2Z" 
-            class="animate-shield-glow" 
+            class="animate-pulse" 
             style="stroke: url(#gradient); stroke-width: 2; fill: none;">
       </path>
       <path d="M12 4L6 7V12C6 15.3137 8.68629 18 12 18C15.3137 18 18 15.3137 18 12V7L12 4Z" 
-            fill="url(#gradient)" 
+            style="fill: url(#gradient);" 
             class="opacity-30">
       </path>
-      <!-- Checkmark inside shield -->
       <path d="M9 12L11 14L15 10" 
             stroke="white" 
             stroke-width="2" 
             stroke-linecap="round" 
             stroke-linejoin="round"
-            class="animate-checkmark">
+            class="animate-pulse">
       </path>
       <defs>
         <linearGradient id="gradient" x1="4" y1="2" x2="20" y2="20">
-          <stop offset="0%" style="stop-color: #60A5FA" />
-          <stop offset="100%" style="stop-color: #818CF8" />
+          <stop offset="0%" style="stop-color: #818CF8" />
+          <stop offset="100%" style="stop-color: #A855F7" />
         </linearGradient>
       </defs>
     </svg>
   </div>
 
-  <!-- Main Title with enhanced styling and Dark Reader compatibility -->
-  <div class="relative">
-    <h1 class="text-6xl font-black mb-4 animate-fade-in-up"
-        style="font-family: 'Inter', sans-serif;">
-      <span class="relative inline-block">
-        <!-- Base text layer that's always visible -->
-        <span class="relative z-10 text-white mix-blend-overlay">
+  <!-- Main Content Container -->
+  <div class="max-w-3xl mx-auto">
+    <!-- Title Section -->
+    <div class="text-center mb-8 animate-fade-in relative">
+      <h1 class="text-4xl font-bold text-center">
+        <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-400">
           Shield Your Journey
         </span>
-        <!-- Gradient overlay that works in both light and dark modes -->
-        <span class="absolute inset-0 bg-gradient-to-r from-blue-400 via-indigo-400 to-purple-400 
-                     opacity-90 mix-blend-color-dodge animate-gradient-shine">
-          Shield Your Journey
-        </span>
-      </span>
-    </h1>
-    <!-- Decorative underline with enhanced visibility -->
-    <div class="absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-32 h-1 rounded-full opacity-75"
-         style="background: linear-gradient(to right, var(--title-underline-start, #3B82F6), var(--title-underline-end, #6366F1));">
+      </h1>
+      <!-- Decorative underline -->
+      <div class="absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-32 h-1 rounded-full opacity-75"
+           style="background: linear-gradient(to right, var(--title-underline-start, #3B82F6), var(--title-underline-end, #6366F1));">
+      </div>
     </div>
-  </div>
 
-  <style>
-    @keyframes gradientShine {
-      0%, 100% { opacity: 0.9; }
-      50% { opacity: 0.7; }
-    }
-    
-    .animate-gradient-shine {
-      animation: gradientShine 3s ease-in-out infinite;
-    }
+      <!-- Welcoming subtitle -->
+      <div class="space-y-2">
+        <p class="text-xl text-indigo-300">
+          Welcome to your personalized insurance experience
+        </p>
+        <p class="text-sm text-gray-300">
+          Tell us a bit about yourself, and we'll craft the perfect coverage for your needs
+        </p>
+      </div>
+    </div>
 
-    /* Dark mode specific styles */
-    @media (prefers-color-scheme: dark) {
-      .mix-blend-overlay {
-        mix-blend-mode: overlay;
-      }
-      
-      .mix-blend-color-dodge {
-        mix-blend-mode: color-dodge;
-      }
-    }
-  </style>
+    <!-- Progress Indicator -->
+    <div class="max-w-3xl mx-auto mb-8 px-4">
+      <div class="flex justify-between text-sm text-gray-400 mb-2">
+        <span>Driver Info</span>
+        <span>Vehicle Info</span>
+        <span>Coverage</span>
+      </div>
+      <div class="h-2 bg-gray-700 rounded-full">
+        <div class="h-2 bg-gradient-to-r from-blue-500 to-indigo-500 rounded-full w-0 transition-all duration-500"
+             [style.width]="(formProgress$ | async) + '%'">
+        </div>
+      </div>
+    </div>
 
-  <!-- Welcoming subtitle -->
-  <div class="mt-8 space-y-4 animate-fade-in-up-delay">
-    <p class="text-2xl text-gray-300 max-w-2xl mx-auto leading-relaxed">
-      Welcome to your personalized insurance experience
-    </p>
-    <p class="text-lg text-gray-400 max-w-2xl mx-auto leading-relaxed">
-      Tell us a bit about yourself, and we'll craft the perfect coverage for your needs
-    </p>
-  </div>
-</div>
-
-<style>
-  @keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
-  }
-  
-  @keyframes fadeInUp {
-    from {
-      opacity: 0;
-      transform: translateY(20px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-  
-  @keyframes blob {
-    0%, 100% { transform: translate(0, 0) scale(1); }
-    25% { transform: translate(20px, -20px) scale(1.1); }
-    50% { transform: translate(-20px, 20px) scale(0.9); }
-    75% { transform: translate(20px, 20px) scale(1.05); }
-  }
-
-  @keyframes shieldGlow {
-    0%, 100% { filter: drop-shadow(0 0 8px rgba(96, 165, 250, 0.6)); }
-    50% { filter: drop-shadow(0 0 12px rgba(129, 140, 248, 0.8)); }
-  }
-
-  @keyframes checkmark {
-    from { 
-      stroke-dasharray: 20;
-      stroke-dashoffset: 20;
-    }
-    to { 
-      stroke-dasharray: 20;
-      stroke-dashoffset: 0;
-    }
-  }
-  
-  .animate-fade-in {
-    animation: fadeIn 1s ease-out;
-  }
-  
-  .animate-fade-in-up {
-    animation: fadeInUp 0.8s ease-out;
-  }
-  
-  .animate-fade-in-up-delay {
-    animation: fadeInUp 0.8s ease-out 0.2s both;
-  }
-
-  .animate-blob {
-    animation: blob 8s infinite;
-  }
-
-  .animate-shield-glow {
-    animation: shieldGlow 2s infinite;
-  }
-
-  .animate-checkmark {
-    animation: checkmark 1s ease-out 0.5s forwards;
-  }
-
-  .animation-delay-2000 {
-    animation-delay: 2s;
-  }
-</style>
-
-<style>
-  @keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
-  }
-  
-  @keyframes fadeInUp {
-    from {
-      opacity: 0;
-      transform: translateY(20px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-  
-  .animate-fade-in {
-    animation: fadeIn 1s ease-out;
-  }
-  
-  .animate-fade-in-up {
-    animation: fadeInUp 0.8s ease-out;
-  }
-  
-  .animate-fade-in-up-delay {
-    animation: fadeInUp 0.8s ease-out 0.2s both;
-  }
-</style>
-
-<!-- Progress Indicator -->
-<div class="max-w-3xl mx-auto mb-8 px-4">
-  <div class="flex justify-between text-sm text-gray-400 mb-2">
-    <span>Driver Info</span>
-    <span>Vehicle Info</span>
-    <span>Coverage</span>
-  </div>
-  <div class="h-2 bg-gray-700 rounded-full">
-    <div class="h-2 bg-gradient-to-r from-blue-500 to-indigo-500 rounded-full w-0 transition-all duration-500"
-         [style.width]="(formProgress$ | async) + '%'"></div>
-  </div>
-</div>
-
-<!-- Outer glass-style container for the entire form layout -->
-<div class="bg-white/5 backdrop-blur-md border border-white/10 text-white rounded-2xl shadow-2xl w-full max-w-3xl p-10 mx-auto">
-
-  <!-- Angular Reactive Form -->
-  <form [formGroup]="quoteForm" (ngSubmit)="onSubmit()" class="space-y-10">
+    <!-- Form Container -->
+    <div class="bg-gray-800/60 backdrop-blur-xl p-8 rounded-xl shadow-2xl border border-white/10 animate-fade-in">
+      <form [formGroup]="quoteForm" (ngSubmit)="onSubmit()" class="space-y-6">
 
     <!-- DRIVER INFO CARD -->
     <div class="bg-gray-800/60 p-6 rounded-xl shadow-inner">
@@ -417,8 +287,92 @@
     </style>
   </form>
 
-  <!-- LINK TO SAVED QUOTES -->
-  <a [routerLink]="['/saved-quotes']" class="text-indigo-400 hover:underline text-sm">
-  View Saved Quotes
-</a>
+    <!-- LINK TO SAVED QUOTES -->
+  <a [routerLink]="['/saved-quotes']" class="text-indigo-400 hover:underline text-sm mt-4 block text-center">
+    View Saved Quotes
+  </a>
+</div>
 
+<style>
+  /* Animation Keyframes */
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes blob {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    25% { transform: translate(20px, -20px) scale(1.1); }
+    50% { transform: translate(-20px, 20px) scale(0.9); }
+    75% { transform: translate(20px, 20px) scale(1.05); }
+  }
+
+  @keyframes soundWave {
+    0%, 100% { transform: scaleY(1); }
+    50% { transform: scaleY(2); }
+  }
+
+  @keyframes gradientShine {
+    0%, 100% { opacity: 0.9; }
+    50% { opacity: 0.7; }
+  }
+
+  /* Animation Classes */
+  .animate-fade-in {
+    animation: fadeIn 1s ease-out;
+  }
+  
+  .animate-fade-in-up {
+    animation: fadeInUp 0.8s ease-out;
+  }
+  
+  .animate-fade-in-up-delay {
+    animation: fadeInUp 0.8s ease-out 0.2s both;
+  }
+
+  .animate-blob {
+    animation: blob 8s infinite;
+  }
+
+  .animate-gradient-shine {
+    animation: gradientShine 3s ease-in-out infinite;
+  }
+
+  .animate-sound-wave-1 {
+    animation: soundWave 0.8s ease-in-out infinite;
+  }
+  
+  .animate-sound-wave-2 {
+    animation: soundWave 0.8s ease-in-out infinite 0.2s;
+  }
+  
+  .animate-sound-wave-3 {
+    animation: soundWave 0.8s ease-in-out infinite 0.4s;
+  }
+
+  .animate-pulse-fast {
+    animation: pulse 1.5s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  }
+
+  /* Dark Mode Styles */
+  @media (prefers-color-scheme: dark) {
+    .mix-blend-overlay {
+      mix-blend-mode: overlay;
+    }
+    
+    .mix-blend-color-dodge {
+      mix-blend-mode: color-dodge;
+    }
+  }
+</style>

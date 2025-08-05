@@ -1,8 +1,8 @@
 <!-- Animated Background Section -->
-<div class="min-h-screen bg-gradient-to-b from-gray-900 to-gray-800 text-white py-12 px-4 relative overflow-hidden">
+<div class="min-h-screen bg-gradient-to-b from-slate-900 to-gray-900 text-white py-12 px-4 relative overflow-hidden">
   <!-- Animated background elements -->
   <div class="absolute top-0 left-0 w-full h-96 blur-3xl -z-10 animate-pulse"
-       style="background: linear-gradient(to right, rgba(37, 99, 235, 0.1), rgba(147, 51, 234, 0.1));">
+       style="background: linear-gradient(to right, rgba(59, 130, 246, 0.15), rgba(147, 51, 234, 0.15));">
   </div>
   <div class="absolute top-20 left-1/2 -translate-x-1/2 w-24 h-24 rounded-full blur-2xl animate-blob"
        style="background-color: rgba(59, 130, 246, 0.2);"></div>
@@ -27,11 +27,11 @@
       <!-- Premium Card -->
       <div class="bg-gray-800/60 backdrop-blur-xl p-8 rounded-xl shadow-2xl border border-white/10">
         <div class="text-center space-y-4">
-          <h2 class="text-xl font-semibold text-indigo-400 mt-2">Estimated Monthly Premium</h2>
-          <p class="text-6xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-green-400 to-emerald-500">
+          <h2 class="text-xl font-semibold text-indigo-300 mt-2">Estimated Monthly Premium</h2>
+          <p class="text-6xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-green-400">
             ${{ quote?.quote?.toFixed(2) || '0.00' }}
           </p>
-          <p class="text-sm text-gray-400">Based on your provided information</p>
+          <p class="text-sm text-gray-300">Based on your provided information</p>
         </div>
 
         <!-- Details Toggle Button -->
