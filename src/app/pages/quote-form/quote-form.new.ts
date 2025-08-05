@@ -20,6 +20,25 @@ export class QuoteForm implements OnInit {
   public currentYear = new Date().getFullYear();
   public isLoading = false;
   public submitError: string | null = null;
+  public Math = Math; // Make Math available in template
+
+  public incrementValue(field: 'accidents' | 'violations'): void {
+    const control = this.quoteForm.get(field);
+    if (control) {
+      const currentValue = control.value || 0;
+      const newValue = Math.min(10, currentValue + 1);
+      this.quoteForm.patchValue({ [field]: newValue });
+    }
+  }
+
+  public decrementValue(field: 'accidents' | 'violations'): void {
+    const control = this.quoteForm.get(field);
+    if (control) {
+      const currentValue = control.value || 0;
+      const newValue = Math.max(0, currentValue - 1);
+      this.quoteForm.patchValue({ [field]: newValue });
+    }
+  }
 
   public vehicleTypes: Array<{id: string, name: string}> = [
     { id: 'sedan', name: 'Sedan' },
@@ -142,28 +161,38 @@ export class QuoteForm implements OnInit {
     this.availableModels = selectedMake?.models || [];
   }
 
-  async onSubmit(): Promise<void> {
+  onSubmit(): void {
     if (this.quoteForm.valid) {
       this.isLoading = true;
       this.submitError = null;
 
-      try {
-        const quoteData = {
-          ...this.quoteForm.value,
-          accidents: Number(this.quoteForm.value.accidents),
-          violations: Number(this.quoteForm.value.violations),
-          age: Number(this.quoteForm.value.age),
-          vehicleYear: Number(this.quoteForm.value.vehicleYear)
-        };
-        
-        const quoteId = await this.quoteService.submitQuote(quoteData);
-        this.router.navigate(['/quote-results', quoteId]);
-      } catch (error) {
-        console.error('Quote submission error:', error);
-        this.submitError = 'Failed to submit quote. Please try again.';
-      } finally {
-        this.isLoading = false;
-      }
+      const quoteData = {
+        firstName: this.quoteForm.value.firstName,
+        lastName: this.quoteForm.value.lastName,
+        email: this.quoteForm.value.email,
+        phone: this.quoteForm.value.phone,
+        age: Number(this.quoteForm.value.age),
+        vehicleType: this.quoteForm.value.vehicleType,
+        vehicleMake: this.quoteForm.value.vehicleMake,
+        vehicleModel: this.quoteForm.value.vehicleModel,
+        vehicleYear: Number(this.quoteForm.value.vehicleYear),
+        accidents: Number(this.quoteForm.value.accidents),
+        violations: Number(this.quoteForm.value.violations),
+        coverageLevel: this.quoteForm.value.coverageLevel,
+        drivingHistory: this.quoteForm.value.drivingHistory
+      };
+
+      this.quoteService.submitQuote(quoteData).subscribe({
+        next: (result) => {
+          this.isLoading = false;
+          this.router.navigate(['/quote-results', result.id]);
+        },
+        error: (error) => {
+          console.error('Quote submission error:', error);
+          this.submitError = 'Failed to submit quote. Please try again.';
+          this.isLoading = false;
+        }
+      });
     } else {
       this.markFormGroupTouched(this.quoteForm);
     }

@@ -27,6 +27,7 @@ export interface VehicleMake {
 export class QuoteForm implements OnInit {
   public quoteForm!: FormGroup;
   public formProgress$ = new BehaviorSubject<number>(0);
+  public Math = Math; // Make Math available in template
 
   public vehicleTypes: VehicleOption[] = [
     { id: 'sedan', name: 'Sedan' },
@@ -215,5 +216,23 @@ export class QuoteForm implements OnInit {
     }
     
     return '';
+  }
+
+  public incrementValue(field: 'accidents' | 'violations'): void {
+    const control = this.quoteForm.get(field);
+    if (control) {
+      const currentValue = control.value || 0;
+      const newValue = Math.min(10, currentValue + 1);
+      this.quoteForm.patchValue({ [field]: newValue });
+    }
+  }
+
+  public decrementValue(field: 'accidents' | 'violations'): void {
+    const control = this.quoteForm.get(field);
+    if (control) {
+      const currentValue = control.value || 0;
+      const newValue = Math.max(0, currentValue - 1);
+      this.quoteForm.patchValue({ [field]: newValue });
+    }
   }
 }
