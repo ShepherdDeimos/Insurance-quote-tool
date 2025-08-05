@@ -1,21 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
-
-interface QuoteData {
-  age: number;
-  vehicleType: 'car' | 'suv' | 'truck' | string;
-  vehicleYear: number;
-  accidents: number;
-  violations: number;
-  coverageLevel: 'basic' | 'standard' | 'full';
-}
-
-interface QuoteResult {
-  id: string;
-  data: QuoteData;
-  quote: number;
-  date: string;
-}
+import { QuoteData, QuoteResult } from '../models/quote.model';
 
 @Injectable({
   providedIn: 'root'
@@ -38,9 +23,10 @@ export class QuoteService {
 
     // Vehicle type factor
     switch (data.vehicleType?.toLowerCase()) {
-      case 'car': basePrice *= 1.0; break;       // Standard rate for cars
+      case 'sedan': basePrice *= 1.0; break;     // Standard rate for sedans
       case 'suv': basePrice *= 1.15; break;      // SUVs have higher accident risk
       case 'truck': basePrice *= 1.2; break;     // Trucks have highest risk
+      case 'van': basePrice *= 1.1; break;       // Vans have moderate risk
       default: basePrice *= 1.05;                // Unknown types small increase
     }
 
