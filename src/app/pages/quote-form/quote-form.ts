@@ -4,12 +4,11 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { HttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
-import { environment } from '../../../environments/environment';
+import { QuoteService } from '../../services/quote.service';
 @Component({
   selector: 'app-quote-form',                                        // Optional HTML tag for this component (not usually used directly)
   standalone: true,                                                  // Declares this component works independently without a module
@@ -28,18 +27,19 @@ export class QuoteForm {                                             // This is 
   };
 
   constructor(
-    private fb: FormBuilder,                                         // Helps us build the form quickly using a "form builder"
-    private router: Router,                                          // Lets us navigate to other pages programmatically
-    private http: HttpClient                                         // Lets us send form data to the backend via POST
+    private fb: FormBuilder,
+    private router: Router,
+    private quoteService: QuoteService
   ) {
-    this.quoteForm = this.fb.group({                                 // Define the structure and rules of the form
-      age: ['', [Validators.required, Validators.min(16), Validators.max(100)]],           // Age is required and must be between 16–100
-      zip: ['', [Validators.required, Validators.pattern('^\\d{5}$')]],                    // ZIP must be 5 digits only
-      vehicleType: ['', Validators.required],                        // Required: car, truck, SUV, etc.
-      vehicleModel: ['', Validators.required],                       // Required: e.g., Chevy Malibu
-      vehicleYear: ['', [Validators.required, Validators.min(1990), Validators.max(new Date().getFullYear())]], // Year must be from 1990–current
-      coverageLevel: ['', Validators.required],                      // Required: basic, standard, premium
-      drivingHistory: ['', Validators.required]                      // Required: clean, minor, major
+    this.quoteForm = this.fb.group({
+      age: ['', [Validators.required, Validators.min(16), Validators.max(100)]],
+      zip: ['', [Validators.required, Validators.pattern('^\\d{5}$')]],
+      vehicleType: ['', Validators.required],
+      vehicleModel: ['', Validators.required],
+      vehicleYear: ['', [Validators.required, Validators.min(1990), Validators.max(this.currentYear)]],
+      coverageLevel: ['basic', Validators.required],
+      accidents: [0, [Validators.required, Validators.min(0)]],
+      violations: [0, [Validators.required, Validators.min(0)]]
     });
 
     // Initialize progress tracking
@@ -65,51 +65,25 @@ export class QuoteForm {                                             // This is 
     );
   }
 
-  onSubmit(): void {                                                 // This function runs when the user submits the form
-    if (this.quoteForm.valid) {                                      // Make sure the form passes all validation rules
-      const quoteData = this.quoteForm.value;                        // Grab all the form values as a single object
-
-      quoteData.vehicleType = quoteData.vehicleType.toUpperCase();  // Normalize the vehicle type to uppercase (for consistency)
-
-      const base = 100;                                              // Starting base premium ($100)
-      const ageFactor = quoteData.age < 25 ? 1.5 : 1.0;              // Drivers under 25 pay 50% more
-
-      let vehicleFactor = 1.0;                                       // Default multiplier for vehicle type
-      switch (quoteData.vehicleType) {                               // Adjust multiplier based on the vehicle type
-        case 'CAR': vehicleFactor = 1.0; break;                      // No increase for cars
-        case 'TRUCK': vehicleFactor = 1.3; break;                    // Trucks cost 30% more
-        case 'SUV': vehicleFactor = 1.2; break;                      // SUVs cost 20% more
-        default: vehicleFactor = 1.1;                                // Slight increase for unknown or uncommon types
-      }
-
-      try {
-        const existingQuotes = JSON.parse(localStorage.getItem('quotes') || '[]');
-        const id = Date.now();
-        const newQuote = { id, ...quoteData };
-        existingQuotes.push(newQuote);
-        localStorage.setItem('quotes', JSON.stringify(existingQuotes));
-        localStorage.setItem('latestQuote', JSON.stringify(newQuote));
-
-        // If we have an API endpoint configured, also send it there
-        if (environment.apiUrl) {
-          this.http.post<any>(`${environment.apiUrl}/quotes`, quoteData).subscribe({
-            next: (response) => {
-              this.router.navigate(['/quote-results'], { queryParams: { id } });
-            },
-            error: (err) => {
-              console.error('Failed to save quote to API:', err);
-              // Still navigate since we have the local copy
-              this.router.navigate(['/quote-results'], { queryParams: { id } });
-            }
-          });
-        } else {
-          // No API configured, just use local storage
-          this.router.navigate(['/quote-results'], { queryParams: { id } });
+  onSubmit(): void {
+    if (this.quoteForm.valid) {
+      const quoteData = {
+        ...this.quoteForm.value,
+        accidents: Number(this.quoteForm.value.accidents),
+        violations: Number(this.quoteForm.value.violations),
+        age: Number(this.quoteForm.value.age),
+        vehicleYear: Number(this.quoteForm.value.vehicleYear)
+      };
+      
+      this.quoteService.submitQuote(quoteData).subscribe({
+        next: (result) => {
+          this.router.navigate(['/quote-results'], { queryParams: { id: result.id } });
+        },
+        error: (err) => {
+          console.error('Failed to submit quote:', err);
+          this.router.navigate(['/quote-results'], { queryParams: { id: 'notfound' } });
         }
-      } catch (err) {
-        console.error('Failed to save quote:', err);
-        this.router.navigate(['/quote-results'], { queryParams: { id: 'notfound' } });
-      }
+      });
     }
   }
 }

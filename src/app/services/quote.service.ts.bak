@@ -1,0 +1,68 @@
+import { Injectable } from '@angular/core';
+import { Observable, of } from 'rxjs';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class QuoteService {
+  constructor() {}
+
+  // Calculate quote based on form data
+  private calculateQuote(data: any): number {
+    let basePrice = 1000; // Base insurance price
+    
+    // Age factor (younger or older drivers might have higher rates)
+    const age = parseInt(data.age);
+    if (age < 25) basePrice *= 1.3;
+    if (age > 65) basePrice *= 1.2;
+
+    // Vehicle age factor
+    const vehicleAge = parseInt(data.vehicleYear);
+    const currentYear = new Date().getFullYear();
+    if (currentYear - vehicleAge > 10) basePrice *= 1.1;
+    
+    // Vehicle type factor
+    switch (data.vehicleType?.toLowerCase()) {
+      case 'sports': basePrice *= 1.4; break;
+      case 'luxury': basePrice *= 1.3; break;
+      case 'suv': basePrice *= 1.2; break;
+      default: break;
+    }
+
+    // Driving history factor
+    if (data.accidents > 0) basePrice *= (1 + (data.accidents * 0.2));
+    if (data.violations > 0) basePrice *= (1 + (data.violations * 0.1));
+
+    return Math.round(basePrice);
+  }
+
+  // Submit quote and store in localStorage
+  submitQuote(data: any): Observable<any> {
+    const quoteResult = {
+      id: Date.now().toString(),
+      data: data,
+      quote: this.calculateQuote(data),
+      date: new Date().toISOString()
+    };
+
+    // Store in localStorage
+    const quotes = JSON.parse(localStorage.getItem('quotes') || '[]');
+    quotes.push(quoteResult);
+    localStorage.setItem('quotes', JSON.stringify(quotes));
+
+    return of(quoteResult);
+  }
+
+  // Get all quotes from localStorage
+  getQuotes(): Observable<any[]> {
+    const quotes = JSON.parse(localStorage.getItem('quotes') || '[]');
+    return of(quotes);
+  }
+
+  // Get specific quote by ID
+  getQuoteById(id: string): Observable<any> {
+    const quotes = JSON.parse(localStorage.getItem('quotes') || '[]');
+    const quote = quotes.find((q: any) => q.id === id);
+    return of(quote);
+  }
+}

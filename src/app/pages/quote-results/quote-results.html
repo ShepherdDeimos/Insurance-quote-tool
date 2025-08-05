@@ -22,11 +22,40 @@
 </div>
 
 <!-- QUOTE DETAILS SECTION -->
-<div *ngIf="showDetails" class="mt-10 mb-12 bg-gray-900/50 rounded-xl p-8 shadow-inner border border-white/10"> <!-- Collapsible detail section -->
-
-  <h2 class="text-2xl font-semibold mb-6 text-center text-gray-300">
-    Quote Details <!-- Subheader for detail section -->
-  </h2>
+<div *ngIf="showDetails" class="mt-10 mb-12 bg-gray-900/50 rounded-xl p-8 shadow-inner border border-white/10">
+  <h2 class="text-2xl font-semibold mb-6 text-center text-gray-300">Quote Details</h2>
+  
+  <div class="grid grid-cols-2 gap-6 text-sm">
+    <div class="space-y-4">
+      <p class="flex justify-between">
+        <span class="text-gray-400">Age:</span>
+        <span class="text-white">{{quote?.data?.age}}</span>
+      </p>
+      <p class="flex justify-between">
+        <span class="text-gray-400">Vehicle Type:</span>
+        <span class="text-white">{{quote?.data?.vehicleType}}</span>
+      </p>
+      <p class="flex justify-between">
+        <span class="text-gray-400">Vehicle Year:</span>
+        <span class="text-white">{{quote?.data?.vehicleYear}}</span>
+      </p>
+    </div>
+    <div class="space-y-4">
+      <p class="flex justify-between">
+        <span class="text-gray-400">Accidents:</span>
+        <span class="text-white">{{quote?.data?.accidents}}</span>
+      </p>
+      <p class="flex justify-between">
+        <span class="text-gray-400">Violations:</span>
+        <span class="text-white">{{quote?.data?.violations}}</span>
+      </p>
+      <p class="flex justify-between">
+        <span class="text-gray-400">Coverage Level:</span>
+        <span class="text-white">{{quote?.data?.coverageLevel}}</span>
+      </p>
+    </div>
+  </div>
+</div>
 
   <div class="space-y-4 text-base text-gray-300"> <!-- Spacing and text color -->
 
