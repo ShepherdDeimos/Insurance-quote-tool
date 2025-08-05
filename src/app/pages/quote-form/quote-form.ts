@@ -84,7 +84,7 @@ export class QuoteForm {                                             // This is 
       quoteData.monthlyRate =                                        // Calculate the final quote and store it as a new field
         base * ageFactor * vehicleFactor;
 
-      this.http.post<any>('http://localhost:3000/quotes', quoteData).subscribe({ // Send the quote data to JSON Server
+      this.http.post<any>('http://localhost:3000/quotes', quoteData).subscribe({ // User hits submit and data is POST to JSON Server (the users info) 
         next: (response) => {                                        // If the server responds successfully:
           const id = response.id;                                    // Get the ID of the saved quote from the response
           this.router.navigate(['/quote-results'], { queryParams: { id } }); // Navigate to the results page and pass the ID in the URL

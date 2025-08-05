@@ -1,26 +1,48 @@
 {
   "quotes": [
     {
-      "id": "8622",
+      "id": "4e8a",
       "age": 28,
       "zip": "16701",
-      "vehicleType": "car",
-      "vehicleMake": "Toyota",
-      "vehicleYear": 2024,
-      "drivingHistory": "clean",
+      "vehicleType": "TRUCK",
+      "vehicleModel": "Dodge Ram",
+      "vehicleYear": 1999,
+      "coverageLevel": "basic",
+      "drivingHistory": "minor",
+      "monthlyRate": 130
+    },
+    {
+      "id": "91fe",
+      "age": 28,
+      "zip": "16701",
+      "vehicleType": "TRUCK",
+      "vehicleModel": "Toyota Tacoma",
+      "vehicleYear": 2025,
+      "coverageLevel": "full",
+      "drivingHistory": "minor",
+      "monthlyRate": 130
+    },
+    {
+      "id": "26ca",
+      "age": 28,
+      "zip": "16701",
+      "vehicleType": "CAR",
+      "vehicleModel": "Honda Accord",
+      "vehicleYear": 2018,
       "coverageLevel": "standard",
+      "drivingHistory": "clean",
       "monthlyRate": 100
     },
     {
-      "id": "b471",
-      "age": 28,
+      "id": "618b",
+      "age": 30,
       "zip": "16701",
-      "vehicleType": "SUV",
-      "vehicleModel": "Toyota Camry",
-      "vehicleYear": 2000,
-      "coverageLevel": "basic",
+      "vehicleType": "TRUCK",
+      "vehicleModel": "Toyota Tundra",
+      "vehicleYear": 2018,
+      "coverageLevel": "full",
       "drivingHistory": "clean",
-      "monthlyRate": 120
+      "monthlyRate": 130
     }
   ]
 }

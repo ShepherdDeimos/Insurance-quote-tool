@@ -349,12 +349,72 @@
       </div>
     </div>
 
-    <!-- SUBMIT BUTTON -->
-    <div class="text-center pt--20">
-      <button type="submit" class="bg-[#007cf0] hover:bg-[#005fbb] text-white text-lg font-semibold py-3 px-10 rounded-lg transition-all duration-200 ease-in-out shadow-md hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-blue-400">
-        Get Quote
+    <!-- SUBMIT BUTTON - Engine Start Theme -->
+    <div class="text-center mt-8">
+      <button type="submit" 
+              class="group relative inline-flex items-center justify-center gap-2.5 px-12 py-4 
+                     bg-gradient-to-r from-blue-600 to-indigo-600 
+                     rounded-lg text-lg font-bold text-white
+                     transform transition-all duration-300
+                     hover:scale-105 hover:from-blue-500 hover:to-indigo-500
+                     focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-offset-2 focus:ring-offset-gray-800">
+        
+        <!-- Engine Key Icon -->
+        <svg xmlns="http://www.w3.org/2000/svg" 
+             class="w-6 h-6 transform group-hover:rotate-90 transition-transform duration-500" 
+             fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" />
+        </svg>
+
+        <!-- Button Text -->
+        <span class="relative">
+          Start Your Quote
+          <!-- Engine rumble effect -->
+          <span class="absolute -bottom-1 left-0 w-full h-0.5 bg-white transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300"></span>
+        </span>
+
+        <!-- Particle effects -->
+        <div class="absolute inset-0 -z-10 group-hover:animate-pulse-fast">
+          <div class="absolute inset-0 bg-gradient-to-r from-blue-400/20 to-indigo-400/20 blur-xl rounded-lg"></div>
+        </div>
       </button>
+
+      <!-- Engine start sound effect animation -->
+      <div class="relative mt-2">
+        <div class="flex justify-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+          <span class="w-1 h-1 bg-blue-400 rounded-full animate-sound-wave-1"></span>
+          <span class="w-1 h-1 bg-blue-400 rounded-full animate-sound-wave-2"></span>
+          <span class="w-1 h-1 bg-blue-400 rounded-full animate-sound-wave-3"></span>
+        </div>
+      </div>
     </div>
+
+    <style>
+      @keyframes soundWave {
+        0%, 100% { transform: scaleY(1); }
+        50% { transform: scaleY(2); }
+      }
+
+      .animate-sound-wave-1 {
+        animation: soundWave 0.8s ease-in-out infinite;
+      }
+      .animate-sound-wave-2 {
+        animation: soundWave 0.8s ease-in-out infinite 0.2s;
+      }
+      .animate-sound-wave-3 {
+        animation: soundWave 0.8s ease-in-out infinite 0.4s;
+      }
+
+      .animate-pulse-fast {
+        animation: pulse 1.5s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+      }
+
+      @keyframes pulse {
+        0%, 100% { opacity: 1; }
+        50% { opacity: .5; }
+      }
+    </style>
   </form>
 
   <!-- LINK TO SAVED QUOTES -->

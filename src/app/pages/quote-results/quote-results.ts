@@ -32,7 +32,7 @@ export class QuoteResults {                                        // Main logic
         return;                                                    // Stop here — don’t call the backend
       }
 
-      this.http.get<any>(`http://localhost:3000/quotes/${id}`)     // Send GET request to JSON Server to fetch quote by ID
+      this.http.get<any>(`http://localhost:3000/quotes/${id}`)     // Send GET request to JSON Server to fetch quote by ID(get users info from MOCK API)
         .subscribe({                                               // Listen for the response from the server
           next: (data) => {                                        // If request succeeds:
             this.quote = data;                                     // Store the received data in the `quote` variable
