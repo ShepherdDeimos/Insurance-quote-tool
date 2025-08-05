@@ -14,7 +14,6 @@ import { QuoteResult } from '../../models/quote.model';
 export class QuoteResults implements OnInit {
   quote: QuoteResult | null = null;
   errorMessage: string | null = null;
-  finalQuote: number = 0;
   showDetails = false;
 
   constructor(
@@ -36,7 +35,6 @@ export class QuoteResults implements OnInit {
         next: (quote) => {
           if (quote) {
             this.quote = quote;
-            this.finalQuote = quote.quote;
             this.errorMessage = null;
           } else {
             this.errorMessage = 'Quote not found';
