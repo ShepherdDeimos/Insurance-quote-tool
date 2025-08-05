@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import { Observable } from 'rxjs';
+import { Observable, BehaviorSubject } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 import { QuoteService } from '../../services/quote.service';
 
@@ -16,6 +16,7 @@ import { QuoteService } from '../../services/quote.service';
 })
 export class QuoteForm implements OnInit {
   quoteForm!: FormGroup;
+  public formProgress$ = new BehaviorSubject<number>(0);
   public currentYear = new Date().getFullYear();
   public isLoading = false;
   public submitError: string | null = null;
