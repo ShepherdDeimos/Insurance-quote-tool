@@ -1,237 +1,191 @@
 <!-- Main Container -->
-<div class="container">
-  <!-- Main Content -->
-  <main>
-    <div class="devinfo-container">
-      <h1 class="error-code text-xl font-medium">Insurance Quote Form</h1>
-      <p class="devinfo-line text-sm text-gray-600 mb-4">
-        Please fill out the form below to get your insurance quote.
-      </p>
+<div class="min-h-screen bg-[#020817] text-white py-8 px-4">
+  <!-- Logo and Title -->
+  <div class="mx-auto max-w-3xl text-center mb-12">
+    <div class="mx-auto w-16 h-16 mb-6">
+      <svg class="w-full h-full" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M12 2L4 6V12C4 16.4183 7.58172 20 12 20C16.4183 20 20 16.4183 20 12V6L12 2Z" 
+              stroke="#4F46E5" stroke-width="2" fill="none"/>
+        <path d="M9 12L11 14L15 10" stroke="#4F46E5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </div>
 
-      <!-- Progress Bar -->
-      <div class="mb-8">
-        <div class="flex justify-between text-sm mb-2">
-          <span>Driver Info</span>
-          <span>Vehicle Info</span>
-          <span>Coverage</span>
-        </div>
-        <div class="h-1 bg-gray-100 rounded">
-          <div class="h-1 bg-[#0070f3] rounded transition-all duration-300"
-               [style.width]="(formProgress$ | async) + '%'">
-          </div>
-        </div>
+    <h1 class="text-2xl font-semibold mb-2">Shield Your Journey</h1>
+    <p class="text-gray-400 mb-1">
+      Welcome to your personalized insurance experience
+    </p>
+    <p class="text-sm text-gray-500">
+      Tell us a bit about yourself, and we'll craft the perfect coverage for your needs
+    </p>
+  </div>
+
+  <!-- Progress Bar -->
+  <div class="max-w-3xl mx-auto mb-8">
+    <div class="flex justify-between text-sm text-gray-400 mb-2">
+      <span>Driver Info</span>
+      <span>Vehicle Info</span>
+      <span>Coverage</span>
+    </div>
+    <div class="h-1 bg-[#1a1f3c] rounded">
+      <div class="h-1 bg-blue-600 rounded transition-all duration-300"
+           [style.width]="(formProgress$ | async) + '%'">
       </div>
+    </div>
+  </div>
 
-      <!-- Form Container -->
-      <form [formGroup]="quoteForm" (ngSubmit)="onSubmit()" class="space-y-6">
-        <!-- Driver Info -->
-        <div class="border border-[#ddd] rounded p-4">
-          <h2 class="text-base font-medium mb-4">Driver Info</h2>
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <!-- Age -->
-            <div>
-              <label class="block text-sm mb-1">Your Age</label>
-              <input type="number" formControlName="age" 
-                     class="w-full px-3 py-2 border border-[#ddd] rounded text-sm focus:border-[#0070f3] focus:outline-none transition-colors"
-                     placeholder="Enter your age" />
-              <p class="text-xs text-gray-600 mt-1">Must be 16 years or older to get a quote</p>
-            </div>
+        <!-- Form Container -->
+  <form [formGroup]="quoteForm" (ngSubmit)="onSubmit()" class="max-w-3xl mx-auto space-y-8">
+    <!-- Driver Info -->
+    <div class="bg-[#1a1f3c] rounded-lg p-6">
+      <h2 class="text-xl font-semibold mb-6">Driver Info</h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <!-- Age -->
+        <div>
+          <label class="block text-sm font-medium mb-2">Your Age</label>
+          <input type="number" formControlName="age" 
+                class="w-full px-4 py-3 bg-[#141830] border border-[#2d3748] rounded-md text-white
+                       placeholder-gray-500 focus:border-blue-500 focus:outline-none transition-colors"
+                placeholder="Enter your age" />
+          <p class="text-xs text-gray-400 mt-2">Must be 16 years or older to get a quote</p>
+        </div>
             <!-- ZIP Code -->
             <div>
-              <label class="block text-sm mb-1">Your ZIP Code</label>
+              <label class="block text-sm font-medium mb-2">Your ZIP Code</label>
               <input type="text" formControlName="zip" 
-                     class="w-full px-3 py-2 border border-[#ddd] rounded text-sm focus:border-[#0070f3] focus:outline-none transition-colors"
+                     class="w-full px-4 py-3 bg-[#141830] border border-[#2d3748] rounded-md text-white
+                            placeholder-gray-500 focus:border-blue-500 focus:outline-none transition-colors"
                      placeholder="Enter ZIP code" />
-              <p class="text-xs text-gray-600 mt-1">We'll find local rates for your area</p>
+              <p class="text-xs text-gray-400 mt-2">We'll find local rates for your area</p>
             </div>
           </div>
         </div>
 
         <!-- Vehicle Info -->
-        <div class="border border-[#ddd] rounded p-4">
-          <h2 class="text-base font-medium mb-4">Vehicle Info</h2>
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <!-- Vehicle Type -->
-            <div>
-              <label class="block text-sm mb-1">Vehicle Type</label>
-              <select formControlName="vehicleType" 
-                      class="w-full px-3 py-2 border border-[#ddd] rounded text-sm focus:border-[#0070f3] focus:outline-none transition-colors">
-                <option value="">Select a type</option>
-                <option *ngFor="let type of vehicleTypes" [value]="type.id">{{type.name}}</option>
-              </select>
-              <p class="text-xs text-gray-600 mt-1">Different vehicle types may affect your premium</p>
-            </div>
-            <!-- Vehicle Make -->
-            <div>
-              <label class="block text-sm mb-1">Make</label>
-              <select formControlName="vehicleMake" 
-                      class="w-full px-3 py-2 border border-[#ddd] rounded text-sm focus:border-[#0070f3] focus:outline-none transition-colors"
-                      [disabled]="!quoteForm.get('vehicleType')?.value">
-                <option value="">Select make</option>
-                <option *ngFor="let make of vehicleMakes" [value]="make.id">{{make.name}}</option>
-              </select>
-              <p class="text-xs text-gray-600 mt-1">Select your vehicle manufacturer</p>
+        <div class="bg-[#1a1f3c] rounded-lg p-6">
+          <h2 class="text-xl font-semibold mb-6">Vehicle Info</h2>
+          <div class="grid grid-cols-1 gap-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <!-- Vehicle Type -->
+              <div>
+                <label class="block text-sm font-medium mb-2">Vehicle Type</label>
+                <select formControlName="vehicleType" 
+                        class="w-full px-4 py-3 bg-[#141830] border border-[#2d3748] rounded-md text-white
+                               placeholder-gray-500 focus:border-blue-500 focus:outline-none transition-colors appearance-none">
+                  <option value="">Select a type</option>
+                  <option *ngFor="let type of vehicleTypes" [value]="type.id">{{type.name}}</option>
+                </select>
+                <p class="text-xs text-gray-400 mt-2">Different vehicle types may affect your premium</p>
+              </div>
+
+              <!-- Vehicle Make -->
+              <div>
+                <label class="block text-sm font-medium mb-2">Vehicle Make</label>
+                <select formControlName="vehicleMake"
+                        class="w-full px-4 py-3 bg-[#141830] border border-[#2d3748] rounded-md text-white
+                               placeholder-gray-500 focus:border-blue-500 focus:outline-none transition-colors appearance-none"
+                        [disabled]="!quoteForm.get('vehicleType')?.value">
+                  <option value="">Select make</option>
+                  <option *ngFor="let make of vehicleMakes" [value]="make.id">{{make.name}}</option>
+                </select>
+                <p class="text-xs text-gray-400 mt-2">Select your vehicle manufacturer</p>
+              </div>
             </div>
 
-            <!-- Vehicle Model -->
-            <div>
-              <label class="block text-sm mb-1">Model</label>
-              <select formControlName="vehicleModel"
-                      class="w-full px-3 py-2 border border-[#ddd] rounded text-sm focus:border-[#0070f3] focus:outline-none transition-colors"
-                      [disabled]="!quoteForm.get('vehicleMake')?.value">
-                <option value="">Select model</option>
-                <option *ngFor="let model of availableModels" [value]="model.id">{{model.name}}</option>
-              </select>
-              <p class="text-xs text-gray-600 mt-1">Select your vehicle model</p>
-            </div>
+            <!-- Model and Year -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <!-- Vehicle Model -->
+              <div>
+                <label class="block text-sm font-medium mb-2">Vehicle Model</label>
+                <select formControlName="vehicleModel"
+                        class="w-full px-4 py-3 bg-[#141830] border border-[#2d3748] rounded-md text-white
+                               placeholder-gray-500 focus:border-blue-500 focus:outline-none transition-colors appearance-none"
+                        [disabled]="!quoteForm.get('vehicleMake')?.value">
+                  <option value="">Select model</option>
+                  <option *ngFor="let model of availableModels" [value]="model.id">{{model.name}}</option>
+                </select>
+                <p class="text-xs text-gray-400 mt-2">Select your vehicle model</p>
+              </div>
 
-            <!-- Vehicle Year -->
-            <div>
-              <label class="block text-sm mb-1">Vehicle Year</label>
-              <input type="number" formControlName="vehicleYear" 
-                     class="w-full px-3 py-2 border border-[#ddd] rounded text-sm focus:border-[#0070f3] focus:outline-none transition-colors"
-                     [placeholder]="'1990-' + currentYear" />
-              <p class="text-xs text-gray-600 mt-1">Vehicles from 1990 to present are eligible</p>
+              <!-- Vehicle Year -->
+              <div>
+                <label class="block text-sm font-medium mb-2">Vehicle Year</label>
+                <input type="number" formControlName="vehicleYear"
+                       class="w-full px-4 py-3 bg-[#141830] border border-[#2d3748] rounded-md text-white
+                              placeholder-gray-500 focus:border-blue-500 focus:outline-none transition-colors"
+                       [placeholder]="'1990-' + currentYear" />
+                <p class="text-xs text-gray-400 mt-2">Vehicles from 1990 to present are eligible</p>
+              </div>
             </div>
           </div>
         </div>
 
+
         <!-- Coverage Info -->
-        <div class="border border-[#ddd] rounded p-4">
-          <h2 class="text-base font-medium mb-4">Coverage Info</h2>
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div class="bg-[#1a1f3c] rounded-lg p-6">
+          <h2 class="text-xl font-semibold mb-6">Coverage Info</h2>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
             <!-- Coverage Level -->
             <div>
-              <label class="block text-sm mb-1">Coverage Level</label>
+              <label class="block text-sm font-medium mb-2">Coverage Level</label>
               <select formControlName="coverageLevel"
-                      class="w-full px-3 py-2 border border-[#ddd] rounded text-sm focus:border-[#0070f3] focus:outline-none transition-colors">
+                      class="w-full px-4 py-3 bg-[#141830] border border-[#2d3748] rounded-md text-white
+                             placeholder-gray-500 focus:border-blue-500 focus:outline-none transition-colors appearance-none">
                 <option value="">Select coverage</option>
                 <option value="basic">Basic</option>
                 <option value="standard">Standard</option>
                 <option value="full">Full</option>
               </select>
-              <p class="text-xs text-gray-600 mt-1">Choose the protection level that fits your needs</p>
+              <p class="text-xs text-gray-400 mt-2">Choose the protection level that fits your needs</p>
             </div>
 
             <!-- Driving History -->
             <div>
-              <label class="block text-sm mb-1">Driving History</label>
+              <label class="block text-sm font-medium mb-2">Driving History</label>
               <select formControlName="drivingHistory"
-                      class="w-full px-3 py-2 border border-[#ddd] rounded text-sm focus:border-[#0070f3] focus:outline-none transition-colors">
+                      class="w-full px-4 py-3 bg-[#141830] border border-[#2d3748] rounded-md text-white
+                             placeholder-gray-500 focus:border-blue-500 focus:outline-none transition-colors appearance-none">
                 <option value="">Select history</option>
                 <option value="clean">Clean</option>
                 <option value="minor">Minor Violations</option>
                 <option value="major">Major Violations</option>
               </select>
-              <p class="text-xs text-gray-600 mt-1">Your driving record helps determine your rate</p>
+              <p class="text-xs text-gray-400 mt-2">Your driving record helps determine your rate</p>
             </div>
           </div>
         </div>
 
-        <!-- Submit Button and Links -->
-        <div class="text-center mt-8">
+        <!-- Submit Button -->
+        <div class="flex flex-col items-center mt-8">
           <button type="submit" 
-                  class="px-8 py-3 bg-[#0070f3] hover:bg-[#0761d1] text-white rounded text-sm font-medium
+                  class="bg-blue-600 hover:bg-blue-700 text-white px-12 py-3 rounded-md font-medium
                          transition-colors duration-200 focus:outline-none">
             Start Your Quote
           </button>
 
-          <!-- Link to Saved Quotes -->
-          <div class="mt-4">
-            <a [routerLink]="['/saved-quotes']" 
-               class="text-[#0070f3] hover:text-[#0761d1] text-sm">
-              View Saved Quotes
-            </a>
-          </div>
+          <!-- View Saved Quotes Link -->
+          <a [routerLink]="['/saved-quotes']" 
+             class="mt-4 text-sm text-gray-400 hover:text-gray-300 transition-colors">
+            View Saved Quotes
+          </a>
         </div>
       </form>
-    </div>
-  </main>
 </div>
 
 <style>
-  /* Base Styles */
-  html {
-    font-size: 62.5%;
-    box-sizing: border-box;
-    height: -webkit-fill-available;
+  /* Dark Theme Colors */
+  :root {
+    --bg-primary: #020817;
+    --bg-secondary: #1a1f3c;
+    --bg-input: #141830;
+    --text-primary: #ffffff;
+    --text-secondary: #94a3b8;
+    --border-color: #2d3748;
+    --accent-color: #3b82f6;
   }
 
-  *,::after,::before {
-    box-sizing: inherit;
-  }
-
-  body {
-    font-family: sf pro text,sf pro icons,helvetica neue,helvetica,arial,sans-serif;
-    font-size: 1.6rem;
-    line-height: 1.65;
-    word-break: break-word;
-    font-kerning: auto;
-    font-variant: normal;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    text-rendering: optimizeLegibility;
-    height: 100vh;
-    margin: 0;
-  }
-
-  /* Container Layout */
-  .container {
-    display: flex;
-    justify-content: center;
-    flex-direction: column;
-    min-height: 100%;
-  }
-
-  main {
-    max-width: 80rem;
-    padding: 4rem 6rem;
-    margin: auto;
-  }
-
-  .devinfo-container {
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    padding: 2rem;
-    display: flex;
-    flex-direction: column;
-    margin-bottom: 32px;
-  }
-
-  /* Form Elements */
-  input, select {
-    width: 100%;
-    padding: 0.5rem 1rem;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    font-size: 1.4rem;
-    transition: border-color 0.2s ease;
-  }
-
-  input:focus, select:focus {
-    outline: none;
-    border-color: #0070f3;
-  }
-
-  label {
-    font-size: 1.4rem;
-    margin-bottom: 0.5rem;
-    display: block;
-  }
-
-  /* Responsive Design */
-  @media (max-width: 500px) {
-    main {
-      padding: 1rem 2rem;
-    }
-
-    body {
-      font-size: 1.4rem;
-      line-height: 1.55;
-    }
-
-    .devinfo-container {
-      margin-bottom: 0;
-    }
+  ::selection {
+    background-color: var(--accent-color);
+    color: var(--text-primary);
   }
 </style>
+
