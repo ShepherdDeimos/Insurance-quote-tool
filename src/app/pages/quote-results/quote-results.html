@@ -1,13 +1,22 @@
 <!-- Animated Background Section -->
-<div class="min-h-screen bg-gradient-to-b from-slate-900 to-gray-900 text-white py-12 px-4 relative overflow-hidden">
+<div class="min-h-screen bg-gradient-to-br from-[#000B2E] via-[#041246] to-[#0C2473] text-white py-12 px-4 relative overflow-hidden">
   <!-- Animated background elements -->
   <div class="absolute top-0 left-0 w-full h-96 blur-3xl -z-10 animate-pulse"
-       style="background: linear-gradient(to right, rgba(59, 130, 246, 0.15), rgba(147, 51, 234, 0.15));">
+       style="background: linear-gradient(to right, rgba(82, 109, 255, 0.15), rgba(123, 97, 255, 0.15));">
   </div>
-  <div class="absolute top-20 left-1/2 -translate-x-1/2 w-24 h-24 rounded-full blur-2xl animate-blob"
-       style="background-color: rgba(59, 130, 246, 0.2);"></div>
-  <div class="absolute top-10 right-1/4 w-20 h-20 rounded-full blur-2xl animate-blob animation-delay-2000"
-       style="background-color: rgba(168, 85, 247, 0.2);"></div>
+  <!-- Logo -->
+  <div class="absolute top-8 left-1/2 -translate-x-1/2 w-24 h-24">
+    <div class="relative w-full h-full">
+      <div class="absolute inset-0 bg-gradient-to-br from-[#526DFF] to-[#7B61FF] rounded-xl opacity-20 animate-pulse"></div>
+      <div class="relative flex items-center justify-center h-full">
+        <svg class="w-12 h-12 text-[#526DFF]" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M20.91 11.12C20.91 16.01 17.36 20.59 12.51 21.93C12.18 22.02 11.82 22.02 11.49 21.93C6.63996 20.59 3.08996 16.01 3.08996 11.12V6.72997C3.08996 5.90997 3.70996 4.97997 4.47996 4.66997L10.05 2.39001C11.3 1.88001 12.71 1.88001 13.96 2.39001L19.53 4.66997C20.29 4.97997 20.92 5.90997 20.92 6.72997L20.91 11.12Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M12 12.5C13.1046 12.5 14 11.6046 14 10.5C14 9.39543 13.1046 8.5 12 8.5C10.8954 8.5 10 9.39543 10 10.5C10 11.6046 10.8954 12.5 12 12.5Z" stroke="currentColor" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M12 12.5V15.5" stroke="currentColor" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+    </div>
+  </div>
 
   <!-- Main Content Container -->
   <div class="max-w-3xl mx-auto">
@@ -25,10 +34,10 @@
       </h1>
 
       <!-- Premium Card -->
-      <div class="bg-gray-800/60 backdrop-blur-xl p-8 rounded-xl shadow-2xl border border-white/10">
+      <div class="bg-[#0A1956]/40 backdrop-blur-xl p-8 rounded-xl shadow-2xl border border-[#526DFF]/20">
         <div class="text-center space-y-4">
-          <h2 class="text-xl font-semibold text-indigo-300 mt-2">Estimated Monthly Premium</h2>
-          <p class="text-6xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-green-400">
+          <h2 class="text-xl font-semibold text-[#7B61FF] mt-2">Estimated Monthly Premium</h2>
+          <p class="text-6xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-[#526DFF] to-[#7B61FF]">
             ${{ quote?.quote?.toFixed(2) || '0.00' }}
           </p>
           <p class="text-sm text-gray-300">Based on your provided information</p>
@@ -38,9 +47,9 @@
         <div class="mt-8 text-center">
           <button 
             (click)="toggleDetails()"
-            class="px-6 py-3 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 
-                   text-white rounded-lg font-medium shadow-lg focus:outline-none focus:ring-2 focus:ring-purple-500 
-                   focus:ring-offset-2 focus:ring-offset-gray-900 transform hover:scale-105 transition-all duration-200"
+            class="px-6 py-3 bg-gradient-to-r from-[#526DFF] to-[#7B61FF] hover:from-[#4259CC] hover:to-[#624ECC] 
+                   text-white rounded-lg font-medium shadow-lg focus:outline-none focus:ring-2 focus:ring-[#7B61FF] 
+                   focus:ring-offset-2 focus:ring-offset-[#041246] transform hover:scale-105 transition-all duration-200"
           >
             {{ showDetails ? 'Hide Quote Details ↑' : 'View Quote Details ↓' }}
           </button>
@@ -50,8 +59,8 @@
       <!-- Quote Details Section -->
       <div *ngIf="showDetails && quote" class="mt-8 space-y-8 animate-fade-in">
         <!-- Details Grid -->
-        <div class="bg-gray-800/40 rounded-xl p-6 backdrop-blur-sm border border-white/10 space-y-6">
-          <h3 class="text-xl font-medium text-center text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-400">
+        <div class="bg-[#0A1956]/40 rounded-xl p-6 backdrop-blur-sm border border-[#526DFF]/20 space-y-6">
+          <h3 class="text-xl font-medium text-center text-transparent bg-clip-text bg-gradient-to-r from-[#526DFF] to-[#7B61FF]">
             Quote Details
           </h3>
           
