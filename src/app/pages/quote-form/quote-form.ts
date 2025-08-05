@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import { Router, RouterLink } from '@angular/router';
 import { QuoteService } from '../../services/quote.service';
 import { QuoteData } from '../../models/quote.model';
 import { BehaviorSubject } from 'rxjs';
-import { RouterLink } from '@angular/router';
 
 export interface VehicleOption {
   id: string;
@@ -27,6 +27,7 @@ export interface VehicleMake {
 export class QuoteForm implements OnInit {
   public quoteForm!: FormGroup;
   public formProgress$ = new BehaviorSubject<number>(0);
+
   public vehicleTypes: VehicleOption[] = [
     { id: 'sedan', name: 'Sedan' },
     { id: 'suv', name: 'SUV' },
@@ -83,14 +84,12 @@ export class QuoteForm implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    private quoteService: QuoteService
+    private quoteService: QuoteService,
+    private router: Router
   ) {
     this.quoteForm = this.fb.group({
-      firstName: ['', [Validators.required]],
-      lastName: ['', [Validators.required]],
-      email: ['', [Validators.required, Validators.email]],
-      phone: ['', [Validators.required, Validators.pattern('^[0-9]{10}$')]],
       age: ['', [Validators.required, Validators.min(16), Validators.max(100)]],
+      zip: ['', [Validators.required, Validators.pattern('^[0-9]{5}$')]],
       vehicleType: ['', [Validators.required]],
       vehicleMake: ['', [Validators.required]],
       vehicleModel: ['', [Validators.required]],
@@ -147,7 +146,9 @@ export class QuoteForm implements OnInit {
           drivingHistory: formValue.drivingHistory
         };
 
-        await this.quoteService.submitQuote(quoteData);
+        const quoteId = await this.quoteService.submitQuote(quoteData);
+        // Navigate to results page with the quote ID
+        await this.router.navigate(['/quote-results'], { queryParams: { id: quoteId } });
         // Navigation will be handled by the service
       } catch (error) {
         this.submitError = 'Failed to submit quote. Please try again.';

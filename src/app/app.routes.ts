@@ -11,9 +11,9 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/quote-form/quote-form').then(m => m.QuoteForm)
   },
   {
-    path: 'quote-results',
+    path: 'quote-results/:id',
     loadComponent: () =>
-      import('./pages/quote-results/quote-results').then(m => m.QuoteResults)
+      import('./pages/quote-results/quote-results.new').then(m => m.QuoteResults)
   },
   {
   path: 'saved-quotes',

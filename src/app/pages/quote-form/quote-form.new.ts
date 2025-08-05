@@ -156,8 +156,8 @@ export class QuoteForm implements OnInit {
           vehicleYear: Number(this.quoteForm.value.vehicleYear)
         };
         
-        await this.quoteService.submitQuote(quoteData);
-        this.router.navigate(['/quote-results']);
+        const quoteId = await this.quoteService.submitQuote(quoteData);
+        this.router.navigate(['/quote-results', quoteId]);
       } catch (error) {
         console.error('Quote submission error:', error);
         this.submitError = 'Failed to submit quote. Please try again.';

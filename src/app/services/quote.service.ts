@@ -8,6 +8,38 @@ import { QuoteData, QuoteResult } from '../models/quote.model';
 export class QuoteService {
   private readonly STORAGE_KEY = 'insurance_quotes';
 
+  private getStoredQuotes(): QuoteResult[] {
+    const storedQuotes = localStorage.getItem(this.STORAGE_KEY);
+    return storedQuotes ? JSON.parse(storedQuotes) : [];
+  }
+
+  submitQuote(data: QuoteData): Observable<QuoteResult> {
+    const quoteResult: QuoteResult = {
+      id: Date.now().toString(),
+      data: data,
+      quote: this.calculateQuote(data),
+      date: new Date().toISOString()
+    };
+
+    // Store in localStorage
+    const quotes = this.getStoredQuotes();
+    quotes.push(quoteResult);
+    localStorage.setItem(this.STORAGE_KEY, JSON.stringify(quotes));
+
+    return of(quoteResult);
+  }
+
+  getQuoteById(id: string): Observable<QuoteResult | null> {
+    const quotes = this.getStoredQuotes();
+    const quote = quotes.find(q => q.id === id);
+    return of(quote || null);
+  }
+
+  getAllQuotes(): Observable<QuoteResult[]> {
+    const quotes = this.getStoredQuotes();
+    return of(quotes);
+  }
+
   private calculateQuote(data: QuoteData): number {
     let basePrice = 100; // Base monthly insurance price starts at $100
 
@@ -51,33 +83,5 @@ export class QuoteService {
 
     // Round to 2 decimal places and ensure minimum premium of $30
     return Math.max(Math.round(basePrice * 100) / 100, 30);
-  }
-  
-
-  submitQuote(data: QuoteData): Observable<QuoteResult> {
-    const quoteResult: QuoteResult = {
-      id: Date.now().toString(),
-      data: data,
-      quote: this.calculateQuote(data),
-      date: new Date().toISOString()
-    };
-
-    // Store in localStorage
-    const quotes: QuoteResult[] = JSON.parse(localStorage.getItem(this.STORAGE_KEY) || '[]');
-    quotes.push(quoteResult);
-    localStorage.setItem(this.STORAGE_KEY, JSON.stringify(quotes));
-
-    return of(quoteResult);
-  }
-
-  getQuoteById(id: string): Observable<QuoteResult | null> {
-    const quotes: QuoteResult[] = JSON.parse(localStorage.getItem(this.STORAGE_KEY) || '[]');
-    const quote = quotes.find(q => q.id === id);
-    return of(quote || null);
-  }
-
-  getAllQuotes(): Observable<QuoteResult[]> {
-    const quotes: QuoteResult[] = JSON.parse(localStorage.getItem(this.STORAGE_KEY) || '[]');
-    return of(quotes);
   }
 }
