@@ -1,8 +1,9 @@
-import { Component } from '@angular/core';                         // Tells Angular this is a component (combines logic + UI)
-import { ActivatedRoute } from '@angular/router';                  // Lets us read data from the URL, like ?id=123
-import { HttpClient } from '@angular/common/http';                 // Lets us make HTTP requests to our backend (GET/POST)
-import { CommonModule } from '@angular/common';                    // Allows use of *ngIf, *ngFor, and other common directives
+import { Component } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { HttpClient } from '@angular/common/http';
+import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
+import { environment } from '../../../environments/environment';
 @Component({
   selector: 'app-quote-results',                                   // Optional custom HTML tag name for this component
   standalone: true,                                                // This component stands alone (not part of a shared NgModule)

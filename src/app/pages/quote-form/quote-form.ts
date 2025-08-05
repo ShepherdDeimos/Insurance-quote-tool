@@ -1,14 +1,15 @@
 // This file is responsible for collecting the user's input, calculating the quote, and sending the data to the backend
 // Every Angular screen or widget is a component and we declaie it with @Component decorator
 
-import { Component } from '@angular/core';                            // Declares this as an Angular component (UI logic and structure)
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms'; // Tools to build and manage reactive forms
-import { Router } from '@angular/router';                            // Lets us navigate to different pages (e.g., /quote-results)
-import { HttpClient } from '@angular/common/http';                   // Sends HTTP requests (e.g., POST to JSON Server)
-import { CommonModule } from '@angular/common';                      // Allows use of *ngIf, *ngFor, etc. in the HTML template
+import { Component } from '@angular/core';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import { HttpClient } from '@angular/common/http';
+import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import { BehaviorSubject, Observable } from 'rxjs';                  // For reactive progress tracking
-import { map, startWith } from 'rxjs/operators';                     // For transforming form values
+import { BehaviorSubject, Observable } from 'rxjs';
+import { map, startWith } from 'rxjs/operators';
+import { environment } from '../../../environments/environment';
 @Component({
   selector: 'app-quote-form',                                        // Optional HTML tag for this component (not usually used directly)
   standalone: true,                                                  // Declares this component works independently without a module
@@ -81,19 +82,34 @@ export class QuoteForm {                                             // This is 
         default: vehicleFactor = 1.1;                                // Slight increase for unknown or uncommon types
       }
 
-      quoteData.monthlyRate =                                        // Calculate the final quote and store it as a new field
-        base * ageFactor * vehicleFactor;
+      try {
+        const existingQuotes = JSON.parse(localStorage.getItem('quotes') || '[]');
+        const id = Date.now();
+        const newQuote = { id, ...quoteData };
+        existingQuotes.push(newQuote);
+        localStorage.setItem('quotes', JSON.stringify(existingQuotes));
+        localStorage.setItem('latestQuote', JSON.stringify(newQuote));
 
-      this.http.post<any>('http://localhost:3000/quotes', quoteData).subscribe({ // User hits submit and data is POST to JSON Server (the users info) 
-        next: (response) => {                                        // If the server responds successfully:
-          const id = response.id;                                    // Get the ID of the saved quote from the response
-          this.router.navigate(['/quote-results'], { queryParams: { id } }); // Navigate to the results page and pass the ID in the URL
-        },
-        error: (err) => {                                            // If something goes wrong with the POST request:
-          console.error('Failed to create quote:', err);             // Log the error for developers
-          this.router.navigate(['/quote-results'], { queryParams: { id: 'notfound' } }); // Navigate to results page with error ID
+        // If we have an API endpoint configured, also send it there
+        if (environment.apiUrl) {
+          this.http.post<any>(`${environment.apiUrl}/quotes`, quoteData).subscribe({
+            next: (response) => {
+              this.router.navigate(['/quote-results'], { queryParams: { id } });
+            },
+            error: (err) => {
+              console.error('Failed to save quote to API:', err);
+              // Still navigate since we have the local copy
+              this.router.navigate(['/quote-results'], { queryParams: { id } });
+            }
+          });
+        } else {
+          // No API configured, just use local storage
+          this.router.navigate(['/quote-results'], { queryParams: { id } });
         }
-      });
+      } catch (err) {
+        console.error('Failed to save quote:', err);
+        this.router.navigate(['/quote-results'], { queryParams: { id: 'notfound' } });
+      }
     }
   }
 }
