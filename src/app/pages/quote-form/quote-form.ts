@@ -88,12 +88,21 @@ export class QuoteForm implements OnInit {
     private router: Router
   ) {
     this.quoteForm = this.fb.group({
+      // Personal Information
+      firstName: ['', [Validators.required]],
+      lastName: ['', [Validators.required]],
+      email: ['', [Validators.required, Validators.email]],
+      phone: ['', [Validators.required, Validators.pattern('^[0-9]{10}$')]],
       age: ['', [Validators.required, Validators.min(16), Validators.max(100)]],
       zip: ['', [Validators.required, Validators.pattern('^[0-9]{5}$')]],
+      
+      // Vehicle Information
       vehicleType: ['', [Validators.required]],
       vehicleMake: ['', [Validators.required]],
       vehicleModel: ['', [Validators.required]],
       vehicleYear: ['', [Validators.required, Validators.min(1990), Validators.max(this.currentYear + 1)]],
+      
+      // Coverage Information
       coverageLevel: ['basic', [Validators.required]],
       drivingHistory: ['clean', [Validators.required]],
       accidents: [0, [Validators.required, Validators.min(0), Validators.max(10)]],
@@ -123,39 +132,40 @@ export class QuoteForm implements OnInit {
     this.availableModels = selectedMake?.models || [];
   }
 
-  async onSubmit(): Promise<void> {
+  onSubmit(): void {
     if (this.quoteForm.valid) {
       this.isLoading = true;
       this.submitError = null;
 
-      try {
-        const formValue = this.quoteForm.value;
-        const quoteData: QuoteData = {
-          firstName: formValue.firstName,
-          lastName: formValue.lastName,
-          email: formValue.email,
-          phone: formValue.phone,
-          age: formValue.age,
-          vehicleType: formValue.vehicleType,
-          vehicleMake: formValue.vehicleMake,
-          vehicleModel: formValue.vehicleModel,
-          vehicleYear: formValue.vehicleYear,
-          accidents: formValue.accidents,
-          violations: formValue.violations,
-          coverageLevel: formValue.coverageLevel,
-          drivingHistory: formValue.drivingHistory
-        };
+      const formValue = this.quoteForm.value;
+      const quoteData: QuoteData = {
+        firstName: formValue.firstName,
+        lastName: formValue.lastName,
+        email: formValue.email,
+        phone: formValue.phone,
+        age: Number(formValue.age),
+        vehicleType: formValue.vehicleType,
+        vehicleMake: formValue.vehicleMake,
+        vehicleModel: formValue.vehicleModel,
+        vehicleYear: Number(formValue.vehicleYear),
+        accidents: Number(formValue.accidents),
+        violations: Number(formValue.violations),
+        coverageLevel: formValue.coverageLevel,
+        drivingHistory: formValue.drivingHistory
+      };
 
-        const quoteId = await this.quoteService.submitQuote(quoteData);
-        // Navigate to results page with the quote ID
-        await this.router.navigate(['/quote-results'], { queryParams: { id: quoteId } });
-        // Navigation will be handled by the service
-      } catch (error) {
-        this.submitError = 'Failed to submit quote. Please try again.';
-        console.error('Quote submission error:', error);
-      } finally {
-        this.isLoading = false;
-      }
+      this.quoteService.submitQuote(quoteData).subscribe({
+        next: (result) => {
+          this.router.navigate(['/quote-results', result.id]);
+        },
+        error: (error) => {
+          this.submitError = 'Failed to submit quote. Please try again.';
+          console.error('Quote submission error:', error);
+        },
+        complete: () => {
+          this.isLoading = false;
+        }
+      });
     } else {
       this.markFormGroupTouched(this.quoteForm);
     }

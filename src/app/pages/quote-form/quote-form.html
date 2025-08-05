@@ -58,11 +58,50 @@
   </div>
 
         <!-- Form Container -->
-  <form [formGroup]="quoteForm" (ngSubmit)="onSubmit()" class="max-w-3xl mx-auto space-y-8">
+  <form [formGroup]="quoteForm" (ngSubmit)="onSubmit()" class="max-w-4xl mx-auto space-y-8">
     <!-- Driver Info -->
-    <div class="bg-gradient-to-br from-[#1a1f3c] via-[#2a2f5c] to-[#3a3f7c] rounded-lg p-6 shadow-lg transform hover:scale-[1.02] transition-all duration-300">
-      <h2 class="text-xl font-semibold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-400">Driver Info</h2>
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+    <div class="bg-gradient-to-br from-[#1a1f3c] via-[#2a2f5c] to-[#3a3f7c] rounded-lg p-8 shadow-lg transform hover:scale-[1.02] transition-all duration-300">
+      <h2 class="text-2xl font-semibold mb-8 bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-400">Driver Info</h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <!-- Personal Information -->
+        <div class="space-y-6">
+          <div>
+            <label class="block text-sm font-medium mb-2">First Name</label>
+            <input type="text" formControlName="firstName"
+                   class="w-full px-4 py-3.5 text-lg bg-[#141830] border border-[#2d3748] rounded-md text-white
+                          placeholder-gray-500 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 focus:outline-none 
+                          transition-all duration-300"
+                   placeholder="Enter first name" />
+          </div>
+          <div>
+            <label class="block text-sm font-medium mb-2">Last Name</label>
+            <input type="text" formControlName="lastName"
+                   class="w-full px-4 py-3.5 text-lg bg-[#141830] border border-[#2d3748] rounded-md text-white
+                          placeholder-gray-500 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 focus:outline-none 
+                          transition-all duration-300"
+                   placeholder="Enter last name" />
+          </div>
+        </div>
+        
+        <div class="space-y-6">
+          <div>
+            <label class="block text-sm font-medium mb-2">Email</label>
+            <input type="email" formControlName="email"
+                   class="w-full px-4 py-3.5 text-lg bg-[#141830] border border-[#2d3748] rounded-md text-white
+                          placeholder-gray-500 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 focus:outline-none 
+                          transition-all duration-300"
+                   placeholder="Enter email" />
+          </div>
+          <div>
+            <label class="block text-sm font-medium mb-2">Phone</label>
+            <input type="tel" formControlName="phone"
+                   class="w-full px-4 py-3.5 text-lg bg-[#141830] border border-[#2d3748] rounded-md text-white
+                          placeholder-gray-500 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 focus:outline-none 
+                          transition-all duration-300"
+                   placeholder="Enter phone number" />
+          </div>
+        </div>
+
         <!-- Age -->
         <div>
           <label class="block text-sm font-medium mb-2 flex items-center">
@@ -194,8 +233,53 @@
         <div class="bg-gradient-to-br from-[#1a1f3c] via-[#2a2f5c] to-[#3a3f7c] rounded-lg p-6 shadow-lg transform hover:scale-[1.02] transition-all duration-300">
           <h2 class="text-xl font-semibold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-pink-400 to-purple-400">Coverage Info</h2>
           <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <!-- Coverage Level -->
-            <div>
+            <!-- Construction/Accident History -->
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mt-8">
+            <!-- Accidents -->
+            <div class="bg-[#141830]/50 p-6 rounded-lg border border-[#2d3748]/50">
+              <label class="block text-base font-medium mb-3 text-pink-400">Number of Accidents</label>
+              <div class="flex items-center justify-between">
+                <button type="button" (click)="quoteForm.patchValue({accidents: Math.max(0, quoteForm.get('accidents')?.value - 1)})"
+                        class="w-12 h-12 rounded-full bg-[#1a1f3c] border border-pink-500/30 text-pink-400 flex items-center justify-center hover:bg-pink-500/10 transition-all">
+                  <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4" />
+                  </svg>
+                </button>
+                <span class="text-3xl font-bold text-white">{{quoteForm.get('accidents')?.value || 0}}</span>
+                <button type="button" (click)="quoteForm.patchValue({accidents: Math.min(10, (quoteForm.get('accidents')?.value || 0) + 1)})"
+                        class="w-12 h-12 rounded-full bg-[#1a1f3c] border border-pink-500/30 text-pink-400 flex items-center justify-center hover:bg-pink-500/10 transition-all">
+                  <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                  </svg>
+                </button>
+              </div>
+              <p class="text-sm text-gray-400 mt-3">Past 3 years</p>
+            </div>
+
+            <!-- Traffic Violations -->
+            <div class="bg-[#141830]/50 p-6 rounded-lg border border-[#2d3748]/50">
+              <label class="block text-base font-medium mb-3 text-pink-400">Traffic Violations</label>
+              <div class="flex items-center justify-between">
+                <button type="button" (click)="quoteForm.patchValue({violations: Math.max(0, quoteForm.get('violations')?.value - 1)})"
+                        class="w-12 h-12 rounded-full bg-[#1a1f3c] border border-pink-500/30 text-pink-400 flex items-center justify-center hover:bg-pink-500/10 transition-all">
+                  <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4" />
+                  </svg>
+                </button>
+                <span class="text-3xl font-bold text-white">{{quoteForm.get('violations')?.value || 0}}</span>
+                <button type="button" (click)="quoteForm.patchValue({violations: Math.min(10, (quoteForm.get('violations')?.value || 0) + 1)})"
+                        class="w-12 h-12 rounded-full bg-[#1a1f3c] border border-pink-500/30 text-pink-400 flex items-center justify-center hover:bg-pink-500/10 transition-all">
+                  <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                  </svg>
+                </button>
+              </div>
+              <p class="text-sm text-gray-400 mt-3">Past 3 years</p>
+            </div>
+          </div>
+
+          <!-- Coverage Level -->
+            <div class="mt-8">
               <label class="block text-sm font-medium mb-2 flex items-center">
                 <svg class="w-4 h-4 mr-2 text-pink-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
