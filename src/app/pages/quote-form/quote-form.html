@@ -252,40 +252,45 @@
             <!-- Construction/Accident History -->
           <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mt-8">
             <!-- Accidents -->
-            <div class="flex gap-6 bg-[#141830]/50 p-6 rounded-lg border border-[#2d3748]/50">
-              <label class="block text-base font-medium mb-3 text-pink-400">Number of Accidents</label>
-              <div class="flex items-center justify-between">
+            <div class="bg-[#141830]/50 p-6 rounded-lg border border-[#2d3748]/50 flex flex-col items-start">
+              <div class="flex flex-col w-full">
+                <label class="text-base font-medium text-pink-400">Number of Accidents</label>
+                <p class="text-sm text-gray-400 mt-1">Past 3 years</p>
+              </div>
+              <div class="flex items-center gap-4 mt-4">
                 <button type="button" (click)="decrementValue('accidents')"
-                        class="w-12 h-12 rounded-full bg-[#1a1f3c] border border-pink-500/30 text-pink-400 flex items-center justify-center hover:bg-pink-500/10 transition-all">
-                  <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        class="w-10 h-10 rounded-full bg-[#1a1f3c] border border-pink-500/30 text-pink-400 flex items-center justify-center hover:bg-pink-500/10 transition-all">
+                  <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4" />
                   </svg>
                 </button>
-                <span class="text-3xl font-bold text-white">{{quoteForm.get('accidents')?.value || 0}}</span>
+                <span class="text-2xl font-bold text-white min-w-[2ch] text-center">{{quoteForm.get('accidents')?.value || 0}}</span>
                 <button type="button" (click)="incrementValue('accidents')"
-                        class="w-12 h-12 rounded-full bg-[#1a1f3c] border border-pink-500/30 text-pink-400 flex items-center justify-center hover:bg-pink-500/10 transition-all">
-                  <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        class="w-10 h-10 rounded-full bg-[#1a1f3c] border border-pink-500/30 text-pink-400 flex items-center justify-center hover:bg-pink-500/10 transition-all">
+                  <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
                   </svg>
                 </button>
               </div>
-              <p class="text-sm text-gray-400 mt-3">Past 3 years</p>
             </div>
 
             <!-- Traffic Violations -->
-            <div class="bg-[#141830]/50 p-6 rounded-lg border border-[#2d3748]/50 flex-1">
-              <label class="block text-base font-medium mb-3 text-pink-400">Traffic Violations</label>
-              <div class="flex items-center justify-between">
+            <div class="bg-[#141830]/50 p-6 rounded-lg border border-[#2d3748]/50 flex flex-col items-start">
+              <div class="flex flex-col w-full">
+                <label class="text-base font-medium text-pink-400">Traffic Violations</label>
+                <p class="text-sm text-gray-400 mt-1">Past 3 years</p>
+              </div>
+              <div class="flex items-center gap-4 mt-4">
                 <button type="button" (click)="decrementValue('violations')"
-                        class="w-12 h-12 rounded-full bg-[#1a1f3c] border border-pink-500/30 text-pink-400 flex items-center justify-center hover:bg-pink-500/10 transition-all">
-                  <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        class="w-10 h-10 rounded-full bg-[#1a1f3c] border border-pink-500/30 text-pink-400 flex items-center justify-center hover:bg-pink-500/10 transition-all">
+                  <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4" />
                   </svg>
                 </button>
-                <span class="text-3xl font-bold text-white">{{quoteForm.get('violations')?.value || 0}}</span>
+                <span class="text-2xl font-bold text-white min-w-[2ch] text-center">{{quoteForm.get('violations')?.value || 0}}</span>
                 <button type="button" (click)="incrementValue('violations')"
-                        class="w-12 h-12 rounded-full bg-[#1a1f3c] border border-pink-500/30 text-pink-400 flex items-center justify-center hover:bg-pink-500/10 transition-all">
-                  <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        class="w-10 h-10 rounded-full bg-[#1a1f3c] border border-pink-500/30 text-pink-400 flex items-center justify-center hover:bg-pink-500/10 transition-all">
+                  <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
                   </svg>
                 </button>
