@@ -13,7 +13,7 @@ export const routes: Routes = [
   {
     path: 'quote-results/:id',
     loadComponent: () =>
-      import('./pages/quote-results/quote-results.new').then(m => m.QuoteResults)
+      import('./pages/quote-results/quote-results').then(m => m.QuoteResults)
   },
   {
   path: 'saved-quotes',
