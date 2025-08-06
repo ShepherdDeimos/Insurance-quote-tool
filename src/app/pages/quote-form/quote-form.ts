@@ -116,8 +116,17 @@ export class QuoteForm implements OnInit {
       this.filteredMakes = [];
       return;
     }
-    // Only show makes that have models of the selected type
-    this.filteredMakes = this.vehicleDataService.getMakesByType(typeId);
+    
+    // Get all makes that have models of the selected type
+    const makes = this.vehicleDataService.getMakesByType(typeId);
+    // Show any manufacturer that has at least one model of the selected type
+    this.filteredMakes = makes.filter(make => 
+      make.models.some(model => 
+        model.types && model.types.includes(typeId)
+      )
+    );
+
+    console.log('Available makes for type', typeId, ':', this.filteredMakes.map(m => m.name));
   }
 
   private filterModelsByMakeAndType(makeId: string) {
@@ -132,7 +141,13 @@ export class QuoteForm implements OnInit {
       return;
     }
 
-    this.availableModels = this.vehicleDataService.getModelsByMakeAndType(makeId, selectedType);
+    // Get all models for the make that include the selected type
+    const models = this.vehicleDataService.getModelsByMakeAndType(makeId, selectedType);
+    this.availableModels = models.filter(model => 
+      model.types && model.types.includes(selectedType)
+    );
+
+    console.log('Available models for', makeId, 'of type', selectedType, ':', this.availableModels.map(m => m.name));
   }
 
   private updateFormProgress() {
