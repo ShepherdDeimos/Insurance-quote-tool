@@ -185,28 +185,37 @@ export class VehicleDataService {
   public getMakesByType(typeId: string): VehicleMake[] {
     if (!typeId) return [];
     
-    return this.vehicleMakes.filter(make => 
-      // Only include makes that have at least one model that ONLY matches the selected type
-      make.models.some(model => 
-        model.types && 
-        model.types.includes(typeId) && 
-        // For SUVs, ensure it's not also tagged as something else
-        (typeId === 'suv' ? model.types.length === 1 && model.types[0] === 'suv' : true)
-      )
+    console.log('Getting makes for type:', typeId);
+    const filteredMakes = this.vehicleMakes.filter(make => 
+      make.models.some(model => {
+        const isMatch = model.types && 
+                       model.types.includes(typeId) && 
+                       // For strict type matching, ensure it's exactly the type we want
+                       (model.types.length === 1 && model.types[0] === typeId);
+        return isMatch;
+      })
     );
+    
+    console.log('Filtered makes:', filteredMakes.map(m => m.name));
+    return filteredMakes;
   }
 
   public getModelsByMakeAndType(makeId: string, typeId: string): VehicleOption[] {
     if (!makeId || !typeId) return [];
 
+    console.log('Getting models for make:', makeId, 'and type:', typeId);
     const selectedMake = this.vehicleMakes.find(make => make.id === makeId);
     if (!selectedMake) return [];
 
-    return selectedMake.models.filter(model => 
-      model.types && 
-      model.types.includes(typeId) && 
-      // For SUVs, ensure it's not also tagged as something else
-      (typeId === 'suv' ? model.types.length === 1 && model.types[0] === 'suv' : true)
-    );
+    const filteredModels = selectedMake.models.filter(model => {
+      const isMatch = model.types && 
+                     model.types.includes(typeId) && 
+                     // For strict type matching, ensure it's exactly the type we want
+                     (model.types.length === 1 && model.types[0] === typeId);
+      return isMatch;
+    });
+    
+    console.log('Filtered models:', filteredModels.map(m => m.name));
+    return filteredModels;
   }
 }

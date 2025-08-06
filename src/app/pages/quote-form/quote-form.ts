@@ -4,6 +4,7 @@ import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angula
 import { Router, RouterLink } from '@angular/router';
 import { BehaviorSubject } from 'rxjs';
 import { VehicleDataService } from '../../services/vehicle-data.service';
+import { QuoteService } from '../../services/quote.service';
 
 export interface VehicleOption {
   id: string;
@@ -22,7 +23,8 @@ export interface VehicleMake {
   templateUrl: './quote-form.html',
   styleUrls: ['./quote-form.scss'],
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, RouterLink]
+  imports: [CommonModule, ReactiveFormsModule, RouterLink],
+  providers: [QuoteService]
 })
 export class QuoteForm implements OnInit {
   public quoteForm!: FormGroup;
@@ -49,7 +51,8 @@ export class QuoteForm implements OnInit {
   constructor(
     private fb: FormBuilder,
     private router: Router,
-    private vehicleDataService: VehicleDataService
+    private vehicleDataService: VehicleDataService,
+    private quoteService: QuoteService
   ) {
     this.initForm();
   }
@@ -87,14 +90,19 @@ export class QuoteForm implements OnInit {
   private setupFormValueChanges() {
     // Watch for vehicle type changes
     this.quoteForm.get('vehicleType')?.valueChanges.subscribe(type => {
+      console.log('Vehicle type changed:', type);
       this.filterMakesByType(type);
-      this.quoteForm.patchValue({ vehicleMake: '', vehicleModel: '' });
+      this.quoteForm.patchValue({ vehicleMake: '', vehicleModel: '' }, { emitEvent: false });
+      this.availableModels = []; // Reset models when type changes
     });
 
     // Watch for vehicle make changes
     this.quoteForm.get('vehicleMake')?.valueChanges.subscribe(makeId => {
+      console.log('Vehicle make changed:', makeId);
+      const selectedType = this.quoteForm.get('vehicleType')?.value;
+      console.log('Current vehicle type:', selectedType);
       this.filterModelsByMakeAndType(makeId);
-      this.quoteForm.patchValue({ vehicleModel: '' });
+      this.quoteForm.patchValue({ vehicleModel: '' }, { emitEvent: false });
     });
 
     // Update progress as form is filled
@@ -159,9 +167,21 @@ export class QuoteForm implements OnInit {
 
   onSubmit() {
     if (this.quoteForm.valid) {
-      console.log('Form submitted:', this.quoteForm.value);
-      this.router.navigate(['/quote-results'], { 
-        state: { formData: this.quoteForm.value }
+      this.isLoading = true;
+      this.submitError = null;
+
+      this.quoteService.submitQuote(this.quoteForm.value).subscribe({
+        next: (result) => {
+          this.isLoading = false;
+          this.router.navigate(['/quote-results'], { 
+            queryParams: { id: result.id }
+          });
+        },
+        error: (error) => {
+          console.error('Quote submission error:', error);
+          this.submitError = 'Failed to submit quote. Please try again.';
+          this.isLoading = false;
+        }
       });
     }
   }
