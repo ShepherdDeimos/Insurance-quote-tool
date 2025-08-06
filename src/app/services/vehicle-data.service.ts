@@ -186,20 +186,15 @@ export class VehicleDataService {
     if (!typeId) return [];
     
     console.log('Getting makes for type:', typeId);
-    // Return all makes that have at least one model of the selected type
-    const filteredMakes = this.vehicleMakes.filter(make => {
-      const hasModelOfType = make.models.some(model => 
-        model.types && model.types.includes(typeId)
-      );
-      if (hasModelOfType) {
-        // For each make, only include models of the selected type
-        const filteredModels = make.models.filter(model =>
+    // Create a deep copy of vehicle makes and filter them
+    const filteredMakes = this.vehicleMakes
+      .map(make => ({
+        ...make,
+        models: make.models.filter(model => 
           model.types && model.types.includes(typeId)
-        );
-        return true;
-      }
-      return false;
-    });
+        )
+      }))
+      .filter(make => make.models.length > 0);
     
     console.log('Available manufacturers for', typeId + ':', filteredMakes.map(m => m.name));
     return filteredMakes;
