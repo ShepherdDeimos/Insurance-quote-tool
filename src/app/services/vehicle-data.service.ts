@@ -186,13 +186,22 @@ export class VehicleDataService {
     if (!typeId) return [];
     
     console.log('Getting makes for type:', typeId);
-    const filteredMakes = this.vehicleMakes.filter(make => 
-      make.models.some(model =>
-        model.types?.includes(typeId)
-      )
-    );
+    // Return all makes that have at least one model of the selected type
+    const filteredMakes = this.vehicleMakes.filter(make => {
+      const hasModelOfType = make.models.some(model => 
+        model.types && model.types.includes(typeId)
+      );
+      if (hasModelOfType) {
+        // For each make, only include models of the selected type
+        const filteredModels = make.models.filter(model =>
+          model.types && model.types.includes(typeId)
+        );
+        return true;
+      }
+      return false;
+    });
     
-    console.log('Filtered makes:', filteredMakes.map(m => m.name));
+    console.log('Available manufacturers for', typeId + ':', filteredMakes.map(m => m.name));
     return filteredMakes;
   }
 
@@ -203,11 +212,12 @@ export class VehicleDataService {
     const selectedMake = this.vehicleMakes.find(make => make.id === makeId);
     if (!selectedMake) return [];
 
-    const filteredModels = selectedMake.models.filter(model => {
-      model.types && model.types.includes(typeId);
-    });
+    // Only return models that have the selected type
+    const filteredModels = selectedMake.models.filter(model => 
+      model.types && model.types.includes(typeId)
+    );
     
-    console.log('Filtered models:', filteredModels.map(m => m.name));
+    console.log('Filtered models for', selectedMake.name, 'of type', typeId + ':', filteredModels.map(m => m.name));
     return filteredModels;
   }
 }
