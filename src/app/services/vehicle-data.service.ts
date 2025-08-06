@@ -186,7 +186,13 @@ export class VehicleDataService {
     if (!typeId) return [];
     
     return this.vehicleMakes.filter(make => 
-      make.models.some(model => model.types?.includes(typeId))
+      // Only include makes that have at least one model that ONLY matches the selected type
+      make.models.some(model => 
+        model.types && 
+        model.types.includes(typeId) && 
+        // For SUVs, ensure it's not also tagged as something else
+        (typeId === 'suv' ? model.types.length === 1 && model.types[0] === 'suv' : true)
+      )
     );
   }
 
@@ -197,7 +203,10 @@ export class VehicleDataService {
     if (!selectedMake) return [];
 
     return selectedMake.models.filter(model => 
-      model.types?.includes(typeId)
+      model.types && 
+      model.types.includes(typeId) && 
+      // For SUVs, ensure it's not also tagged as something else
+      (typeId === 'suv' ? model.types.length === 1 && model.types[0] === 'suv' : true)
     );
   }
 }

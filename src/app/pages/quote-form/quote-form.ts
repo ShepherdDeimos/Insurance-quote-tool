@@ -55,8 +55,8 @@ export class QuoteForm implements OnInit {
   }
 
   ngOnInit() {
-    // Initialize with all makes
-    this.filteredMakes = this.vehicleDataService.getVehicleMakes();
+    // Don't show any makes until a type is selected
+    this.filteredMakes = [];
     this.setupFormValueChanges();
   }
 
@@ -105,11 +105,10 @@ export class QuoteForm implements OnInit {
 
   private filterMakesByType(typeId: string) {
     if (!typeId) {
-      // Show all makes when no type is selected
-      this.filteredMakes = this.vehicleDataService.getVehicleMakes();
+      this.filteredMakes = [];
       return;
     }
-    // Filter makes by the selected type
+    // Only show makes that have models of the selected type
     this.filteredMakes = this.vehicleDataService.getMakesByType(typeId);
   }
 
