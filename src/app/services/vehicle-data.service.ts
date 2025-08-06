@@ -187,13 +187,9 @@ export class VehicleDataService {
     
     console.log('Getting makes for type:', typeId);
     const filteredMakes = this.vehicleMakes.filter(make => 
-      make.models.some(model => {
-        const isMatch = model.types && 
-                       model.types.includes(typeId) && 
-                       // For strict type matching, ensure it's exactly the type we want
-                       model.types.includes(typeId);
-        return isMatch;
-      })
+      make.models.some(model =>
+        model.types?.includes(typeId)
+      )
     );
     
     console.log('Filtered makes:', filteredMakes.map(m => m.name));
