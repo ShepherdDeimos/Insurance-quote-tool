@@ -191,7 +191,7 @@ export class VehicleDataService {
         const isMatch = model.types && 
                        model.types.includes(typeId) && 
                        // For strict type matching, ensure it's exactly the type we want
-                       (model.types.length === 1 && model.types[0] === typeId);
+                       model.types.includes(typeId);
         return isMatch;
       })
     );
@@ -208,11 +208,7 @@ export class VehicleDataService {
     if (!selectedMake) return [];
 
     const filteredModels = selectedMake.models.filter(model => {
-      const isMatch = model.types && 
-                     model.types.includes(typeId) && 
-                     // For strict type matching, ensure it's exactly the type we want
-                     (model.types.length === 1 && model.types[0] === typeId);
-      return isMatch;
+      model.types && model.types.includes(typeId);
     });
     
     console.log('Filtered models:', filteredModels.map(m => m.name));
