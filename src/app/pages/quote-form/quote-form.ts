@@ -9,6 +9,7 @@ import { BehaviorSubject } from 'rxjs';
 export interface VehicleOption {
   id: string;
   name: string;
+  types?: string[];
 }
 
 export interface VehicleMake {
@@ -31,12 +32,17 @@ export class QuoteForm implements OnInit {
 
   public vehicleTypes: VehicleOption[] = [
     { id: 'sedan', name: 'Sedan' },
+    { id: 'coupe', name: 'Coupe' },
     { id: 'suv', name: 'SUV' },
     { id: 'truck', name: 'Truck' },
-    { id: 'van', name: 'Van' }
+    { id: 'van', name: 'Van/Minivan' },
+    { id: 'wagon', name: 'Wagon' },
+    { id: 'hatchback', name: 'Hatchback' },
+    { id: 'convertible', name: 'Convertible' }
   ];
 
   public availableModels: VehicleOption[] = [];
+  public filteredMakes: VehicleMake[] = [];
   public currentYear = new Date().getFullYear();
   public isLoading = false;
   public submitError: string | null = null;
@@ -45,40 +51,116 @@ export class QuoteForm implements OnInit {
       id: 'ford',
       name: 'Ford',
       models: [
-        { id: 'f150', name: 'F-150' },
-        { id: 'explorer', name: 'Explorer' },
-        { id: 'escape', name: 'Escape' },
-        { id: 'mustang', name: 'Mustang' }
+        { id: 'mustang', name: 'Mustang', types: ['coupe', 'convertible'] },
+        { id: 'fusion', name: 'Fusion', types: ['sedan'] },
+        { id: 'f150', name: 'F-150', types: ['truck'] },
+        { id: 'ranger', name: 'Ranger', types: ['truck'] },
+        { id: 'explorer', name: 'Explorer', types: ['suv'] },
+        { id: 'escape', name: 'Escape', types: ['suv'] },
+        { id: 'bronco', name: 'Bronco', types: ['suv'] },
+        { id: 'expedition', name: 'Expedition', types: ['suv'] },
+        { id: 'edge', name: 'Edge', types: ['suv'] }
       ]
     },
     {
       id: 'chevrolet',
       name: 'Chevrolet',
       models: [
-        { id: 'silverado', name: 'Silverado' },
-        { id: 'equinox', name: 'Equinox' },
-        { id: 'tahoe', name: 'Tahoe' },
-        { id: 'camaro', name: 'Camaro' }
+        { id: 'camaro', name: 'Camaro', types: ['coupe', 'convertible'] },
+        { id: 'malibu', name: 'Malibu', types: ['sedan'] },
+        { id: 'silverado', name: 'Silverado', types: ['truck'] },
+        { id: 'colorado', name: 'Colorado', types: ['truck'] },
+        { id: 'equinox', name: 'Equinox', types: ['suv'] },
+        { id: 'tahoe', name: 'Tahoe', types: ['suv'] },
+        { id: 'traverse', name: 'Traverse', types: ['suv'] },
+        { id: 'blazer', name: 'Blazer', types: ['suv'] }
       ]
     },
     {
       id: 'toyota',
       name: 'Toyota',
       models: [
-        { id: 'camry', name: 'Camry' },
-        { id: 'rav4', name: 'RAV4' },
-        { id: 'highlander', name: 'Highlander' },
-        { id: 'tacoma', name: 'Tacoma' }
+        { id: 'camry', name: 'Camry', types: ['sedan'] },
+        { id: 'corolla', name: 'Corolla', types: ['sedan', 'hatchback'] },
+        { id: 'gr86', name: 'GR86', types: ['coupe'] },
+        { id: 'tacoma', name: 'Tacoma', types: ['truck'] },
+        { id: 'tundra', name: 'Tundra', types: ['truck'] },
+        { id: 'rav4', name: 'RAV4', types: ['suv'] },
+        { id: 'highlander', name: 'Highlander', types: ['suv'] },
+        { id: '4runner', name: '4Runner', types: ['suv'] },
+        { id: 'sienna', name: 'Sienna', types: ['van'] }
       ]
     },
     {
       id: 'honda',
       name: 'Honda',
       models: [
-        { id: 'civic', name: 'Civic' },
-        { id: 'cr-v', name: 'CR-V' },
-        { id: 'pilot', name: 'Pilot' },
-        { id: 'accord', name: 'Accord' }
+        { id: 'civic', name: 'Civic', types: ['sedan', 'hatchback'] },
+        { id: 'accord', name: 'Accord', types: ['sedan'] },
+        { id: 'ridgeline', name: 'Ridgeline', types: ['truck'] },
+        { id: 'cr-v', name: 'CR-V', types: ['suv'] },
+        { id: 'pilot', name: 'Pilot', types: ['suv'] },
+        { id: 'passport', name: 'Passport', types: ['suv'] },
+        { id: 'hr-v', name: 'HR-V', types: ['suv'] },
+        { id: 'odyssey', name: 'Odyssey', types: ['van'] }
+      ]
+    },
+    {
+      id: 'bmw',
+      name: 'BMW',
+      models: [
+        { id: '2-series', name: '2 Series', types: ['coupe', 'convertible'] },
+        { id: '3-series', name: '3 Series', types: ['sedan', 'wagon'] },
+        { id: '4-series', name: '4 Series', types: ['coupe', 'convertible'] },
+        { id: '5-series', name: '5 Series', types: ['sedan'] },
+        { id: '7-series', name: '7 Series', types: ['sedan'] },
+        { id: 'x1', name: 'X1', types: ['suv'] },
+        { id: 'x3', name: 'X3', types: ['suv'] },
+        { id: 'x5', name: 'X5', types: ['suv'] },
+        { id: 'x7', name: 'X7', types: ['suv'] }
+      ]
+    },
+    {
+      id: 'mercedes',
+      name: 'Mercedes-Benz',
+      models: [
+        { id: 'a-class', name: 'A-Class', types: ['sedan'] },
+        { id: 'c-class', name: 'C-Class', types: ['sedan', 'coupe', 'convertible'] },
+        { id: 'e-class', name: 'E-Class', types: ['sedan', 'coupe', 'convertible'] },
+        { id: 's-class', name: 'S-Class', types: ['sedan', 'coupe'] },
+        { id: 'gla', name: 'GLA', types: ['suv'] },
+        { id: 'glc', name: 'GLC', types: ['suv'] },
+        { id: 'gle', name: 'GLE', types: ['suv'] },
+        { id: 'gls', name: 'GLS', types: ['suv'] }
+      ]
+    },
+    {
+      id: 'audi',
+      name: 'Audi',
+      models: [
+        { id: 'a3', name: 'A3', types: ['sedan'] },
+        { id: 'a4', name: 'A4', types: ['sedan'] },
+        { id: 'a6', name: 'A6', types: ['sedan'] },
+        { id: 'a8', name: 'A8', types: ['sedan'] },
+        { id: 'q3', name: 'Q3', types: ['suv'] },
+        { id: 'q5', name: 'Q5', types: ['suv'] },
+        { id: 'q7', name: 'Q7', types: ['suv'] },
+        { id: 'q8', name: 'Q8', types: ['suv'] }
+      ]
+    },
+    {
+      id: 'lexus',
+      name: 'Lexus',
+      models: [
+        { id: 'is', name: 'IS', types: ['sedan'] },
+        { id: 'es', name: 'ES', types: ['sedan'] },
+        { id: 'ls', name: 'LS', types: ['sedan'] },
+        { id: 'rc', name: 'RC', types: ['coupe'] },
+        { id: 'lc', name: 'LC', types: ['coupe', 'convertible'] },
+        { id: 'ux', name: 'UX', types: ['suv'] },
+        { id: 'nx', name: 'NX', types: ['suv'] },
+        { id: 'rx', name: 'RX', types: ['suv'] },
+        { id: 'gx', name: 'GX', types: ['suv'] }
       ]
     }
   ];
@@ -110,6 +192,20 @@ export class QuoteForm implements OnInit {
       violations: [0, [Validators.required, Validators.min(0), Validators.max(10)]]
     });
 
+    // Update available makes and models when vehicle type changes
+    this.quoteForm.get('vehicleType')?.valueChanges.subscribe(type => {
+      // Reset make and model when type changes
+      this.quoteForm.patchValue({
+        vehicleMake: '',
+        vehicleModel: ''
+      }, { emitEvent: false });
+      
+      // Update available makes based on vehicle type
+      this.filteredMakes = this.vehicleMakes.filter(make =>
+        make.models.some(model => model.types?.includes(type))
+      );
+    });
+
     // Update available models when make changes
     this.quoteForm.get('vehicleMake')?.valueChanges.subscribe(makeId => {
       this.updateAvailableModels(makeId);
@@ -130,7 +226,15 @@ export class QuoteForm implements OnInit {
 
   updateAvailableModels(makeId: string): void {
     const selectedMake = this.vehicleMakes.find(make => make.id === makeId);
-    this.availableModels = selectedMake?.models || [];
+    const selectedType = this.quoteForm.get('vehicleType')?.value;
+    
+    if (selectedMake) {
+      this.availableModels = selectedMake.models.filter(model => 
+        !selectedType || (model.types && model.types.includes(selectedType))
+      );
+    } else {
+      this.availableModels = [];
+    }
   }
 
   onSubmit(): void {

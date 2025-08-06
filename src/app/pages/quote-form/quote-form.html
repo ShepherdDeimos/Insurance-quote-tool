@@ -210,7 +210,7 @@
                                placeholder-gray-500 focus:border-blue-500 focus:outline-none transition-colors appearance-none"
                         [disabled]="!quoteForm.get('vehicleType')?.value">
                   <option value="">Select make</option>
-                  <option *ngFor="let make of vehicleMakes" [value]="make.id">{{make.name}}</option>
+                  <option *ngFor="let make of filteredMakes" [value]="make.id">{{make.name}}</option>
                 </select>
                 <p class="text-xs text-gray-400 mt-2">Select your vehicle manufacturer</p>
               </div>
@@ -252,7 +252,7 @@
             <!-- Construction/Accident History -->
           <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mt-8">
             <!-- Accidents -->
-            <div class="bg-[#141830]/50 p-6 rounded-lg border border-[#2d3748]/50">
+            <div class="flex gap-6 bg-[#141830]/50 p-6 rounded-lg border border-[#2d3748]/50">
               <label class="block text-base font-medium mb-3 text-pink-400">Number of Accidents</label>
               <div class="flex items-center justify-between">
                 <button type="button" (click)="decrementValue('accidents')"
@@ -273,7 +273,7 @@
             </div>
 
             <!-- Traffic Violations -->
-            <div class="bg-[#141830]/50 p-6 rounded-lg border border-[#2d3748]/50">
+            <div class="bg-[#141830]/50 p-6 rounded-lg border border-[#2d3748]/50 flex-1">
               <label class="block text-base font-medium mb-3 text-pink-400">Traffic Violations</label>
               <div class="flex items-center justify-between">
                 <button type="button" (click)="decrementValue('violations')"
