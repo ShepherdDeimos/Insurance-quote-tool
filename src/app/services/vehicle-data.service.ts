@@ -77,18 +77,92 @@ export class VehicleDataService {
       ]
     },
     {
+      id: 'subaru',
+      name: 'Subaru',
+      models: [
+        { id: 'impreza', name: 'Impreza', types: ['sedan', 'hatchback'] },
+        { id: 'legacy', name: 'Legacy', types: ['sedan'] },
+        { id: 'wrx', name: 'WRX', types: ['sedan'] },
+        { id: 'brz', name: 'BRZ', types: ['coupe'] },
+        { id: 'outback', name: 'Outback', types: ['wagon', 'suv'] },
+        { id: 'forester', name: 'Forester', types: ['suv'] },
+        { id: 'crosstrek', name: 'Crosstrek', types: ['suv'] },
+        { id: 'ascent', name: 'Ascent', types: ['suv'] }
+      ]
+    },
+    {
+      id: 'mazda',
+      name: 'Mazda',
+      models: [
+        { id: 'mazda3', name: 'Mazda3', types: ['sedan', 'hatchback'] },
+        { id: 'mazda6', name: 'Mazda6', types: ['sedan'] },
+        { id: 'mx5', name: 'MX-5 Miata', types: ['convertible'] },
+        { id: 'cx3', name: 'CX-3', types: ['suv'] },
+        { id: 'cx30', name: 'CX-30', types: ['suv'] },
+        { id: 'cx5', name: 'CX-5', types: ['suv'] },
+        { id: 'cx9', name: 'CX-9', types: ['suv'] },
+        { id: 'cx90', name: 'CX-90', types: ['suv'] }
+      ]
+    },
+    {
+      id: 'volkswagen',
+      name: 'Volkswagen',
+      models: [
+        { id: 'jetta', name: 'Jetta', types: ['sedan'] },
+        { id: 'passat', name: 'Passat', types: ['sedan'] },
+        { id: 'arteon', name: 'Arteon', types: ['sedan'] },
+        { id: 'golf', name: 'Golf', types: ['hatchback'] },
+        { id: 'gti', name: 'GTI', types: ['hatchback'] },
+        { id: 'taos', name: 'Taos', types: ['suv'] },
+        { id: 'tiguan', name: 'Tiguan', types: ['suv'] },
+        { id: 'atlas', name: 'Atlas', types: ['suv'] },
+        { id: 'atlascross', name: 'Atlas Cross Sport', types: ['suv'] }
+      ]
+    },
+    {
+      id: 'hyundai',
+      name: 'Hyundai',
+      models: [
+        { id: 'elantra', name: 'Elantra', types: ['sedan'] },
+        { id: 'sonata', name: 'Sonata', types: ['sedan'] },
+        { id: 'venue', name: 'Venue', types: ['suv'] },
+        { id: 'kona', name: 'Kona', types: ['suv'] },
+        { id: 'tucson', name: 'Tucson', types: ['suv'] },
+        { id: 'santafe', name: 'Santa Fe', types: ['suv'] },
+        { id: 'palisade', name: 'Palisade', types: ['suv'] }
+      ]
+    },
+    {
+      id: 'kia',
+      name: 'Kia',
+      models: [
+        { id: 'forte', name: 'Forte', types: ['sedan'] },
+        { id: 'k5', name: 'K5', types: ['sedan'] },
+        { id: 'stinger', name: 'Stinger', types: ['sedan'] },
+        { id: 'soul', name: 'Soul', types: ['wagon'] },
+        { id: 'seltos', name: 'Seltos', types: ['suv'] },
+        { id: 'sportage', name: 'Sportage', types: ['suv'] },
+        { id: 'sorento', name: 'Sorento', types: ['suv'] },
+        { id: 'telluride', name: 'Telluride', types: ['suv'] },
+        { id: 'carnival', name: 'Carnival', types: ['van'] }
+      ]
+    },
+    {
       id: 'nissan',
       name: 'Nissan',
       models: [
+        { id: 'versa', name: 'Versa', types: ['sedan'] },
+        { id: 'sentra', name: 'Sentra', types: ['sedan'] },
         { id: 'altima', name: 'Altima', types: ['sedan'] },
         { id: 'maxima', name: 'Maxima', types: ['sedan'] },
-        { id: 'sentra', name: 'Sentra', types: ['sedan'] },
-        { id: 'frontier', name: 'Frontier', types: ['truck'] },
-        { id: 'titan', name: 'Titan', types: ['truck'] },
+        { id: 'z', name: 'Z', types: ['coupe'] },
+        { id: 'kicks', name: 'Kicks', types: ['suv'] },
         { id: 'rogue', name: 'Rogue', types: ['suv'] },
         { id: 'murano', name: 'Murano', types: ['suv'] },
         { id: 'pathfinder', name: 'Pathfinder', types: ['suv'] },
-        { id: 'armada', name: 'Armada', types: ['suv'] }
+        { id: 'armada', name: 'Armada', types: ['suv'] },
+        { id: 'frontier', name: 'Frontier', types: ['truck'] },
+        { id: 'titan', name: 'Titan', types: ['truck'] }
       ]
     },
     {
