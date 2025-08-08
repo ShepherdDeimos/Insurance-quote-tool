@@ -1,14 +1,14 @@
 <!-- Main Container: Full screen wrapper with dark purple gradient background and geometric pattern -->
 <div class="min-h-screen bg-gradient-to-br from-[#020817] via-[#1a1f3c] to-[#2d1b4d] text-white py-8 px-4 relative overflow-hidden">
   <!-- Background Pattern: SVG grid overlay that creates subtle geometric lines across the page -->
-  <div class="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZGVmcz48cGF0dGVybiBpZD0iZ3JpZCIgd2lkdGg9IjQwIiBoZWlnaHQ9IjQwIiBwYXR0ZXJuVW5pdHM9InVzZXJTcGFjZU9uVXNlIj48cGF0aCBkPSJNIDQwIDAgTCAwIDAgMCA0MCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjMzEzNTRhIiBzdHJva2Utd2lkdGg9IjEiLz48L3BhdHRlcm4+PC9kZWZzPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9InVybCgjZ3JpZCkiLz48L3N2Zz4=')] opacity-10"></div>
+  <div class="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZGVmcz48cGF0dGVybiBpZD0iZ3JpZCIgd2lkdGg9IjQwIiBoZWlnaHQ9IjQwIiBwYXR0ZXJuVW5pdHM9InVzZXJTcGFjZU9uVXNlIj48cGF0aCBkPSJNIDQwIDAgTCAwIDAgMCA0MCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjMzEzNTRhIiBzdHJva2Utd2lkdGg9IjEiLz48L3BhdHRlcm4+PC9kZWZzPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9InVybCgjZ3JpZCkiLz48L3N2Zz4=')] opacity-10 pointer-events-none"></div>
   
   <!-- Logo and Title Section: Header area with animated shield logo and page title -->
   <div class="mx-auto max-w-3xl text-center mb-12 relative">
     <!-- Logo Container: 80x80px container for the animated shield icon -->
     <div class="mx-auto w-20 h-20 mb-8 relative">
       <!-- Glow Effect: Blurred colored background that creates glowing aura behind the shield -->
-      <div class="absolute inset-0 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 opacity-50 blur-xl animate-pulse"></div>
+      <div class="absolute inset-0 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 opacity-50 blur-xl animate-pulse pointer-events-none"></div>
       <!-- Shield SVG: Security/protection icon with floating animation and gradient colors -->
       <svg class="w-full h-full relative z-10 animate-float" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
         <!-- Shield Shape: Main outline forming protective shield with gradient stroke and fill -->
@@ -81,13 +81,13 @@
       </span>
     </div>
     <div class="h-2 bg-[#1a1f3c] rounded-full p-[1px] backdrop-blur-sm bg-opacity-50 shadow-lg relative overflow-hidden">
-      <div class="absolute inset-0 bg-gradient-to-r from-blue-500/20 via-purple-500/20 to-pink-500/20 animate-pulse"></div>
+      <div class="absolute inset-0 bg-gradient-to-r from-blue-500/20 via-purple-500/20 to-pink-500/20 animate-pulse pointer-events-none"></div>
       <!-- Progress Bar Fill: Colored bar that grows from 0% to 100% as form is completed -->
       <div class="h-full bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 rounded-full 
                   transition-all duration-700 ease-out transform hover:scale-x-[1.02] hover:shadow-lg"
            [style.width]="(formProgress$ | async) + '%'">
         <!-- Shimmer Effect: Animated light reflection that moves across the progress bar -->
-        <div class="absolute inset-0 bg-gradient-to-r from-white/0 via-white/20 to-white/0 animate-shimmer"></div>
+        <div class="absolute inset-0 bg-gradient-to-r from-white/0 via-white/20 to-white/0 animate-shimmer pointer-events-none"></div>
       </div>
     </div>
   </div>        
@@ -408,10 +408,11 @@
           <!-- Submit Button: Main action button to submit the form and get insurance quote -->
           <button type="submit" 
                   [disabled]="!quoteForm.valid || isLoading"
+                  (click)="onSubmit()"
                   class="group relative px-12 py-3 overflow-hidden rounded-lg bg-gradient-to-r from-blue-500 via-blue-600 to-purple-500
                          text-white font-medium text-lg shadow-lg hover:shadow-xl
-                         transform hover:scale-[1.02] transition-all duration-300
-                         disabled:opacity-50 disabled:cursor-not-allowed">
+                         transform hover:scale-[1.02] active:scale-[0.98] transition-all duration-300
+                         disabled:opacity-50 disabled:cursor-not-allowed touch-manipulation">
             <!-- Button Content: Spans containing icons and text that change based on loading state -->
             <span class="relative z-10 flex items-center justify-center">
               <!-- Loading Spinner: Rotating circle shown when form is being submitted -->

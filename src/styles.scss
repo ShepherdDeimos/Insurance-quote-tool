@@ -2,3 +2,69 @@
 @use "tailwindcss/base" as *;
 @use "tailwindcss/components" as *;
 @use "tailwindcss/utilities" as *;
+
+/* ================================================================================================ */
+/* MOBILE & TOUCH DEVICE OPTIMIZATION */
+/* ================================================================================================ */
+/* Fix for iOS Safari and other mobile browsers that might block form interactions */
+
+* {
+  /* Ensure all elements can receive touch events */
+  touch-action: manipulation;
+}
+
+/* Fix for form inputs on mobile devices */
+input, select, textarea, button {
+  /* Prevent zoom on iOS when focusing inputs */
+  font-size: 16px !important;
+  /* Ensure inputs can receive touch events */
+  touch-action: manipulation;
+  /* Fix for some mobile browsers */
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+/* Ensure form elements are touchable */
+form {
+  touch-action: manipulation;
+}
+
+/* Fix for Safari iOS form styling */
+input:focus,
+select:focus,
+textarea:focus {
+  outline: none;
+  /* Remove iOS blue glow */
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Ensure buttons are properly touchable */
+button {
+  cursor: pointer;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Fix for overlay elements that might block interactions */
+.absolute.pointer-events-none {
+  pointer-events: none;
+}
+
+/* Background overlays should not block interactions */
+.absolute.bg-gradient-to-r,
+.absolute[class*="bg-[url"],
+.absolute.opacity-10,
+.absolute.blur-xl {
+  pointer-events: none;
+}
+
+/* Re-enable pointer events for interactive elements */
+input,
+select,
+button,
+a,
+[role="button"],
+form {
+  pointer-events: auto !important;
+}
+
