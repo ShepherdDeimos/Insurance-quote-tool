@@ -1,1 +1,28 @@
+<!-- ================================================================================================ -->
+<!-- APP.HTML - THE MAIN CONTAINER TEMPLATE FOR OUR ENTIRE INSURANCE APPLICATION -->
+<!-- ================================================================================================ -->
+<!-- This is the "master template" that gets inserted into <app-root> in index.html. -->
+<!-- It defines the overall layout structure that stays consistent across all pages. -->
+<!-- User Experience: This template provides the foundation where all page content gets injected. -->
+<!-- 
+     ARCHITECTURE FLOW:
+     1. Browser loads index.html
+     2. Angular replaces <app-root> with THIS template
+     3. Angular replaces <router-outlet> with the current page component
+     4. User sees: Navigation + Current Page Content
+-->
+
+<!-- 🔄 ROUTER OUTLET - The Dynamic Content Area -->
 <router-outlet></router-outlet>
+<!-- 
+     EXPLANATION: This special Angular tag gets replaced with different components based on the current URL:
+     - /quote-form → Displays QuoteForm component (insurance application form)
+     - /quote-results/123 → Displays QuoteResults component (calculated premiums)
+     - /saved-quotes → Displays SavedQuotes component (quote history)
+     
+     HOW IT WORKS: Angular Router uses app.routes.ts to determine which component to inject here.
+     It's like a "placeholder" that changes content based on navigation, creating the Single Page App experience.
+     
+     USER EXPERIENCE: Users see different content in this space, but the overall app structure stays the same.
+     This creates smooth transitions between pages without full page reloads.
+-->

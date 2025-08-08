@@ -1,13 +1,31 @@
 <!doctype html>
 <html lang="en">
+<!-- ================================================================================================ -->
+<!-- INDEX.HTML - THE FOUNDATION HTML PAGE THAT HOLDS OUR ENTIRE ANGULAR APP -->
+<!-- ================================================================================================ -->
+<!-- This is the ONLY actual HTML page in our single-page application (SPA). Everything else -->
+<!-- (quote form, results page, navigation) gets dynamically inserted into this foundation. -->
+<!-- Think of this as the "picture frame" and Angular components as the "pictures" that go inside. -->
+
 <head>
-  <meta charset="utf-8">
-  <title>InsuranceQuoteTool</title>
-  <base href="/">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <!-- 📝 DOCUMENT METADATA - Information about our web page for browsers and search engines -->
+  <meta charset="utf-8">                                               <!-- Character encoding: supports emojis, international characters, special symbols -->
+  <title>InsuranceQuoteTool</title>                                     <!-- Browser tab title: "InsuranceQuoteTool" - what users see in browser tabs -->
+  <base href="/">                                                       <!-- Base URL for all relative paths: tells Angular where the app is hosted -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">  <!-- Mobile responsiveness: makes app work properly on phones and tablets -->
+  <link rel="icon" type="image/x-icon" href="favicon.ico">             <!-- Browser tab icon: small shield icon next to the title -->
 </head>
 <body>
-  <app-root></app-root>
+  <!-- 🎯 ANGULAR APP INSERTION POINT - Where our entire insurance app gets injected -->
+  <!-- This <app-root> tag is replaced by Angular with our actual app content -->
+  <!-- Angular looks for "app-root" selector and replaces it with AppComponent template -->
+  <app-root></app-root>                                                 <!-- Gets replaced with: navbar + router-outlet + footer -->
+  
+  <!-- 🔄 HOW IT WORKS: -->
+  <!-- 1. Browser loads this HTML page -->
+  <!-- 2. Angular main.ts runs and bootstraps AppComponent -->  
+  <!-- 3. AppComponent template replaces <app-root> -->
+  <!-- 4. Router loads appropriate page component inside router-outlet -->
+  <!-- 5. User sees fully functional insurance quote application -->
 </body>
 </html>

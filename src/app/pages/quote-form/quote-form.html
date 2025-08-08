@@ -1,34 +1,49 @@
-<!-- Main Container -->
+<!-- Main Container: Full screen wrapper with dark purple gradient background and geometric pattern -->
 <div class="min-h-screen bg-gradient-to-br from-[#020817] via-[#1a1f3c] to-[#2d1b4d] text-white py-8 px-4 relative overflow-hidden">
+  <!-- Background Pattern: SVG grid overlay that creates subtle geometric lines across the page -->
   <div class="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZGVmcz48cGF0dGVybiBpZD0iZ3JpZCIgd2lkdGg9IjQwIiBoZWlnaHQ9IjQwIiBwYXR0ZXJuVW5pdHM9InVzZXJTcGFjZU9uVXNlIj48cGF0aCBkPSJNIDQwIDAgTCAwIDAgMCA0MCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjMzEzNTRhIiBzdHJva2Utd2lkdGg9IjEiLz48L3BhdHRlcm4+PC9kZWZzPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9InVybCgjZ3JpZCkiLz48L3N2Zz4=')] opacity-10"></div>
   
-  <!-- Logo and Title -->
+  <!-- Logo and Title Section: Header area with animated shield logo and page title -->
   <div class="mx-auto max-w-3xl text-center mb-12 relative">
+    <!-- Logo Container: 80x80px container for the animated shield icon -->
     <div class="mx-auto w-20 h-20 mb-8 relative">
+      <!-- Glow Effect: Blurred colored background that creates glowing aura behind the shield -->
       <div class="absolute inset-0 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 opacity-50 blur-xl animate-pulse"></div>
+      <!-- Shield SVG: Security/protection icon with floating animation and gradient colors -->
       <svg class="w-full h-full relative z-10 animate-float" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <!-- Shield Shape: Main outline forming protective shield with gradient stroke and fill -->
         <path d="M12 2L4 6V12C4 16.4183 7.58172 20 12 20C16.4183 20 20 16.4183 20 12V6L12 2Z" 
               stroke="url(#gradient)" stroke-width="2" fill="url(#gradientFill)" class="animate-pulse"/>
+        <!-- Checkmark: White checkmark inside shield indicating approval/security -->
         <path d="M9 12L11 14L15 10" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+        <!-- SVG Gradient Definitions: Color definitions for blue-purple-pink gradient effects -->
         <defs>
+          <!-- Stroke Gradient: Blue to purple to pink gradient for shield outline -->
           <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
             <stop offset="0%" style="stop-color:#60A5FA"/>
             <stop offset="50%" style="stop-color:#7C3AED"/>
             <stop offset="100%" style="stop-color:#EC4899"/>
           </linearGradient>
+          <!-- Fill Gradient: Semi-transparent version of same colors for shield interior -->
           <linearGradient id="gradientFill" x1="0%" y1="0%" x2="100%" y2="100%">
+            <!-- Blue Stop: 10% opacity blue at start of gradient -->
             <stop offset="0%" style="stop-color:#3B82F6;stop-opacity:0.1"/>
+            <!-- Purple Stop: 15% opacity purple at middle of gradient -->
             <stop offset="50%" style="stop-color:#7C3AED;stop-opacity:0.15"/>
+            <!-- Pink Stop: 10% opacity pink at end of gradient -->
             <stop offset="100%" style="stop-color:#EC4899;stop-opacity:0.1"/>
           </linearGradient>
         </defs>
       </svg>
     </div>
 
+    <!-- Main Heading: Large title with animated gradient text effect that shifts colors -->
     <h1 class="text-3xl font-bold mb-3 bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 text-transparent bg-clip-text animate-gradient">Shield Your Journey</h1>
+    <!-- Welcome Message: Subtitle explaining the purpose of this page -->
     <p class="text-blue-300 mb-2 text-lg animate-fadeIn">
       Welcome to your personalized insurance experience
     </p>
+    <!-- Instructions: Smaller text telling user what to do next -->
     <p class="text-indigo-300 text-base">
       Tell us a bit about yourself, and we'll craft the perfect coverage for your needs
     </p>
@@ -67,29 +82,39 @@
     </div>
     <div class="h-2 bg-[#1a1f3c] rounded-full p-[1px] backdrop-blur-sm bg-opacity-50 shadow-lg relative overflow-hidden">
       <div class="absolute inset-0 bg-gradient-to-r from-blue-500/20 via-purple-500/20 to-pink-500/20 animate-pulse"></div>
+      <!-- Progress Bar Fill: Colored bar that grows from 0% to 100% as form is completed -->
       <div class="h-full bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 rounded-full 
                   transition-all duration-700 ease-out transform hover:scale-x-[1.02] hover:shadow-lg"
            [style.width]="(formProgress$ | async) + '%'">
+        <!-- Shimmer Effect: Animated light reflection that moves across the progress bar -->
         <div class="absolute inset-0 bg-gradient-to-r from-white/0 via-white/20 to-white/0 animate-shimmer"></div>
       </div>
     </div>
-  </div>        <!-- Form Container -->
+  </div>        
+  <!-- Form Container: Main reactive form that collects user data and submits quote request -->
   <form [formGroup]="quoteForm" (ngSubmit)="onSubmit()" class="max-w-4xl mx-auto space-y-8">
-    <!-- Driver Info -->
+    <!-- Driver Info Section: First section collecting personal information about the driver -->
     <div class="bg-gradient-to-br from-[#1a1f3c] via-[#2a2f5c] to-[#3a3f7c] rounded-lg p-8 shadow-lg transform hover:scale-[1.02] transition-all duration-300">
+      <!-- Section Title: Gradient text heading for personal information section -->
       <h2 class="text-2xl font-semibold mb-8 bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-400">Driver Info</h2>
+      <!-- Two Column Grid: Responsive layout that stacks on mobile, side-by-side on desktop -->
       <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-        <!-- Personal Information -->
+        <!-- Personal Information Column: Left side with name, email, phone fields -->
         <div class="space-y-6">
+          <!-- First Name Field: Text input for user's first name -->
           <div>
+            <!-- Field Label: Text above input telling user what to enter -->
             <label class="block text-sm font-medium mb-2">First Name</label>
+            <!-- Text Input: Dark styled input field connected to firstName FormControl -->
             <input type="text" formControlName="firstName"
                    class="w-full px-4 py-3.5 text-lg bg-[#141830] border border-[#2d3748] rounded-md text-white
                           placeholder-gray-500 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 focus:outline-none 
                           transition-all duration-300"
                    placeholder="Enter first name" />
           </div>
+          <!-- Last Name Field: Text input for user's last name -->
           <div>
+            <!-- Field Label: Text above input for last name -->
             <label class="block text-sm font-medium mb-2">Last Name</label>
             <input type="text" formControlName="lastName"
                    class="w-full px-4 py-3.5 text-lg bg-[#141830] border border-[#2d3748] rounded-md text-white
@@ -167,25 +192,34 @@
           </div>
         </div>
 
-        <!-- Vehicle Info -->
+        <!-- Vehicle Info Section: Second section collecting details about the user's car -->
         <div class="bg-gradient-to-br from-[#1a1f3c] via-[#2a2f5c] to-[#3a3f7c] rounded-lg p-6 shadow-lg transform hover:scale-[1.02] transition-all duration-300">
+          <!-- Section Title: Purple gradient heading for vehicle information -->
           <h2 class="text-xl font-semibold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-pink-400">Vehicle Info</h2>
+          <!-- Single Column Layout: All vehicle fields in one column for better organization -->
           <div class="grid grid-cols-1 gap-6">
+            <!-- Top Row: Vehicle type and make in two columns on desktop -->
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <!-- Vehicle Type -->
+              <!-- Vehicle Type Dropdown: First field to select sedan/SUV/truck etc -->
               <div>
+                <!-- Label with Icon: Car icon next to "Vehicle Type" text -->
                 <label class="block text-sm font-medium mb-2 flex items-center">
+                  <!-- Car Icon: Small purple arrow/car SVG icon -->
                   <svg class="w-4 h-4 mr-2 text-purple-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 4h-4a2 2 0 00-2 2v12a2 2 0 002 2h4M7 16l-4-4m0 0l4-4m-4 4h18" />
                   </svg>
                   Vehicle Type
                 </label>
+                <!-- Dropdown Container: Relative positioned container for custom styled select -->
                 <div class="relative">
+                  <!-- Vehicle Type Select: Dropdown connected to vehicleType FormControl -->
                   <select formControlName="vehicleType" 
                           class="w-full pl-10 pr-4 py-3 bg-[#141830] border border-[#2d3748] rounded-md text-white
                                  placeholder-gray-500 focus:border-blue-500 focus:ring-2 focus:ring-purple-500/20 focus:outline-none 
                                  transition-all duration-300 appearance-none">
+                    <!-- Default Option: Placeholder text shown when nothing selected -->
                     <option value="">Select a type</option>
+                    <!-- Dynamic Options: Loop through vehicleTypes array to create options like Sedan, SUV, Truck -->
                     <option *ngFor="let type of vehicleTypes" [value]="type.id">{{type.name}}</option>
                   </select>
                   <div class="absolute inset-y-0 left-3 flex items-center pointer-events-none text-gray-400">
@@ -371,23 +405,29 @@
             {{ submitError }}
           </div>
 
+          <!-- Submit Button: Main action button to submit the form and get insurance quote -->
           <button type="submit" 
                   [disabled]="!quoteForm.valid || isLoading"
                   class="group relative px-12 py-3 overflow-hidden rounded-lg bg-gradient-to-r from-blue-500 via-blue-600 to-purple-500
                          text-white font-medium text-lg shadow-lg hover:shadow-xl
                          transform hover:scale-[1.02] transition-all duration-300
                          disabled:opacity-50 disabled:cursor-not-allowed">
+            <!-- Button Content: Spans containing icons and text that change based on loading state -->
             <span class="relative z-10 flex items-center justify-center">
-              <!-- Loading Spinner -->
+              <!-- Loading Spinner: Rotating circle shown when form is being submitted -->
               <svg *ngIf="isLoading" class="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                <!-- Spinner Circle: Light gray circle that forms the base of the loading animation -->
                 <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                <!-- Spinner Arc: Darker arc that rotates around the circle to show loading progress -->
                 <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
               </svg>
-              <!-- Regular Icon -->
+              <!-- Regular Icon: Shield with checkmark shown when form is ready to submit -->
               <svg *ngIf="!isLoading" class="w-6 h-6 mr-2 animate-pulse" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <!-- Shield Path: Protective shield outline with checkmark inside -->
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
                       d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
               </svg>
+              <!-- Dynamic Button Text: Changes from "Start Your Quote" to "Calculating..." when submitting -->
               {{ isLoading ? 'Calculating...' : 'Start Your Quote' }}
             </span>
             <div class="absolute top-0 left-0 w-full h-full bg-gradient-to-r from-blue-600 via-purple-500 to-pink-500 opacity-0 

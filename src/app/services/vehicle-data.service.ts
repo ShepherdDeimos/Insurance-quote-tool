@@ -1,28 +1,37 @@
-import { Injectable } from '@angular/core';
-import { VehicleOption, VehicleMake } from '../pages/quote-form/quote-form';
+// ================================================================================================
+// VEHICLE DATA SERVICE - The Database of Our Car Information System  
+// ================================================================================================
+// This service acts as our "car database" containing manufacturers, models, and their relationships.
+// It provides the data that powers the cascading dropdowns in our quote form:
+// 1. User selects vehicle type → Service filters manufacturers → Shows only relevant brands
+// 2. User selects manufacturer → Service filters models → Shows only relevant models  
+// This creates a smooth, logical flow that prevents impossible combinations (like "Honda F-150").
 
-@Injectable({
-  providedIn: 'root'
+import { Injectable } from '@angular/core';                               // Angular decorator that enables dependency injection for this service
+import { VehicleOption, VehicleMake } from '../pages/quote-form/quote-form'; // Import interfaces that define the structure of our vehicle data objects
+
+@Injectable({                                                             // Tell Angular this is a service (helper class)
+  providedIn: 'root'                                                    // Make this service available everywhere in the app
 })
-export class VehicleDataService {
-  private vehicleMakes: VehicleMake[] = [
-    {
-      id: 'ford',
-      name: 'Ford',
-      models: [
-        { id: 'mustang', name: 'Mustang', types: ['coupe', 'convertible'] },
-        { id: 'fusion', name: 'Fusion', types: ['sedan'] },
-        { id: 'f150', name: 'F-150', types: ['truck'] },
-        { id: 'f250', name: 'F-250', types: ['truck'] },
-        { id: 'f350', name: 'F-350', types: ['truck'] },
-        { id: 'ranger', name: 'Ranger', types: ['truck'] },
-        { id: 'explorer', name: 'Explorer', types: ['suv'] },
-        { id: 'escape', name: 'Escape', types: ['suv'] },
-        { id: 'bronco', name: 'Bronco', types: ['suv'] },
-        { id: 'expedition', name: 'Expedition', types: ['suv'] },
-        { id: 'edge', name: 'Edge', types: ['suv'] },
-        { id: 'maverick', name: 'Maverick', types: ['truck'] },
-        { id: 'transit', name: 'Transit', types: ['van'] }
+export class VehicleDataService {                                       // Main class that knows about cars and their types
+  private vehicleMakes: VehicleMake[] = [                              // Big list of all car manufacturers and their models
+    {                                                                     // Ford car company data
+      id: 'ford',                                                       // Unique identifier for Ford
+      name: 'Ford',                                                     // Display name for Ford
+      models: [                                                         // List of all Ford car models
+        { id: 'mustang', name: 'Mustang', types: ['coupe', 'convertible'] },           // Sports car, comes in 2-door or convertible
+        { id: 'fusion', name: 'Fusion', types: ['sedan'] },                            // 4-door family car
+        { id: 'f150', name: 'F-150', types: ['truck'] },                               // Popular pickup truck
+        { id: 'f250', name: 'F-250', types: ['truck'] },                               // Bigger pickup truck
+        { id: 'f350', name: 'F-350', types: ['truck'] },                               // Even bigger pickup truck
+        { id: 'ranger', name: 'Ranger', types: ['truck'] },                            // Smaller pickup truck
+        { id: 'explorer', name: 'Explorer', types: ['suv'] },                          // Family SUV
+        { id: 'escape', name: 'Escape', types: ['suv'] },                              // Smaller SUV
+        { id: 'bronco', name: 'Bronco', types: ['suv'] },                              // Off-road SUV
+        { id: 'expedition', name: 'Expedition', types: ['suv'] },                      // Large family SUV
+        { id: 'edge', name: 'Edge', types: ['suv'] },                                  // Mid-size SUV
+        { id: 'maverick', name: 'Maverick', types: ['truck'] },                        // Compact pickup truck
+        { id: 'transit', name: 'Transit', types: ['van'] }                             // Work van
       ]
     },
     {
@@ -178,41 +187,41 @@ export class VehicleDataService {
     }
   ];
 
-  public getVehicleMakes() {
-    return this.vehicleMakes;
+  public getVehicleMakes() {                                              // Function to get all car manufacturers
+    return this.vehicleMakes;                                           // Return the complete list of car brands
   }
 
-  public getMakesByType(typeId: string): VehicleMake[] {
-    if (!typeId) return [];
+  public getMakesByType(typeId: string): VehicleMake[] {                // Function to get car brands that make a specific type
+    if (!typeId) return [];                                             // If no type selected, return empty list
     
-    console.log('Getting makes for type:', typeId);
+    console.log('Getting makes for type:', typeId);                     // Log what type we're looking for
     // Create a deep copy of vehicle makes and filter them
-    const filteredMakes = this.vehicleMakes
-      .map(make => ({
-        ...make,
-        models: make.models.filter(model => 
-          model.types && model.types.includes(typeId)
+    const filteredMakes = this.vehicleMakes                             // Start with all car brands
+      .map(make => ({                                                   // For each brand, create a copy
+        ...make,                                                        // Copy all brand info
+        models: make.models.filter(model =>                             // Filter models to only include matching type
+          model.types && model.types.includes(typeId)                  // Keep models that support this type
         )
       }))
-      .filter(make => make.models.length > 0);
+      .filter(make => make.models.length > 0);                         // Only keep brands that have matching models
     
-    console.log('Available manufacturers for', typeId + ':', filteredMakes.map(m => m.name));
-    return filteredMakes;
+    console.log('Available manufacturers for', typeId + ':', filteredMakes.map(m => m.name));  // Log what we found
+    return filteredMakes;                                               // Return the filtered list
   }
 
-  public getModelsByMakeAndType(makeId: string, typeId: string): VehicleOption[] {
-    if (!makeId || !typeId) return [];
+  public getModelsByMakeAndType(makeId: string, typeId: string): VehicleOption[] {  // Function to get models for specific brand and type
+    if (!makeId || !typeId) return [];                                  // If missing info, return empty list
 
-    console.log('Getting models for make:', makeId, 'and type:', typeId);
-    const selectedMake = this.vehicleMakes.find(make => make.id === makeId);
-    if (!selectedMake) return [];
+    console.log('Getting models for make:', makeId, 'and type:', typeId);  // Log what we're looking for
+    const selectedMake = this.vehicleMakes.find(make => make.id === makeId);  // Find the selected car brand
+    if (!selectedMake) return [];                                       // If brand not found, return empty list
 
     // Only return models that have the selected type
-    const filteredModels = selectedMake.models.filter(model => 
-      model.types && model.types.includes(typeId)
+    const filteredModels = selectedMake.models.filter(model =>          // Filter the brand's models
+      model.types && model.types.includes(typeId)                      // Keep only models that support this type
     );
     
-    console.log('Filtered models for', selectedMake.name, 'of type', typeId + ':', filteredModels.map(m => m.name));
-    return filteredModels;
+    console.log('Filtered models for', selectedMake.name, 'of type', typeId + ':', filteredModels.map(m => m.name));  // Log results
+    return filteredModels;                                              // Return the matching models
   }
 }

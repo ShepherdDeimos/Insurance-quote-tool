@@ -1,192 +1,220 @@
-import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
-import { Router, RouterLink } from '@angular/router';
-import { BehaviorSubject } from 'rxjs';
-import { VehicleDataService } from '../../services/vehicle-data.service';
-import { QuoteService } from '../../services/quote.service';
+import { Component, OnInit } from '@angular/core';                          // Gets @Component decorator to mark class as Angular component + OnInit interface for ngOnInit() lifecycle method
+import { CommonModule } from '@angular/common';                          // Gets *ngFor="let item of items", *ngIf="condition", | uppercase pipe for templates  
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';  // Gets this.fb.group() builder, FormGroup type, Validators.required/email rules
+import { Router, RouterLink } from '@angular/router';                    // Gets this.router.navigate(['/path']) method + <a routerLink="/path"> directive
+import { BehaviorSubject } from 'rxjs';                                  // Gets variable that remembers last value + notifies all subscribers when value changes
+import { VehicleDataService } from '../../services/vehicle-data.service'; // Gets service with arrays of Ford/Honda/Toyota makes and Civic/Accord/F150 models
+import { QuoteService } from '../../services/quote.service';             // Gets service that takes form data and returns calculated monthly premium price
 
-export interface VehicleOption {
-  id: string;
-  name: string;
-  types?: string[];
+export interface VehicleOption {                                           // TypeScript contract requiring objects like { id: "civic", name: "Civic", types: ["sedan", "hatchback"] }
+  id: string;                                                           // Lowercase unique key "civic" that gets stored in this.quoteForm.value.vehicleModel
+  name: string;                                                         // User-friendly label "Civic" that appears in <select><option>Civic</option></select>
+  types?: string[];                                                     // Optional array ["sedan", "hatchback"] showing which body styles available for filtering
+}
+                                        
+export interface VehicleMake {                                          // TypeScript contract requiring objects like { id: "honda", name: "Honda", models: [...civicObj, ...accordObj] }
+  id: string;                                                           // Lowercase unique key "honda" that gets stored in this.quoteForm.value.vehicleMake  
+  name: string;                                                         // User-friendly label "Honda" that appears in <select><option>Honda</option></select>
+  models: VehicleOption[];                                              // Array containing all car models like [civicObject, accordObject, crvObject] manufactured by this brand
 }
 
-export interface VehicleMake {
-  id: string;
-  name: string;
-  models: VehicleOption[];
-}
-
-@Component({
-  selector: 'quote-form',
-  templateUrl: './quote-form.html',
-  styleUrls: ['./quote-form.scss'],
-  standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, RouterLink],
-  providers: [QuoteService]
+@Component({                                                               // Angular decorator function that transforms this TypeScript class into a reusable UI component
+  selector: 'quote-form',                                               // Custom HTML element name - now you can write <quote-form></quote-form> in other templates
+  templateUrl: './quote-form.html',                                     // File path to HTML template that defines what users see (forms, buttons, text)
+  styleUrls: ['./quote-form.scss'],                                     // Array of CSS/SCSS files that control colors, fonts, spacing for this component only
+  standalone: true,                                                     // Makes component self-contained - doesn't need to be declared in NgModule imports array
+  imports: [CommonModule, ReactiveFormsModule, RouterLink],             // Modules this component needs: *ngIf/*ngFor, reactive forms, navigation links
+  providers: [QuoteService]                                             // Services created fresh for each component instance - ensures data isolation
 })
-export class QuoteForm implements OnInit {
-  public quoteForm!: FormGroup;
-  public formProgress$ = new BehaviorSubject<number>(0);
-  public Math = Math;
+export class QuoteForm implements OnInit {                                  // Main TypeScript class that manages insurance quote form + implements OnInit for ngOnInit() method
+  public quoteForm!: FormGroup;                                         // Angular reactive FormGroup containing all input controls (firstName, email, vehicleType, etc.)
+  public formProgress$ = new BehaviorSubject<number>(0);                // RxJS subject that emits percentage values 0-100 for progress bar display
+  public Math = Math;                                                   // Exposes JavaScript Math object to template so HTML can use Math.round(progress)
 
-  public vehicleTypes: VehicleOption[] = [
-    { id: 'sedan', name: 'Sedan' },
-    { id: 'coupe', name: 'Coupe' },
-    { id: 'suv', name: 'SUV' },
-    { id: 'truck', name: 'Truck' },
-    { id: 'van', name: 'Van/Minivan' },
-    { id: 'wagon', name: 'Wagon' },
-    { id: 'hatchback', name: 'Hatchback' },
-    { id: 'convertible', name: 'Convertible' }
+  public vehicleTypes: VehicleOption[] = [                             // Hardcoded array of car type options that populate the "Vehicle Type" dropdown
+    { id: 'sedan', name: 'Sedan' },                                    // 4-door family cars like Honda Accord, Toyota Camry
+    { id: 'coupe', name: 'Coupe' },                                    // 2-door sporty cars like Honda Civic Si, Mustang  
+    { id: 'suv', name: 'SUV' },                                        // Tall utility vehicles like Honda CR-V, Ford Explorer
+    { id: 'truck', name: 'Truck' },                                    // Pickup trucks like Ford F-150, Chevy Silverado
+    { id: 'van', name: 'Van/Minivan' },                                // Large passenger vehicles like Honda Odyssey, Toyota Sienna
+    { id: 'wagon', name: 'Wagon' },                                    // Low long cars like Subaru Outback, Volvo V60
+    { id: 'hatchback', name: 'Hatchback' },                            // Small cars with rear lift-up door like Honda Civic Hatch, VW Golf
+    { id: 'convertible', name: 'Convertible' }                         // Cars with removable/foldable roof like Mazda Miata, Ford Mustang Convertible
   ];
 
-  public availableModels: VehicleOption[] = [];
-  public filteredMakes: VehicleMake[] = [];
-  public currentYear = new Date().getFullYear();
-  public isLoading = false;
-  public submitError: string | null = null;
+  public availableModels: VehicleOption[] = [];                        // Dynamic array filled with car models like ["Civic", "Accord"] when user selects Honda + Sedan
+  public filteredMakes: VehicleMake[] = [];                            // Dynamic array filled with manufacturers like ["Honda", "Toyota"] when user selects Sedan
+  public currentYear = new Date().getFullYear();                       // JavaScript Date calculation giving current year number (2025) for form validation
+  public isLoading = false;                                             // Boolean that shows/hides spinning wheel animation when submitting form to server
+  public submitError: string | null = null;                            // Either null (no error) or string like "Failed to submit quote" to display error message
 
-  constructor(
-    private fb: FormBuilder,
-    private router: Router,
-    private vehicleDataService: VehicleDataService,
-    private quoteService: QuoteService
+  constructor(                                                             // Special method that runs when Angular creates new QuoteForm component instance
+    private fb: FormBuilder,                                            // Injects FormBuilder service - provides this.fb.group() method to create reactive forms
+    private router: Router,                                             // Injects Router service - provides this.router.navigate(['/path']) method for page navigation
+    private vehicleDataService: VehicleDataService,                     // Injects our custom service containing Honda/Ford/Toyota data arrays
+    private quoteService: QuoteService                                  // Injects our custom service with calculateQuote() method and localStorage functions
   ) {
-    this.initForm();
+    this.initForm();                                                    // Immediately calls our initForm() method to build the FormGroup with all input controls
   }
 
-  ngOnInit() {
+  ngOnInit() {                                                             // Angular lifecycle method that runs after constructor finishes and component DOM is ready
     // Don't show any makes until a type is selected
-    this.filteredMakes = [];
-    this.setupFormValueChanges();
+    this.filteredMakes = [];                                            // Set empty array so Honda/Ford/Toyota don't show until user picks Sedan/SUV/etc first
+    this.setupFormValueChanges();                                       // Start watching form inputs for changes to trigger dynamic dropdown filtering
   }
 
-  private initForm() {
-    this.quoteForm = this.fb.group({
+  private initForm() {                                                     // Private method that builds the reactive form with all input fields and validation rules
+    this.quoteForm = this.fb.group({                                    // FormBuilder.group() creates FormGroup object from configuration object
       // Personal Information
-      firstName: ['', [Validators.required]],
-      lastName: ['', [Validators.required]],
-      email: ['', [Validators.required, Validators.email]],
-      phone: ['', [Validators.required, Validators.pattern('^[0-9]{10}$')]],
-      age: ['', [Validators.required, Validators.min(16), Validators.max(100)]],
-      zip: ['', [Validators.required, Validators.pattern('^[0-9]{5}$')]],
+      firstName: ['', [Validators.required]],                           // Text input starts empty, becomes invalid if user leaves blank
+      lastName: ['', [Validators.required]],                            // Text input starts empty, becomes invalid if user leaves blank
+      email: ['', [Validators.required, Validators.email]],             // Text input starts empty, validates for required + email format like "user@domain.com"
+      phone: ['', [Validators.required, Validators.pattern('^[0-9]{10}$')]],  // Text input validates for exactly 10 consecutive digits like "1234567890"
+      age: ['', [Validators.required, Validators.min(16), Validators.max(100)]],  // Number input validates for required + between 16-100 inclusive
+      zip: ['', [Validators.required, Validators.pattern('^[0-9]{5}$')]],     // Text input validates for exactly 5 consecutive digits like "12345"
       
       // Vehicle Information
-      vehicleType: ['', [Validators.required]],
-      vehicleMake: ['', [Validators.required]],
-      vehicleModel: ['', [Validators.required]],
-      vehicleYear: ['', [Validators.required, Validators.min(1990), Validators.max(this.currentYear + 1)]],
+      vehicleType: ['', [Validators.required]],                         // Dropdown starts empty, must select from sedan/suv/truck/etc options
+      vehicleMake: ['', [Validators.required]],                         // Dropdown starts empty, must select from honda/ford/toyota/etc options
+      vehicleModel: ['', [Validators.required]],                        // Dropdown starts empty, must select from civic/f150/camry/etc options
+      vehicleYear: ['', [Validators.required, Validators.min(1990), Validators.max(this.currentYear + 1)]],  // Number input between 1990 and 2026 (next year)
       
       // Coverage Information
-      accidents: [0, [Validators.required, Validators.min(0), Validators.max(10)]],
-      violations: [0, [Validators.required, Validators.min(0), Validators.max(10)]],
-      coverageLevel: ['basic', [Validators.required]],
-      drivingHistory: ['clean', [Validators.required]]
+      accidents: [0, [Validators.required, Validators.min(0), Validators.max(10)]],     // FormControl starting at 0 with 0-10 range validation
+      violations: [0, [Validators.required, Validators.min(0), Validators.max(10)]],    // FormControl starting at 0 with 0-10 range validation
+      coverageLevel: ['basic', [Validators.required]],                  // FormControl with 'basic' default value and required validator
+      drivingHistory: ['clean', [Validators.required]]                  // FormControl with 'clean' default value and required validator
     });
   }
 
-  private setupFormValueChanges() {
+  private setupFormValueChanges() {                                       // Function to watch for changes in the form
     // Watch for vehicle type changes
-    this.quoteForm.get('vehicleType')?.valueChanges.subscribe(type => {
-      console.log('Vehicle type changed:', type);
-      this.filterMakesByType(type);
-      this.quoteForm.patchValue({ vehicleMake: '', vehicleModel: '' }, { emitEvent: false });
-      this.availableModels = []; // Reset models when type changes
+    this.quoteForm.get('vehicleType')?.valueChanges.subscribe(type => { // When car type changes (sedan, SUV, etc.)
+      console.log('Vehicle type changed:', type);                       // Show what type was selected (for debugging)
+      this.filterMakesByType(type);                                     // Update the list of car brands
+      this.quoteForm.patchValue({ vehicleMake: '', vehicleModel: '' }, { emitEvent: false });  // Clear brand and model
+      this.availableModels = []; // Reset models when type changes      // Clear the model list too
     });
 
     // Watch for vehicle make changes
-    this.quoteForm.get('vehicleMake')?.valueChanges.subscribe(makeId => {
-      console.log('Vehicle make changed:', makeId);
-      const selectedType = this.quoteForm.get('vehicleType')?.value;
-      console.log('Current vehicle type:', selectedType);
-      this.filterModelsByMakeAndType(makeId);
-      this.quoteForm.patchValue({ vehicleModel: '' }, { emitEvent: false });
+    this.quoteForm.get('vehicleMake')?.valueChanges.subscribe(makeId => {  // When car brand changes (Honda, Ford, etc.)
+      console.log('Vehicle make changed:', makeId);                     // Show what brand was selected
+      const selectedType = this.quoteForm.get('vehicleType')?.value;    // Get the currently selected car type
+      console.log('Current vehicle type:', selectedType);               // Show the current type
+      this.filterModelsByMakeAndType(makeId);                           // Update the list of car models
+      this.quoteForm.patchValue({ vehicleModel: '' }, { emitEvent: false });  // Clear the model selection
     });
 
     // Update progress as form is filled
-    this.quoteForm.valueChanges.subscribe(() => {
-      this.updateFormProgress();
+    this.quoteForm.valueChanges.subscribe(() => {                       // Every time any field changes
+      this.updateFormProgress();                                        // Update the progress bar
     });
   }
 
-  private filterMakesByType(typeId: string) {
-    if (!typeId) {
-      this.filteredMakes = [];
-      return;
+  private filterMakesByType(typeId: string) {                             // Function to show only car brands that make the selected type
+    if (!typeId) {                                                      // If no type is selected
+      this.filteredMakes = [];                                          // Show no brands
+      return;                                                           // Stop here
     }
     
     // Get all makes that have models of the selected type
-    this.filteredMakes = this.vehicleDataService.getMakesByType(typeId);
-    console.log('Available makes for type', typeId, ':', this.filteredMakes.map(m => m.name));
+    this.filteredMakes = this.vehicleDataService.getMakesByType(typeId);  // Ask the service for matching brands
+    console.log('Available makes for type', typeId, ':', this.filteredMakes.map(m => m.name));  // Show what we found
   }
 
-  private filterModelsByMakeAndType(makeId: string) {
-    if (!makeId) {
-      this.availableModels = [];
-      return;
+  private filterModelsByMakeAndType(makeId: string) {                     // Function to show car models for selected brand and type
+    if (!makeId) {                                                      // If no brand is selected
+      this.availableModels = [];                                        // Show no models
+      return;                                                           // Stop here
     }
 
-    const selectedType = this.quoteForm.get('vehicleType')?.value;
-    if (!selectedType) {
-      this.availableModels = [];
-      return;
+    const selectedType = this.quoteForm.get('vehicleType')?.value;      // Get the selected car type
+    if (!selectedType) {                                                // If no type is selected
+      this.availableModels = [];                                        // Show no models
+      return;                                                           // Stop here
     }
 
     // Get all models for the make that include the selected type
-    this.availableModels = this.vehicleDataService.getModelsByMakeAndType(makeId, selectedType);
-    console.log('Available models for', makeId, 'of type', selectedType, ':', this.availableModels.map(m => m.name));
+    this.availableModels = this.vehicleDataService.getModelsByMakeAndType(makeId, selectedType);  // Ask service for matching models
+    console.log('Available models for', makeId, 'of type', selectedType, ':', this.availableModels.map(m => m.name));  // Show what we found
   }
 
-  private updateFormProgress() {
-    const requiredFields = [
-      'firstName', 'lastName', 'email', 'phone', 'age', 'zip',  // Personal info
-      'vehicleType', 'vehicleMake', 'vehicleModel', 'vehicleYear',  // Vehicle info
-      'coverageLevel', 'drivingHistory'  // Coverage info
+  private updateFormProgress() {                                           // Function to calculate how much of the form is filled
+    const requiredFields = [                                            // List of all fields that must be filled
+      'firstName', 'lastName', 'email', 'phone', 'age', 'zip',          // Personal info fields
+      'vehicleType', 'vehicleMake', 'vehicleModel', 'vehicleYear',       // Vehicle info fields
+      'coverageLevel', 'drivingHistory'  // Coverage info               // Coverage info fields
     ];
     
-    const filledFields = requiredFields.filter(field => 
-      this.quoteForm.get(field)?.value !== '' && 
-      this.quoteForm.get(field)?.valid
+    const filledFields = requiredFields.filter(field =>                 // Count fields that are filled and valid
+      this.quoteForm.get(field)?.value !== '' &&                       // Field has a value AND
+      this.quoteForm.get(field)?.valid                                  // Field passes all validation rules
     );
 
-    const progress = (filledFields.length / requiredFields.length) * 100;
-    this.formProgress$.next(progress);
+    const progress = (filledFields.length / requiredFields.length) * 100;  // Calculate percentage (filled ÷ total × 100)
+    this.formProgress$.next(progress);                                  // Update the progress bar
   }
 
-  incrementValue(field: 'accidents' | 'violations') {
-    const currentValue = this.quoteForm.get(field)?.value || 0;
-    if (currentValue < 10) {
-      this.quoteForm.patchValue({ [field]: currentValue + 1 });
+  incrementValue(field: 'accidents' | 'violations') {                     // Function to increase accident or violation count
+    const currentValue = this.quoteForm.get(field)?.value || 0;        // Get current number (or 0 if empty)
+    if (currentValue < 10) {                                            // If less than 10 (our maximum)
+      this.quoteForm.patchValue({ [field]: currentValue + 1 });        // Add 1 to the current number
     }
   }
 
-  decrementValue(field: 'accidents' | 'violations') {
-    const currentValue = this.quoteForm.get(field)?.value || 0;
-    if (currentValue > 0) {
-      this.quoteForm.patchValue({ [field]: currentValue - 1 });
+  decrementValue(field: 'accidents' | 'violations') {                   // Function to decrease accident or violation count
+    const currentValue = this.quoteForm.get(field)?.value || 0;        // Get current number (or 0 if empty)
+    if (currentValue > 0) {                                             // If greater than 0 (can't go negative)
+      this.quoteForm.patchValue({ [field]: currentValue - 1 });        // Subtract 1 from the current number
     }
   }
 
-  onSubmit() {
-    if (this.quoteForm.valid) {
-      this.isLoading = true;
-      this.submitError = null;
+  onSubmit() {                                                             // Function that runs when user clicks submit button
+    console.log('Form submitted!');                                    // DEBUG: Log that submit was triggered
+    console.log('Form valid:', this.quoteForm.valid);                  // DEBUG: Check if form passes validation
+    console.log('Form errors:', this.getFormValidationErrors());       // DEBUG: Show any validation errors
+    console.log('Form value:', this.quoteForm.value);                  // DEBUG: Show current form data
+    
+    if (this.quoteForm.valid) {                                         // If all form fields are filled correctly
+      this.isLoading = true;                                            // Show loading spinner
+      this.submitError = null;                                          // Clear any previous error messages
 
-      this.quoteService.submitQuote(this.quoteForm.value).subscribe({
-        next: (result) => {
-          this.isLoading = false;
-          this.router.navigate(['/quote-results'], { 
-            queryParams: { id: result.id }
-          });
+      this.quoteService.submitQuote(this.quoteForm.value).subscribe({   // Send form data to quote service
+        next: (result) => {                                             // If submission succeeds
+          console.log('Quote created successfully:', result);           // DEBUG: Log successful quote creation
+          this.isLoading = false;                                       // Hide loading spinner
+          this.router.navigate(['/quote-results', result.id]);          // Go to results page with ID in URL path (not query params)
         },
-        error: (error) => {
-          console.error('Quote submission error:', error);
-          this.submitError = 'Failed to submit quote. Please try again.';
-          this.isLoading = false;
+        error: (error) => {                                             // If submission fails
+          console.error('Quote submission error:', error);              // Log error to console for debugging
+          this.submitError = 'Failed to submit quote. Please try again.';  // Show user-friendly error message
+          this.isLoading = false;                                       // Hide loading spinner
         }
       });
+    } else {
+      console.log('Form is invalid, cannot submit');                   // DEBUG: Log why submission was blocked
+      this.markFormGroupTouched();                                     // Show validation errors on all fields
     }
+  }
+
+  // 🔍 DEBUG HELPER - Get all form validation errors for debugging
+  getFormValidationErrors() {                                          // Method to collect all validation errors
+    let formErrors: any = {};                                          // Object to store field errors
+    
+    Object.keys(this.quoteForm.controls).forEach(key => {             // Loop through all form controls
+      const controlErrors = this.quoteForm.get(key)?.errors;          // Get errors for this control
+      if (controlErrors) {                                             // If there are errors
+        formErrors[key] = controlErrors;                               // Add to our error collection
+      }
+    });
+    
+    return formErrors;                                                 // Return all errors found
+  }
+
+  // 🎯 VALIDATION HELPER - Mark all fields as touched to show validation errors
+  markFormGroupTouched() {                                             // Method to trigger validation display
+    Object.keys(this.quoteForm.controls).forEach(key => {             // Loop through all form controls
+      this.quoteForm.get(key)?.markAsTouched();                       // Mark each field as touched (shows errors)
+    });
   }
 }
