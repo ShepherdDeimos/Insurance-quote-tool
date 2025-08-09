@@ -21,55 +21,24 @@ import { RouterLink } from '@angular/router';                            // Rout
     <!-- Submit Section: Container for form submission controls -->
     <div class="bg-gradient-to-br from-[#1a1f3c] via-[#2a2f5c] to-[#3a3f7c] rounded-lg p-6 shadow-lg transform hover:scale-[1.02] transition-all duration-300">
       
-      <!-- Error Alert: Display if there are validation errors or submission errors -->
+      <!-- Error Alert: Clean, concise display of missing fields -->
       <div *ngIf="(errorMessage || hasFormErrors()) && !isLoading" 
-           class="mb-6 p-4 bg-red-500/20 border border-red-500/40 rounded-lg">
-        <div class="flex items-center space-x-3">
+           class="mb-6 p-4 bg-red-500/10 border border-red-500/30 rounded-xl backdrop-blur-sm">
+        <div class="flex items-start space-x-3">
           <!-- Error Icon -->
-          <svg class="w-6 h-6 text-red-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <svg class="w-5 h-5 text-red-400 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
                   d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
           </svg>
-          <div>
-            <h3 class="text-red-300 font-semibold">Please fix the following issues:</h3>
+          <div class="flex-1">
             <!-- Custom error message if provided -->
-            <p *ngIf="errorMessage" class="text-red-200 mt-1">{{ errorMessage }}</p>
-            <!-- Form validation errors -->
-            <ul *ngIf="hasFormErrors()" class="text-red-200 mt-2 space-y-1 text-sm">
-              <li *ngIf="parentForm.get('firstName')?.invalid && parentForm.get('firstName')?.touched">
-                • First name is required
-              </li>
-              <li *ngIf="parentForm.get('lastName')?.invalid && parentForm.get('lastName')?.touched">
-                • Last name is required
-              </li>
-              <li *ngIf="parentForm.get('email')?.invalid && parentForm.get('email')?.touched">
-                • Valid email address is required
-              </li>
-              <li *ngIf="parentForm.get('phone')?.invalid && parentForm.get('phone')?.touched">
-                • Valid phone number is required
-              </li>
-              <li *ngIf="parentForm.get('age')?.invalid && parentForm.get('age')?.touched">
-                • Age must be between 16 and 100
-              </li>
-              <li *ngIf="parentForm.get('zipCode')?.invalid && parentForm.get('zipCode')?.touched">
-                • Valid ZIP code is required
-              </li>
-              <li *ngIf="parentForm.get('vehicleType')?.invalid && parentForm.get('vehicleType')?.touched">
-                • Please select a vehicle type
-              </li>
-              <li *ngIf="parentForm.get('vehicleMake')?.invalid && parentForm.get('vehicleMake')?.touched">
-                • Please select a vehicle make
-              </li>
-              <li *ngIf="parentForm.get('vehicleModel')?.invalid && parentForm.get('vehicleModel')?.touched">
-                • Please select a vehicle model
-              </li>
-              <li *ngIf="parentForm.get('coverageLevel')?.invalid && parentForm.get('coverageLevel')?.touched">
-                • Please select a coverage level
-              </li>
-              <li *ngIf="parentForm.get('drivingHistory')?.invalid && parentForm.get('drivingHistory')?.touched">
-                • Please select your driving history
-              </li>
-            </ul>
+            <div *ngIf="errorMessage" class="text-red-300 font-medium">{{ errorMessage }}</div>
+            
+            <!-- Concise missing fields list -->
+            <div *ngIf="hasFormErrors() && !errorMessage" class="text-red-300 font-medium">
+              Please complete: 
+              <span class="text-red-200 font-normal">{{ getMissingFieldsList() }}</span>
+            </div>
           </div>
         </div>
       </div>
@@ -344,6 +313,35 @@ export class FormSubmitSectionComponent {                                // Main
 
   getFieldValue(field: string): any {                                   // Helper method to get form field value
     return this.parentForm.get(field)?.value || '';                    // Return field value or empty string if undefined
+  }
+
+  // 📋 CONCISE ERROR DISPLAY - Get comma-separated list of missing fields
+  getMissingFieldsList(): string {                                     // Method to create a clean list of missing fields
+    const fieldLabels: { [key: string]: string } = {                   // Friendly field names for display
+      firstName: 'First Name',
+      lastName: 'Last Name', 
+      email: 'Email',
+      phone: 'Phone',
+      age: 'Age',
+      zipCode: 'ZIP Code',
+      vehicleType: 'Vehicle Type',
+      vehicleMake: 'Vehicle Make',
+      vehicleModel: 'Vehicle Model', 
+      vehicleYear: 'Vehicle Year',
+      coverageLevel: 'Coverage Level',
+      drivingHistory: 'Driving History'
+    };
+    
+    const missingFields: string[] = [];                                 // Array to collect missing field names
+    
+    Object.keys(this.parentForm.controls).forEach(key => {             // Check each form control
+      const control = this.parentForm.get(key);                        // Get the control
+      if (control?.invalid && fieldLabels[key]) {                      // If invalid and has a friendly label
+        missingFields.push(fieldLabels[key]);                          // Add friendly name to list
+      }
+    });
+    
+    return missingFields.join(', ');                                    // Return comma-separated list
   }
 
   // 🔍 DEBUG HELPER - Get all form validation errors for debugging
