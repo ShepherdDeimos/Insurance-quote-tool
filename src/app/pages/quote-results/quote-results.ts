@@ -19,8 +19,7 @@ import { QuoteResult } from '../../models/quote.model';            // Interface 
   selector: 'app-quote-results',                                   // HTML tag name: <app-quote-results></app-quote-results>
   standalone: true,                                                // Self-contained component (doesn't need NgModule)
   imports: [CommonModule],                                         // Dependencies: *ngIf for conditional display, | currency for price formatting
-  templateUrl: './quote-results.html',                            // External HTML file containing the visual layout
-  styleUrls: ['./quote-results.scss']                             // External SCSS file containing component-specific styles
+  templateUrl: './quote-results.html',                            // External HTML file containing the visual layout                             
 })
 export class QuoteResults implements OnInit {                      // Main class implementing OnInit for component initialization
   // 💾 COMPONENT STATE - Data that controls what the user sees

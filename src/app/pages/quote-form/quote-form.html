@@ -92,7 +92,7 @@
     </div>
   </div>        
   <!-- Form Container: Main reactive form that collects user data and submits quote request -->
-  <form [formGroup]="quoteForm" (ngSubmit)="onSubmit()" class="max-w-4xl mx-auto space-y-8">
+  <form [formGroup]="quoteFormGroup" (ngSubmit)="onSubmit()" class="max-w-4xl mx-auto space-y-8">
     <!-- Driver Info Section: First section collecting personal information about the driver -->
     <div class="bg-gradient-to-br from-[#1a1f3c] via-[#2a2f5c] to-[#3a3f7c] rounded-lg p-8 shadow-lg transform hover:scale-[1.02] transition-all duration-300">
       <!-- Section Title: Gradient text heading for personal information section -->
@@ -242,7 +242,7 @@
                 <select formControlName="vehicleMake"
                         class="w-full px-4 py-3 bg-[#141830] border border-[#2d3748] rounded-md text-white
                                placeholder-gray-500 focus:border-blue-500 focus:outline-none transition-colors appearance-none"
-                        [disabled]="!quoteForm.get('vehicleType')?.value">
+                        [disabled]="!quoteFormGroup.get('vehicleType')?.value">
                   <option value="">Select make</option>
                   <option *ngFor="let make of filteredMakes" [value]="make.id">{{make.name}}</option>
                 </select>
@@ -258,7 +258,7 @@
                 <select formControlName="vehicleModel"
                         class="w-full px-4 py-3 bg-[#141830] border border-[#2d3748] rounded-md text-white
                                placeholder-gray-500 focus:border-blue-500 focus:outline-none transition-colors appearance-none"
-                        [disabled]="!quoteForm.get('vehicleMake')?.value">
+                        [disabled]="!quoteFormGroup.get('vehicleMake')?.value">
                   <option value="">Select model</option>
                   <option *ngFor="let model of availableModels" [value]="model.id">{{model.name}}</option>
                 </select>
@@ -298,7 +298,7 @@
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4" />
                   </svg>
                 </button>
-                <span class="text-3xl font-bold text-white min-w-[3ch] text-center">{{quoteForm.get('accidents')?.value || 0}}</span>
+                <span class="text-3xl font-bold text-white min-w-[3ch] text-center">{{quoteFormGroup.get('accidents')?.value || 0}}</span>
                 <button type="button" (click)="incrementValue('accidents')"
                         class="aspect-square w-10 h-10 rounded-full bg-[#1a1f3c] border border-pink-500/30 text-pink-400 flex items-center justify-center hover:bg-pink-500/10 transition-all">
                   <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -321,7 +321,7 @@
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4" />
                   </svg>
                 </button>
-                <span class="text-3xl font-bold text-white min-w-[3ch] text-center">{{quoteForm.get('violations')?.value || 0}}</span>
+                <span class="text-3xl font-bold text-white min-w-[3ch] text-center">{{quoteFormGroup.get('violations')?.value || 0}}</span>
                 <button type="button" (click)="incrementValue('violations')"
                         class="aspect-square w-10 h-10 rounded-full bg-[#1a1f3c] border border-pink-500/30 text-pink-400 flex items-center justify-center hover:bg-pink-500/10 transition-all">
                   <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -407,7 +407,7 @@
 
           <!-- Submit Button: Main action button to submit the form and get insurance quote -->
           <button type="submit" 
-                  [disabled]="!quoteForm.valid || isLoading"
+                  [disabled]="!quoteFormGroup.valid || isLoading"
                   (click)="onSubmit()"
                   class="group relative px-12 py-3 overflow-hidden rounded-lg bg-gradient-to-r from-blue-500 via-blue-600 to-purple-500
                          text-white font-medium text-lg shadow-lg hover:shadow-xl

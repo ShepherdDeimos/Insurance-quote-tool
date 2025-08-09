@@ -17,7 +17,7 @@ import { HttpClientModule } from '@angular/common/http';                // Modul
   standalone: true,                                                     // This component doesn't need to be declared in an NgModule
   imports: [RouterOutlet, HttpClientModule],                           // Other Angular pieces this component needs to function
   templateUrl: './app.html',                                           // External HTML file containing the component's visual layout
-  styleUrls: ['./app.scss']                                            // External SCSS file containing component-specific styles
+  
 })
 export class AppComponent {                                             // TypeScript class that defines component behavior
   // 📝 NOTE: This class is intentionally minimal because AppComponent is just a container.

@@ -7,27 +7,26 @@ import { VehicleDataService } from '../../services/vehicle-data.service'; // Get
 import { QuoteService } from '../../services/quote.service';             // Gets service that takes form data and returns calculated monthly premium price
 
 export interface VehicleOption {                                           // TypeScript contract requiring objects like { id: "civic", name: "Civic", types: ["sedan", "hatchback"] }
-  id: string;                                                           // Lowercase unique key "civic" that gets stored in this.quoteForm.value.vehicleModel
+  id: string;                                                           // Lowercase unique key "civic" that gets stored in this.quoteFormGroup.value.vehicleModel
   name: string;                                                         // User-friendly label "Civic" that appears in <select><option>Civic</option></select>
   types?: string[];                                                     // Optional array ["sedan", "hatchback"] showing which body styles available for filtering
 }
                                         
 export interface VehicleMake {                                          // TypeScript contract requiring objects like { id: "honda", name: "Honda", models: [...civicObj, ...accordObj] }
-  id: string;                                                           // Lowercase unique key "honda" that gets stored in this.quoteForm.value.vehicleMake  
+  id: string;                                                           // Lowercase unique key "honda" that gets stored in this.quoteFormGroup.value.vehicleMake  
   name: string;                                                         // User-friendly label "Honda" that appears in <select><option>Honda</option></select>
   models: VehicleOption[];                                              // Array containing all car models like [civicObject, accordObject, crvObject] manufactured by this brand
 }
 
 @Component({                                                               // Angular decorator function that transforms this TypeScript class into a reusable UI component
   selector: 'quote-form',                                               // Custom HTML element name - now you can write <quote-form></quote-form> in other templates
-  templateUrl: './quote-form.html',                                     // File path to HTML template that defines what users see (forms, buttons, text)
-  styleUrls: ['./quote-form.scss'],                                     // Array of CSS/SCSS files that control colors, fonts, spacing for this component only
+  templateUrl: './quote-form.html',                                     // File path to HTML template that defines what users see (forms, buttons, text)                                    
   standalone: true,                                                     // Makes component self-contained - doesn't need to be declared in NgModule imports array
   imports: [CommonModule, ReactiveFormsModule, RouterLink],             // Modules this component needs: *ngIf/*ngFor, reactive forms, navigation links
-  providers: [QuoteService]                                             // Services created fresh for each component instance - ensures data isolation
+  //providers: [QuoteService]                                             // Services created fresh for each component instance - ensures data isolation
 })
 export class QuoteForm implements OnInit {                                  // Main TypeScript class that manages insurance quote form + implements OnInit for ngOnInit() method
-  public quoteForm!: FormGroup;                                         // Angular reactive FormGroup containing all input controls (firstName, email, vehicleType, etc.)
+  public quoteFormGroup!: FormGroup;                                         // Angular reactive FormGroup containing all input controls (firstName, email, vehicleType, etc.)
   public formProgress$ = new BehaviorSubject<number>(0);                // RxJS subject that emits percentage values 0-100 for progress bar display
   public Math = Math;                                                   // Exposes JavaScript Math object to template so HTML can use Math.round(progress)
 
@@ -46,7 +45,8 @@ export class QuoteForm implements OnInit {                                  // M
   public filteredMakes: VehicleMake[] = [];                            // Dynamic array filled with manufacturers like ["Honda", "Toyota"] when user selects Sedan
   public currentYear = new Date().getFullYear();                       // JavaScript Date calculation giving current year number (2025) for form validation
   public isLoading = false;                                             // Boolean that shows/hides spinning wheel animation when submitting form to server
-  public submitError: string | null = null;                            // Either null (no error) or string like "Failed to submit quote" to display error message
+  public submitError: string | null = null;                             // Either null (no error) or string like "Failed to submit quote" to display error message
+                            
 
   constructor(                                                             // Special method that runs when Angular creates new QuoteForm component instance
     private fb: FormBuilder,                                            // Injects FormBuilder service - provides this.fb.group() method to create reactive forms
@@ -64,7 +64,7 @@ export class QuoteForm implements OnInit {                                  // M
   }
 
   private initForm() {                                                     // Private method that builds the reactive form with all input fields and validation rules
-    this.quoteForm = this.fb.group({                                    // FormBuilder.group() creates FormGroup object from configuration object
+    this.quoteFormGroup = this.fb.group({                                    // FormBuilder.group() creates FormGroup object from configuration object
       // Personal Information
       firstName: ['', [Validators.required]],                           // Text input starts empty, becomes invalid if user leaves blank
       lastName: ['', [Validators.required]],                            // Text input starts empty, becomes invalid if user leaves blank
@@ -89,24 +89,24 @@ export class QuoteForm implements OnInit {                                  // M
 
   private setupFormValueChanges() {                                       // Function to watch for changes in the form
     // Watch for vehicle type changes
-    this.quoteForm.get('vehicleType')?.valueChanges.subscribe(type => { // When car type changes (sedan, SUV, etc.)
+    this.quoteFormGroup.get('vehicleType')?.valueChanges.subscribe(type => { // When car type changes (sedan, SUV, etc.)
       console.log('Vehicle type changed:', type);                       // Show what type was selected (for debugging)
       this.filterMakesByType(type);                                     // Update the list of car brands
-      this.quoteForm.patchValue({ vehicleMake: '', vehicleModel: '' }, { emitEvent: false });  // Clear brand and model
+      this.quoteFormGroup.patchValue({ vehicleMake: '', vehicleModel: '' }, { emitEvent: false });  // Clear brand and model
       this.availableModels = []; // Reset models when type changes      // Clear the model list too
     });
 
     // Watch for vehicle make changes
-    this.quoteForm.get('vehicleMake')?.valueChanges.subscribe(makeId => {  // When car brand changes (Honda, Ford, etc.)
+    this.quoteFormGroup.get('vehicleMake')?.valueChanges.subscribe(makeId => {  // When car brand changes (Honda, Ford, etc.)
       console.log('Vehicle make changed:', makeId);                     // Show what brand was selected
-      const selectedType = this.quoteForm.get('vehicleType')?.value;    // Get the currently selected car type
+      const selectedType = this.quoteFormGroup.get('vehicleType')?.value;    // Get the currently selected car type
       console.log('Current vehicle type:', selectedType);               // Show the current type
       this.filterModelsByMakeAndType(makeId);                           // Update the list of car models
-      this.quoteForm.patchValue({ vehicleModel: '' }, { emitEvent: false });  // Clear the model selection
+      this.quoteFormGroup.patchValue({ vehicleModel: '' }, { emitEvent: false });  // Clear the model selection
     });
 
     // Update progress as form is filled
-    this.quoteForm.valueChanges.subscribe(() => {                       // Every time any field changes
+    this.quoteFormGroup.valueChanges.subscribe(() => {                       // Every time any field changes
       this.updateFormProgress();                                        // Update the progress bar
     });
   }
@@ -128,7 +128,7 @@ export class QuoteForm implements OnInit {                                  // M
       return;                                                           // Stop here
     }
 
-    const selectedType = this.quoteForm.get('vehicleType')?.value;      // Get the selected car type
+    const selectedType = this.quoteFormGroup.get('vehicleType')?.value;      // Get the selected car type
     if (!selectedType) {                                                // If no type is selected
       this.availableModels = [];                                        // Show no models
       return;                                                           // Stop here
@@ -147,8 +147,8 @@ export class QuoteForm implements OnInit {                                  // M
     ];
     
     const filledFields = requiredFields.filter(field =>                 // Count fields that are filled and valid
-      this.quoteForm.get(field)?.value !== '' &&                       // Field has a value AND
-      this.quoteForm.get(field)?.valid                                  // Field passes all validation rules
+      this.quoteFormGroup.get(field)?.value !== '' &&                       // Field has a value AND
+      this.quoteFormGroup.get(field)?.valid                                  // Field passes all validation rules
     );
 
     const progress = (filledFields.length / requiredFields.length) * 100;  // Calculate percentage (filled ÷ total × 100)
@@ -156,30 +156,30 @@ export class QuoteForm implements OnInit {                                  // M
   }
 
   incrementValue(field: 'accidents' | 'violations') {                     // Function to increase accident or violation count
-    const currentValue = this.quoteForm.get(field)?.value || 0;        // Get current number (or 0 if empty)
+    const currentValue = this.quoteFormGroup.get(field)?.value || 0;        // Get current number (or 0 if empty)
     if (currentValue < 10) {                                            // If less than 10 (our maximum)
-      this.quoteForm.patchValue({ [field]: currentValue + 1 });        // Add 1 to the current number
+      this.quoteFormGroup.patchValue({ [field]: currentValue + 1 });        // Add 1 to the current number
     }
   }
 
   decrementValue(field: 'accidents' | 'violations') {                   // Function to decrease accident or violation count
-    const currentValue = this.quoteForm.get(field)?.value || 0;        // Get current number (or 0 if empty)
+    const currentValue = this.quoteFormGroup.get(field)?.value || 0;        // Get current number (or 0 if empty)
     if (currentValue > 0) {                                             // If greater than 0 (can't go negative)
-      this.quoteForm.patchValue({ [field]: currentValue - 1 });        // Subtract 1 from the current number
+      this.quoteFormGroup.patchValue({ [field]: currentValue - 1 });        // Subtract 1 from the current number
     }
   }
 
   onSubmit() {                                                             // Function that runs when user clicks submit button
     console.log('Form submitted!');                                    // DEBUG: Log that submit was triggered
-    console.log('Form valid:', this.quoteForm.valid);                  // DEBUG: Check if form passes validation
+    console.log('Form valid:', this.quoteFormGroup.valid);                  // DEBUG: Check if form passes validation
     console.log('Form errors:', this.getFormValidationErrors());       // DEBUG: Show any validation errors
-    console.log('Form value:', this.quoteForm.value);                  // DEBUG: Show current form data
+    console.log('Form value:', this.quoteFormGroup.value);                  // DEBUG: Show current form data
     
-    if (this.quoteForm.valid) {                                         // If all form fields are filled correctly
+    if (this.quoteFormGroup.valid) {                                         // If all form fields are filled correctly
       this.isLoading = true;                                            // Show loading spinner
       this.submitError = null;                                          // Clear any previous error messages
 
-      this.quoteService.submitQuote(this.quoteForm.value).subscribe({   // Send form data to quote service
+      this.quoteService.submitQuote(this.quoteFormGroup.value).subscribe({   // Send form data to quote service
         next: (result) => {                                             // If submission succeeds
           console.log('Quote created successfully:', result);           // DEBUG: Log successful quote creation
           this.isLoading = false;                                       // Hide loading spinner
@@ -201,8 +201,8 @@ export class QuoteForm implements OnInit {                                  // M
   getFormValidationErrors() {                                          // Method to collect all validation errors
     let formErrors: any = {};                                          // Object to store field errors
     
-    Object.keys(this.quoteForm.controls).forEach(key => {             // Loop through all form controls
-      const controlErrors = this.quoteForm.get(key)?.errors;          // Get errors for this control
+    Object.keys(this.quoteFormGroup.controls).forEach(key => {             // Loop through all form controls
+      const controlErrors = this.quoteFormGroup.get(key)?.errors;          // Get errors for this control
       if (controlErrors) {                                             // If there are errors
         formErrors[key] = controlErrors;                               // Add to our error collection
       }
@@ -213,8 +213,9 @@ export class QuoteForm implements OnInit {                                  // M
 
   // 🎯 VALIDATION HELPER - Mark all fields as touched to show validation errors
   markFormGroupTouched() {                                             // Method to trigger validation display
-    Object.keys(this.quoteForm.controls).forEach(key => {             // Loop through all form controls
-      this.quoteForm.get(key)?.markAsTouched();                       // Mark each field as touched (shows errors)
+    Object.keys(this.quoteFormGroup.controls).forEach(key => {             // Loop through all form controls
+      this.quoteFormGroup.get(key)?.markAsTouched();                       // Mark each field as touched (shows errors)
     });
   }
 }
+
