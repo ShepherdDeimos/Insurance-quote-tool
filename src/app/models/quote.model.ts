@@ -8,8 +8,8 @@
 // 📋 QUOTE DATA: All information collected from the user's form submission
 // This represents the raw input data that feeds into our insurance pricing algorithm.
 // Used by: Quote form validation, price calculation engine, data storage
-export interface QuoteData {
-  // 👤 PERSONAL INFORMATION - Basic demographic data affecting insurance rates
+
+export interface QuoteData {              // 👤 PERSONAL INFORMATION - Basic demographic data affecting insurance rates
   firstName: string;                      // Legal first name: "John" (required for policy creation)
   lastName: string;                       // Legal last name: "Smith" (required for policy creation)
   email: string;                          // Contact email: "john.smith@email.com" (for quotes, confirmations)
@@ -18,15 +18,15 @@ export interface QuoteData {
   zip: string;                            // ZIP code: "12345" (location affects rates - urban vs rural)
 
   // 🚗 VEHICLE INFORMATION - Car details that determine insurance risk and cost
-  vehicleType: 'sedan' | 'suv' | 'truck' | 'van' | string;  // Body style affects crash risk: trucks rollover more
-  vehicleMake: string;                    // Manufacturer: "honda" (reliability affects rates)
-  vehicleModel: string;                   // Specific model: "civic" (some models stolen more, crash more)
-  vehicleYear: number;                    // Model year: 2020 (newer = more expensive to fix, older = cheaper to insure)
+  vehicleType: 'sedan' | 'suv' | 'truck' | 'van' | string;                      // Body style affects crash risk: trucks rollover more
+  vehicleMake: string;                                                          // Manufacturer: "honda" (reliability affects rates)
+  vehicleModel: string;                                                         // Specific model: "civic" (some models stolen more, crash more)
+  vehicleYear: number;                                                          // Model year: 2020 (newer = more expensive to fix, older = cheaper to insure)
 
   // 🚨 DRIVING HISTORY - Past behavior predicts future risk (biggest rate factors)
-  accidents: number;                      // At-fault accidents count: 0-10 (each accident = ~20% rate increase)
-  violations: number;                     // Traffic tickets count: 0-10 (each ticket = ~10% rate increase)
-  drivingHistory: 'clean' | 'minor' | 'major';  // Overall record severity (affects eligibility + rates)
+  accidents: number;                                                            // At-fault accidents count: 0-10 (each accident = ~20% rate increase)
+  violations: number;                                                           // Traffic tickets count: 0-10 (each ticket = ~10% rate increase)
+  drivingHistory: 'clean' | 'minor' | 'major';                                  // Overall record severity (affects eligibility + rates)
 
   // 🛡️ COVERAGE PREFERENCES - How much protection the customer wants to buy
   coverageLevel: 'basic' | 'standard' | 'full';  // More coverage = higher premiums but better protection

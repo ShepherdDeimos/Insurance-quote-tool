@@ -8,7 +8,7 @@
 // This creates a smooth, logical flow that prevents impossible combinations (like "Honda F-150").
 
 import { Injectable } from '@angular/core';                               // Angular decorator that enables dependency injection for this service
-import { VehicleOption, VehicleMake } from '../pages/quote-form/quote-form'; // Import interfaces that define the structure of our vehicle data objects
+import { VehicleOption, VehicleMake } from '../models/vehicle.model';  // Import interfaces that define the structure of our vehicle data objects
 
 @Injectable({                                                             // Tell Angular this is a service (helper class)
   providedIn: 'root'                                                    // Make this service available everywhere in the app
