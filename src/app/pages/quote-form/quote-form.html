@@ -77,6 +77,20 @@
 </div>
 
 <style>
+  /* Dark Reader Compatibility - Tell Dark Reader this is already a dark theme */
+  html[data-darkreader-mode="dynamic"],
+  html[data-darkreader-scheme="dark"] {
+    /* Preserve our dark theme when Dark Reader is active */
+    filter: none !important;
+  }
+  
+  /* Dark Reader Exception - Prevent inversion of our dark design */
+  [data-darkreader-inline-bgcolor],
+  [data-darkreader-inline-color] {
+    background-color: inherit !important;
+    color: inherit !important;
+  }
+
   /* Dark Theme Colors */
   :root {
     --bg-primary: #020817;
@@ -86,6 +100,10 @@
     --text-secondary: #94a3b8;
     --border-color: #2d3748;
     --accent-color: #3b82f6;
+    
+    /* Dark Reader specific variables */
+    --darkreader-neutral-background: var(--bg-primary);
+    --darkreader-neutral-text: var(--text-primary);
   }
 
   @keyframes glow {

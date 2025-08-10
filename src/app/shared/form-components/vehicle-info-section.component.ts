@@ -34,10 +34,11 @@ import { VehicleOption, VehicleMake } from '../../models/vehicle.model'; // Impo
             formControlName="vehicleType"
             class="w-full px-4 py-3.5 text-lg bg-[#141830] border border-[#2d3748] rounded-lg text-white
                    focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20 focus:outline-none 
-                   transition-all duration-300 shadow-lg hover:shadow-xl"
+                   transition-all duration-300 shadow-lg hover:shadow-xl
+                   [&>option]:bg-[#141830] [&>option]:text-white [&>option]:border-none"
             [class.border-red-500]="parentForm.get('vehicleType')?.invalid && parentForm.get('vehicleType')?.touched">
-            <option value="">Select type</option>
-            <option *ngFor="let type of vehicleTypes" [value]="type.id">
+            <option value="" class="bg-[#141830] text-white">Select type</option>
+            <option *ngFor="let type of vehicleTypes" [value]="type.id" class="bg-[#141830] text-white">
               {{ type.name }}
             </option>
           </select>
@@ -55,10 +56,11 @@ import { VehicleOption, VehicleMake } from '../../models/vehicle.model'; // Impo
             formControlName="vehicleMake"
             class="w-full px-4 py-3.5 text-lg bg-[#141830] border border-[#2d3748] rounded-lg text-white
                    focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20 focus:outline-none 
-                   transition-all duration-300 shadow-lg hover:shadow-xl"
+                   transition-all duration-300 shadow-lg hover:shadow-xl
+                   [&>option]:bg-[#141830] [&>option]:text-white [&>option]:border-none"
             [class.border-red-500]="parentForm.get('vehicleMake')?.invalid && parentForm.get('vehicleMake')?.touched">
-            <option value="">{{ filteredMakes.length === 0 ? 'Select type first' : 'Select make' }}</option>
-            <option *ngFor="let make of filteredMakes" [value]="make.id">
+            <option value="" class="bg-[#141830] text-white">{{ filteredMakes.length === 0 ? 'Select type first' : 'Select make' }}</option>
+            <option *ngFor="let make of filteredMakes" [value]="make.id" class="bg-[#141830] text-white">
               {{ make.name }}
             </option>
           </select>
@@ -76,10 +78,11 @@ import { VehicleOption, VehicleMake } from '../../models/vehicle.model'; // Impo
             formControlName="vehicleModel"
             class="w-full px-4 py-3.5 text-lg bg-[#141830] border border-[#2d3748] rounded-lg text-white
                    focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20 focus:outline-none 
-                   transition-all duration-300 shadow-lg hover:shadow-xl"
+                   transition-all duration-300 shadow-lg hover:shadow-xl
+                   [&>option]:bg-[#141830] [&>option]:text-white [&>option]:border-none"
             [class.border-red-500]="parentForm.get('vehicleModel')?.invalid && parentForm.get('vehicleModel')?.touched">
-            <option value="">{{ availableModels.length === 0 ? 'Select make first' : 'Select model' }}</option>
-            <option *ngFor="let model of availableModels" [value]="model.id">
+            <option value="" class="bg-[#141830] text-white">{{ availableModels.length === 0 ? 'Select make first' : 'Select model' }}</option>
+            <option *ngFor="let model of availableModels" [value]="model.id" class="bg-[#141830] text-white">
               {{ model.name }}
             </option>
           </select>

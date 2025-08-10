@@ -122,12 +122,13 @@ import { CommonModule } from '@angular/common';                         // Basic
               formControlName="coverageLevel"
               class="w-full px-4 py-3.5 text-lg bg-[#141830] border border-[#2d3748] rounded-md text-white
                      focus:border-pink-500 focus:ring-2 focus:ring-pink-500/20 focus:outline-none 
-                     transition-all duration-300"
+                     transition-all duration-300
+                     [&>option]:bg-[#141830] [&>option]:text-white [&>option]:border-none"
               [class.border-red-500]="parentForm.get('coverageLevel')?.invalid && parentForm.get('coverageLevel')?.touched">
-              <option value="basic">Basic Coverage</option>
-              <option value="standard">Standard Coverage</option>
-              <option value="premium">Premium Coverage</option>
-              <option value="comprehensive">Comprehensive Coverage</option>
+              <option value="basic" class="bg-[#141830] text-white">Basic Coverage</option>
+              <option value="standard" class="bg-[#141830] text-white">Standard Coverage</option>
+              <option value="premium" class="bg-[#141830] text-white">Premium Coverage</option>
+              <option value="comprehensive" class="bg-[#141830] text-white">Comprehensive Coverage</option>
             </select>
             <!-- Coverage Descriptions -->
             <div class="mt-2 text-sm text-gray-400">
@@ -158,12 +159,13 @@ import { CommonModule } from '@angular/common';                         // Basic
               formControlName="drivingHistory"
               class="w-full px-4 py-3.5 text-lg bg-[#141830] border border-[#2d3748] rounded-md text-white
                      focus:border-pink-500 focus:ring-2 focus:ring-pink-500/20 focus:outline-none 
-                     transition-all duration-300"
+                     transition-all duration-300
+                     [&>option]:bg-[#141830] [&>option]:text-white [&>option]:border-none"
               [class.border-red-500]="parentForm.get('drivingHistory')?.invalid && parentForm.get('drivingHistory')?.touched">
-              <option value="clean">Clean Record</option>
-              <option value="minor">Minor Issues</option>
-              <option value="major">Major Issues</option>
-              <option value="suspended">Previous Suspension</option>
+              <option value="clean" class="bg-[#141830] text-white">Clean Record</option>
+              <option value="minor" class="bg-[#141830] text-white">Minor Issues</option>
+              <option value="major" class="bg-[#141830] text-white">Major Issues</option>
+              <option value="suspended" class="bg-[#141830] text-white">Previous Suspension</option>
             </select>
             <!-- History Descriptions -->
             <div class="mt-2 text-sm text-gray-400">

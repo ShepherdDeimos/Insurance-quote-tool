@@ -4,6 +4,51 @@
 @use "tailwindcss/utilities" as *;
 
 /* ================================================================================================ */
+/* DARK READER COMPATIBILITY & PROTECTION */
+/* ================================================================================================ */
+/* Prevent Dark Reader from interfering with our already-dark design */
+
+/* Tell Dark Reader this site is already optimized for dark mode */
+html {
+  color-scheme: dark;
+}
+
+/* Prevent Dark Reader from inverting our colors */
+html[data-darkreader-mode],
+html[data-darkreader-scheme] {
+  filter: none !important;
+}
+
+/* Protect our gradient backgrounds from Dark Reader modifications */
+.bg-gradient-to-r,
+.bg-gradient-to-br,
+.bg-gradient-to-l,
+.from-blue-500,
+.from-purple-500,
+.from-pink-500,
+[class*="gradient"] {
+  filter: none !important;
+}
+
+/* Ensure text remains visible with Dark Reader */
+.text-white,
+.text-gray-100,
+.text-gray-200,
+.text-gray-300 {
+  color: inherit !important;
+}
+
+/* Protect form elements from Dark Reader interference */
+input,
+select,
+textarea,
+button {
+  filter: none !important;
+  background-color: inherit !important;
+  color: inherit !important;
+}
+
+/* ================================================================================================ */
 /* MOBILE & TOUCH DEVICE OPTIMIZATION */
 /* ================================================================================================ */
 /* Fix for iOS Safari and other mobile browsers that might block form interactions */
@@ -22,6 +67,35 @@ input, select, textarea, button {
   /* Fix for some mobile browsers */
   -webkit-appearance: none;
   appearance: none;
+}
+
+/* Ensure dropdown options are visible */
+select option {
+  background-color: #141830 !important;
+  color: white !important;
+  border: none !important;
+  padding: 8px 12px !important;
+}
+
+/* Force dropdown option visibility in all browsers */
+select option:checked,
+select option:hover {
+  background-color: #2d1b4d !important;
+  color: white !important;
+}
+
+/* Webkit browsers specific dropdown styling */
+select::-webkit-dropdown {
+  background-color: #141830 !important;
+  color: white !important;
+}
+
+/* Firefox specific dropdown styling */
+select option {
+  appearance: none !important;
+  -moz-appearance: none !important;
+  background-color: #141830 !important;
+  color: white !important;
 }
 
 /* Ensure form elements are touchable */

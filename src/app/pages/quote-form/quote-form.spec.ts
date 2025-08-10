@@ -13,6 +13,8 @@
 
 // 🧪 TESTING FRAMEWORK IMPORTS - Tools for creating and running automated tests
 import { ComponentFixture, TestBed } from '@angular/core/testing';      // Angular testing utilities for component testing
+import { ReactiveFormsModule } from '@angular/forms';                   // Import ReactiveFormsModule for form testing
+import { BrowserModule } from '@angular/platform-browser';              // Import BrowserModule for component dependencies
 
 // 🎯 COMPONENT UNDER TEST - The actual component we want to test
 import { QuoteForm } from './quote-form';                               // Import the QuoteForm component we're testing
@@ -26,7 +28,11 @@ describe('QuoteForm', () => {                                           // "desc
   // 🚀 TEST SETUP - Code that runs before each individual test
   beforeEach(async () => {                                              // "beforeEach" runs before every test to set up fresh environment
     await TestBed.configureTestingModule({                             // Configure Angular testing module (like a mini-app for testing)
-      imports: [QuoteForm]                                              // Import the QuoteForm component for testing
+      imports: [
+        QuoteForm,                                                      // Import the QuoteForm component for testing
+        ReactiveFormsModule,                                            // Import ReactiveFormsModule for form functionality
+        BrowserModule                                                   // Import BrowserModule for basic Angular functionality
+      ]
     })
     .compileComponents();                                               // Compile the component (convert TypeScript to JavaScript)
 
